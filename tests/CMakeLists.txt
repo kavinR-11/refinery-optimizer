@@ -11,6 +11,8 @@ set(TEST_SOURCES
     unit/test_sparse_lu.cpp
     unit/test_presolve.cpp
     unit/test_dual_simplex.cpp
+    unit/test_amd.cpp
+    unit/test_cholesky.cpp
 )
 
 foreach(test_src ${TEST_SOURCES})
