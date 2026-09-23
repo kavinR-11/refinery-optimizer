@@ -8,6 +8,7 @@ set(TEST_SOURCES
     unit/test_checker.cpp
     unit/test_telemetry.cpp
     unit/test_scaler.cpp
+    unit/test_sparse_lu.cpp
 )
 
 foreach(test_src ${TEST_SOURCES})

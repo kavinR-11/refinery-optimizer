@@ -54,6 +54,7 @@ set(SIH_CORE_SOURCES
     core/src/telemetry/telemetry.cpp
     core/src/utils/affinity.cpp
     core/src/scaling/scaler.cpp
+    core/src/factorization/sparse_lu.cpp
 )
 
 add_library(sih_core STATIC ${SIH_CORE_SOURCES})
