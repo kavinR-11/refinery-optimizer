@@ -1,0 +1,96 @@
+{
+  "suite_name": "sih26119_toy_suite",
+  "version": "1.0",
+  "problems": [
+    {
+      "file": "toy01_lp_simple.mps",
+      "name": "toy01_lp_simple",
+      "type": "LP",
+      "expected_status": "Optimal",
+      "expected_objective": -6.5,
+      "expected_primal": [1.5, 2.5],
+      "description": "Standard 2-var 2-constraint bounded LP with unique optimum"
+    },
+    {
+      "file": "toy02_lp_infeasible.mps",
+      "name": "toy02_lp_infeasible",
+      "type": "LP",
+      "expected_status": "Infeasible",
+      "expected_objective": null,
+      "expected_primal": null,
+      "description": "LP with contradictory row bounds (x1+x2 <= 1 and x1+x2 >= 2)"
+    },
+    {
+      "file": "toy03_lp_unbounded.mps",
+      "name": "toy03_lp_unbounded",
+      "type": "LP",
+      "expected_status": "Unbounded",
+      "expected_objective": null,
+      "expected_primal": null,
+      "description": "LP with unconstrained recession cone in direction of objective improvement"
+    },
+    {
+      "file": "toy04_lp_equality_ranges.mps",
+      "name": "toy04_lp_equality_ranges",
+      "type": "LP",
+      "expected_status": "Optimal",
+      "expected_objective": 16.0,
+      "expected_primal": [0.0, 4.0],
+      "description": "LP with equality constraint and RANGES section"
+    },
+    {
+      "file": "toy05_lp_bounds.mps",
+      "name": "toy05_lp_bounds",
+      "type": "LP",
+      "expected_status": "Optimal",
+      "expected_objective": -14.0,
+      "expected_primal": [2.0, 5.0, -2.0],
+      "description": "LP exercising FX, LO, UP, and negative variable bounds"
+    },
+    {
+      "file": "toy06_milp_knapsack.mps",
+      "name": "toy06_milp_knapsack",
+      "type": "MILP",
+      "expected_status": "Optimal",
+      "expected_objective": -11.0,
+      "expected_primal": [1.0, 1.0, 0.0],
+      "description": "0-1 binary knapsack with INTORG/INTEND markers and BV bounds"
+    },
+    {
+      "file": "toy07_milp_mixed_integer.mps",
+      "name": "toy07_milp_mixed_integer",
+      "type": "MILP",
+      "expected_status": "Optimal",
+      "expected_objective": 6.0,
+      "expected_primal": [4.0, 0.0, 1.0],
+      "description": "Mixed integer with continuous, general integer (UI), and binary variables"
+    },
+    {
+      "file": "toy08_qp_convex_diagonal.mps",
+      "name": "toy08_qp_convex_diagonal",
+      "type": "QP",
+      "expected_status": "Optimal",
+      "expected_objective": -12.5,
+      "expected_primal": [1.5, 2.5],
+      "description": "Convex QP with diagonal Q matrix in QUADOBJ section"
+    },
+    {
+      "file": "toy09_qp_convex_general.mps",
+      "name": "toy09_qp_convex_general",
+      "type": "QP",
+      "expected_status": "Optimal",
+      "expected_objective": -2.3333333333333335,
+      "expected_primal": [0.3333333333333333, 1.3333333333333333],
+      "description": "Convex QP with non-diagonal symmetric positive-definite Q matrix"
+    },
+    {
+      "file": "toy10_milp_infeasible_integer.mps",
+      "name": "toy10_milp_infeasible_integer",
+      "type": "MILP",
+      "expected_status": "Infeasible",
+      "expected_objective": null,
+      "expected_primal": null,
+      "description": "MILP whose continuous LP relaxation is feasible (0.2 <= x <= 0.8) but integer infeasible"
+    }
+  ]
+}

@@ -83,12 +83,12 @@ class FloatChecker:
             obj_discrepancy = abs(obj_eval - reported_obj)
             obj_match = obj_discrepancy <= 1e-4 * (1.0 + abs(obj_eval))
 
-        # 4. Dual feasibility & complementary slackness (if provided)
+        # 4. Dual feasibility & complementary slackness (applicable for continuous LP/QP, not MIP)
         is_dual_feasible = True
         max_dual_residual = 0.0
         max_comp_slack = 0.0
         
-        if row_duals is not None and reduced_costs is not None and len(row_duals) == m and len(reduced_costs) == n:
+        if not problem.is_mip() and row_duals is not None and reduced_costs is not None and len(row_duals) == m and len(reduced_costs) == n:
             AT_y = problem.A.mat_trans_vec(row_duals)
             grad = list(c)
             if problem.has_quadratic() and problem.num_quad_nonzeros() > 0:

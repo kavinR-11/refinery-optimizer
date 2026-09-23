@@ -87,11 +87,11 @@ CheckResult check_solution(const model::Problem& problem,
     res.evaluated_objective = obj_eval;
     res.objective_discrepancy = std::abs(obj_eval - solution.primal_objective);
 
-    // 4. Dual feasibility & complementary slackness (if dual vectors are provided)
+    // 4. Dual feasibility & complementary slackness (if continuous LP/QP and dual vectors provided)
     bool has_duals = (static_cast<int64_t>(solution.row_duals.size()) == m);
     bool has_red_costs = (static_cast<int64_t>(solution.reduced_costs.size()) == n);
 
-    if (has_duals && has_red_costs) {
+    if (!problem.is_mip() && has_duals && has_red_costs) {
         // Lagrangian stationarity: r_dual = c + Qx - A^T y - s
         std::vector<double> AT_y(n, 0.0);
         problem.A().mat_trans_vec(solution.row_duals.data(), AT_y.data());
