@@ -1,0 +1,25 @@
+build/
+bin/
+lib/
+*.o
+*.so
+*.a
+*.dylib
+*.dll
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.vscode/
+.idea/
+*.log
+compile_commands.json
+
+# Data downloads (keep toy data committed)
+data/netlib/*
+!data/netlib/.gitkeep
+data/miplib/*
+!data/miplib/.gitkeep
+data/maros_meszaros/*
+!data/maros_meszaros/.gitkeep
