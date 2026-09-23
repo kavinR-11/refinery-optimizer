@@ -124,3 +124,90 @@ class FloatChecker:
             "max_dual_residual": max_dual_residual,
             "max_complementary_slack": max_comp_slack,
         }
+
+    @staticmethod
+    def check_farkas_ray(problem: Any, ray: List[float], tol: float = 1e-6) -> Dict[str, Any]:
+        m = problem.num_rows()
+        n = problem.num_cols()
+        if len(ray) != m:
+            return {"valid": False, "all_passed": False, "error": f"Farkas ray length {len(ray)} != {m}"}
+        if max(abs(v) for v in ray) < 1e-12:
+            return {"valid": False, "all_passed": False, "error": "Farkas ray is zero"}
+
+        row_lower = problem.row_lower
+        row_upper = problem.row_upper
+        col_lower = problem.col_lower
+        col_upper = problem.col_upper
+
+        for sign in (1.0, -1.0):
+            y = [v * sign for v in ray]
+            w = problem.A.mat_trans_vec(y)
+
+            inf_lhs = False
+            lhs = 0.0
+            for i in range(m):
+                if y[i] > 1e-9:
+                    if row_lower[i] <= -1e30:
+                        inf_lhs = True; break
+                    lhs += y[i] * row_lower[i]
+                elif y[i] < -1e-9:
+                    if row_upper[i] >= 1e30:
+                        inf_lhs = True; break
+                    lhs += y[i] * row_upper[i]
+            if inf_lhs:
+                continue
+
+            inf_rhs = False
+            rhs = 0.0
+            for j in range(n):
+                if w[j] > 1e-9:
+                    if col_upper[j] >= 1e30:
+                        inf_rhs = True; break
+                    rhs += w[j] * col_upper[j]
+                elif w[j] < -1e-9:
+                    if col_lower[j] <= -1e30:
+                        inf_rhs = True; break
+                    rhs += w[j] * col_lower[j]
+            if inf_rhs:
+                continue
+
+            gap = lhs - rhs
+            if gap > tol:
+                return {"valid": True, "all_passed": True, "gap": gap}
+
+        return {"valid": False, "all_passed": False, "error": "Farkas condition violated (LHS <= RHS)"}
+
+    @staticmethod
+    def check_unbounded_ray(problem: Any, ray: List[float], tol: float = 1e-6) -> Dict[str, Any]:
+        m = problem.num_rows()
+        n = problem.num_cols()
+        if len(ray) != n:
+            return {"valid": False, "all_passed": False, "error": f"Unbounded ray length {len(ray)} != {n}"}
+        if max(abs(v) for v in ray) < 1e-12:
+            return {"valid": False, "all_passed": False, "error": "Unbounded ray is zero"}
+
+        c = problem.c
+        c_dot_d = sum(c[j] * ray[j] for j in range(n))
+        is_max = (int(problem.sense) == -1) or ("Maximize" in str(problem.sense))
+        obj_improves = (c_dot_d > 1e-9) if is_max else (c_dot_d < -1e-9)
+        if not obj_improves:
+            return {"valid": False, "all_passed": False, "error": f"Objective does not improve: c^T d = {c_dot_d}"}
+
+        col_lower = problem.col_lower
+        col_upper = problem.col_upper
+        for j in range(n):
+            if ray[j] > 1e-9 and col_upper[j] < 1e30:
+                return {"valid": False, "all_passed": False, "error": f"Var {j} upper bound violated by ray direction"}
+            if ray[j] < -1e-9 and col_lower[j] > -1e30:
+                return {"valid": False, "all_passed": False, "error": f"Var {j} lower bound violated by ray direction"}
+
+        Ad = problem.A.mat_vec(ray)
+        row_lower = problem.row_lower
+        row_upper = problem.row_upper
+        for i in range(m):
+            if Ad[i] > 1e-9 and row_upper[i] < 1e30:
+                return {"valid": False, "all_passed": False, "error": f"Row {i} upper bound violated by ray direction"}
+            if Ad[i] < -1e-9 and row_lower[i] > -1e30:
+                return {"valid": False, "all_passed": False, "error": f"Row {i} lower bound violated by ray direction"}
+
+        return {"valid": True, "all_passed": True, "c_dot_d": c_dot_d}

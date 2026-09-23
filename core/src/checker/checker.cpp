@@ -15,6 +15,127 @@ CheckResult check_solution(const model::Problem& problem,
     const int64_t m = problem.num_rows();
     const int64_t n = problem.num_cols();
 
+    // 0. Certificate verification for Infeasible or Unbounded status
+    if (solution.status == model::SolutionStatus::Infeasible) {
+        if (solution.ray.empty() || static_cast<int64_t>(solution.ray.size()) != m) {
+            res.summary = "Infeasible certificate error: Farkas ray dimension mismatch or empty";
+            res.all_checks_passed = false;
+            return res;
+        }
+
+        double ray_norm = 0.0;
+        for (double val : solution.ray) ray_norm = std::max(ray_norm, std::abs(val));
+        if (ray_norm < 1e-12) {
+            res.summary = "Infeasible certificate error: Farkas ray is zero";
+            res.all_checks_passed = false;
+            return res;
+        }
+
+        bool valid_cert = false;
+        double best_gap = -1.0;
+
+        for (double sign : {1.0, -1.0}) {
+            std::vector<double> y(m);
+            for (int64_t i = 0; i < m; ++i) y[i] = solution.ray[i] * sign;
+
+            std::vector<double> w(n, 0.0);
+            problem.A().mat_trans_vec(y.data(), w.data());
+
+            bool inf_lhs = false;
+            double lhs = 0.0;
+            for (int64_t i = 0; i < m; ++i) {
+                if (y[i] > 1e-9) {
+                    if (problem.row_lower()[i] <= -model::SIH_INFINITY / 2.0) { inf_lhs = true; break; }
+                    lhs += y[i] * problem.row_lower()[i];
+                } else if (y[i] < -1e-9) {
+                    if (problem.row_upper()[i] >= model::SIH_INFINITY / 2.0) { inf_lhs = true; break; }
+                    lhs += y[i] * problem.row_upper()[i];
+                }
+            }
+            if (inf_lhs) continue;
+
+            bool inf_rhs = false;
+            double rhs = 0.0;
+            for (int64_t j = 0; j < n; ++j) {
+                if (w[j] > 1e-9) {
+                    if (problem.col_upper()[j] >= model::SIH_INFINITY / 2.0) { inf_rhs = true; break; }
+                    rhs += w[j] * problem.col_upper()[j];
+                } else if (w[j] < -1e-9) {
+                    if (problem.col_lower()[j] <= -model::SIH_INFINITY / 2.0) { inf_rhs = true; break; }
+                    rhs += w[j] * problem.col_lower()[j];
+                }
+            }
+            if (inf_rhs) continue;
+
+            double gap = lhs - rhs;
+            if (gap > 1e-6) {
+                valid_cert = true;
+                best_gap = std::max(best_gap, gap);
+            }
+        }
+
+        res.is_certificate_valid = valid_cert;
+        res.certificate_violation = valid_cert ? 0.0 : 1.0;
+        res.all_checks_passed = valid_cert;
+        res.summary = valid_cert ? "Checker Summary: PASSED | Farkas certificate ray verified"
+                                 : "Checker Summary: FAILED | Farkas certificate ray invalid";
+        return res;
+    }
+
+    if (solution.status == model::SolutionStatus::Unbounded) {
+        if (solution.ray.empty() || static_cast<int64_t>(solution.ray.size()) != n) {
+            res.summary = "Unbounded certificate error: ray dimension mismatch or empty";
+            res.all_checks_passed = false;
+            return res;
+        }
+
+        double ray_norm = 0.0;
+        for (double val : solution.ray) ray_norm = std::max(ray_norm, std::abs(val));
+        if (ray_norm < 1e-12) {
+            res.summary = "Unbounded certificate error: ray is zero";
+            res.all_checks_passed = false;
+            return res;
+        }
+
+        double c_dot_d = 0.0;
+        for (int64_t j = 0; j < n; ++j) c_dot_d += problem.c()[j] * solution.ray[j];
+        bool obj_improves = (problem.sense() == model::ObjectiveSense::Maximize) ? (c_dot_d > 1e-9) : (c_dot_d < -1e-9);
+
+        bool bounds_feasible = true;
+        for (int64_t j = 0; j < n; ++j) {
+            if (solution.ray[j] > 1e-9 && problem.col_upper()[j] < model::SIH_INFINITY / 2.0) {
+                bounds_feasible = false;
+                break;
+            }
+            if (solution.ray[j] < -1e-9 && problem.col_lower()[j] > -model::SIH_INFINITY / 2.0) {
+                bounds_feasible = false;
+                break;
+            }
+        }
+
+        std::vector<double> Ad(m, 0.0);
+        problem.A().mat_vec(solution.ray.data(), Ad.data());
+        bool rows_feasible = true;
+        for (int64_t i = 0; i < m; ++i) {
+            if (Ad[i] > 1e-9 && problem.row_upper()[i] < model::SIH_INFINITY / 2.0) {
+                rows_feasible = false;
+                break;
+            }
+            if (Ad[i] < -1e-9 && problem.row_lower()[i] > -model::SIH_INFINITY / 2.0) {
+                rows_feasible = false;
+                break;
+            }
+        }
+
+        bool valid_cert = obj_improves && bounds_feasible && rows_feasible;
+        res.is_certificate_valid = valid_cert;
+        res.certificate_violation = valid_cert ? 0.0 : 1.0;
+        res.all_checks_passed = valid_cert;
+        res.summary = valid_cert ? "Checker Summary: PASSED | Unbounded ray certificate verified"
+                                 : "Checker Summary: FAILED | Unbounded ray certificate invalid";
+        return res;
+    }
+
     if (static_cast<int64_t>(solution.x.size()) != n) {
         res.summary = "Primal vector x dimension mismatch";
         return res;

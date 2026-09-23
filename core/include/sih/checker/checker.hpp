@@ -24,6 +24,10 @@ struct CheckResult {
     double evaluated_objective{0.0};
     double objective_discrepancy{0.0};
 
+    // Certificate verification (for Infeasible / Unbounded solutions)
+    bool is_certificate_valid{false};
+    double certificate_violation{0.0};
+
     bool all_checks_passed{false};
     std::string summary;
 };
