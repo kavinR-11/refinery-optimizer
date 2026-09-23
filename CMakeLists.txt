@@ -55,6 +55,7 @@ set(SIH_CORE_SOURCES
     core/src/utils/affinity.cpp
     core/src/scaling/scaler.cpp
     core/src/factorization/sparse_lu.cpp
+    core/src/presolve/presolver.cpp
 )
 
 add_library(sih_core STATIC ${SIH_CORE_SOURCES})

@@ -19,8 +19,11 @@ struct Triplet {
 
 class SparseMatrix {
 public:
-    SparseMatrix() : m_rows(0), m_cols(0) {}
-    SparseMatrix(int64_t rows, int64_t cols) : m_rows(rows), m_cols(cols) {}
+    SparseMatrix() : m_rows(0), m_cols(0), m_csc_col_ptr{0}, m_csr_row_ptr{0} {}
+    SparseMatrix(int64_t rows, int64_t cols)
+        : m_rows(rows), m_cols(cols),
+          m_csc_col_ptr(cols >= 0 ? cols + 1 : 1, 0),
+          m_csr_row_ptr(rows >= 0 ? rows + 1 : 1, 0) {}
 
     // Factory method to build dual CSC & CSR sparse matrix from triplets
     static SparseMatrix from_triplets(int64_t m, int64_t n,
