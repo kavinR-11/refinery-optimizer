@@ -53,6 +53,7 @@ set(SIH_CORE_SOURCES
     core/src/checker/checker.cpp
     core/src/telemetry/telemetry.cpp
     core/src/utils/affinity.cpp
+    core/src/scaling/scaler.cpp
 )
 
 add_library(sih_core STATIC ${SIH_CORE_SOURCES})

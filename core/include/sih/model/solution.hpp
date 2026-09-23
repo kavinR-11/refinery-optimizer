@@ -49,6 +49,15 @@ struct Solution {
     std::vector<BasisStatus> col_basis;
     std::vector<BasisStatus> row_basis;
 
+    // Certificate ray (Farkas ray for Infeasible, Unbounded ray for Unbounded)
+    std::vector<double> ray;
+
+    // Sensitivity ranges
+    std::vector<double> rhs_down;
+    std::vector<double> rhs_up;
+    std::vector<double> obj_down;
+    std::vector<double> obj_up;
+
     // Objectives and bounds
     double primal_objective{0.0};
     double dual_bound{0.0};
