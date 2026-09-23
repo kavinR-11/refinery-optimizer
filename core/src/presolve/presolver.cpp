@@ -352,6 +352,12 @@ model::Solution Presolver::postsolve(const model::Solution& presolved_sol,
                                      double tol) {
     model::Solution full_sol;
     full_sol.status = presolved_sol.status;
+    full_sol.simplex_iterations = presolved_sol.simplex_iterations;
+    full_sol.ray = presolved_sol.ray;
+    full_sol.rhs_down = presolved_sol.rhs_down;
+    full_sol.rhs_up   = presolved_sol.rhs_up;
+    full_sol.obj_down = presolved_sol.obj_down;
+    full_sol.obj_up   = presolved_sol.obj_up;
     int64_t orig_m = orig_problem.num_rows();
     int64_t orig_n = orig_problem.num_cols();
 

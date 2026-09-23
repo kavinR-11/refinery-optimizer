@@ -41,12 +41,25 @@ enum class PresolveMode {
     Aggressive = 2
 };
 
+enum class RatioTest {
+    Textbook = 0,
+    Harris = 1,
+    HarrisBFRT = 2
+};
+
 struct StrategyConfig {
     AlgorithmChoice algorithm{AlgorithmChoice::Auto};
     PricingRule pricing_rule{PricingRule::SteepestEdge};
     BranchingRule branching_rule{BranchingRule::PseudoCost};
     NodeSelection node_selection{NodeSelection::BestBound};
     PresolveMode presolve{PresolveMode::On};
+    int max_presolve_passes{10};
+    RatioTest ratio_test{RatioTest::HarrisBFRT};
+    bool enable_scaling{true};
+    bool power_of_two_scaling{true};
+    int refactor_frequency{60};
+    bool enable_perturbation{true};
+    double perturbation_magnitude{1e-11};
     int cut_rounds{5};
     bool enable_gpu{false};
 };
