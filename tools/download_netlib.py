@@ -5,13 +5,14 @@ Downloads a standard representative subset of Netlib LP instances into data/netl
 Provides manual curl/wget fallback instructions if network is unavailable.
 """
 
+import gzip
 import os
 import sys
 import urllib.request
 from pathlib import Path
 
-# Common Netlib LP instances (uncompressed or compressed)
-NETLIB_BASE_URL = "https://netlib.org/lp/data"
+# COIN-OR Data-Netlib repository hosts standard MPS files (.mps.gz)
+NETLIB_BASE_URL = "https://raw.githubusercontent.com/coin-or-tools/Data-Netlib/master"
 NETLIB_INSTANCES = [
     "afiro",
     "adlittle",
@@ -24,24 +25,29 @@ NETLIB_INSTANCES = [
     "stocfor1",
 ]
 
-def download_netlib(dest_dir: Path):
+def download_netlib(dest_dir: Path, force: bool = False):
     dest_dir.mkdir(parents=True, exist_ok=True)
     print(f"Preparing Netlib LP benchmark files in {dest_dir}...")
     
     success_count = 0
     for name in NETLIB_INSTANCES:
         target = dest_dir / f"{name}.mps"
-        if target.exists():
+        if target.exists() and not force:
             print(f"  [EXISTS] {target.name}")
             success_count += 1
             continue
         
-        url = f"{NETLIB_BASE_URL}/{name}"
+        url = f"{NETLIB_BASE_URL}/{name}.mps.gz"
         try:
             print(f"  Downloading {name} from {url}...")
-            urllib.request.urlretrieve(url, target)
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req) as resp:
+                compressed_data = resp.read()
+            decompressed = gzip.decompress(compressed_data)
+            with open(target, "wb") as f:
+                f.write(decompressed)
             success_count += 1
-            print(f"  [OK] Saved {target.name}")
+            print(f"  [OK] Saved {target.name} ({len(decompressed)} bytes)")
         except Exception as e:
             print(f"  [FAILED] Could not download {name}: {e}")
 
@@ -54,7 +60,8 @@ def download_netlib(dest_dir: Path):
 def main():
     root = Path(__file__).resolve().parent.parent
     dest_dir = root / "data" / "netlib"
-    download_netlib(dest_dir)
+    force = "--force" in sys.argv
+    download_netlib(dest_dir, force=force)
 
 if __name__ == "__main__":
     main()

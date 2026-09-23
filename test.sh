@@ -13,7 +13,7 @@ fi
 export PYTHONPATH="${SCRIPT_DIR}/py:${SCRIPT_DIR}/tests:${PYTHONPATH:-}"
 
 echo "======================================================================"
-echo "SIH 26119 Phase 0 Verification & Test Suite"
+echo "SIH 26119 Phase 1 Verification & Test Suite"
 echo "======================================================================"
 
 echo ""
@@ -30,5 +30,5 @@ pytest -v tests/
 
 echo ""
 echo "======================================================================"
-echo "ALL PHASE 0 GATES PASSED CLEANLY"
+echo "ALL PHASE 1 GATES PASSED CLEANLY"
 echo "======================================================================"
