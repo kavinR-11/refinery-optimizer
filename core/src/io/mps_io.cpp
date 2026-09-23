@@ -390,6 +390,16 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
 
     out << std::setprecision(12);
 
+    // Ensure row and col names exist
+    std::vector<std::string> row_names = problem.row_names();
+    while (static_cast<int64_t>(row_names.size()) < problem.num_rows()) {
+        row_names.push_back("R" + std::to_string(row_names.size()));
+    }
+    std::vector<std::string> col_names = problem.col_names();
+    while (static_cast<int64_t>(col_names.size()) < problem.num_cols()) {
+        col_names.push_back("C" + std::to_string(col_names.size()));
+    }
+
     // NAME
     out << "NAME          " << problem.name() << "\n";
 
@@ -397,18 +407,21 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
     out << "OBJSENSE\n";
     out << "  " << (problem.sense() == model::ObjectiveSense::Maximize ? "MAX" : "MIN") << "\n";
 
+    auto is_neg_inf = [](double v) { return std::isinf(v) ? (v < 0.0) : (v <= -1e20); };
+    auto is_pos_inf = [](double v) { return std::isinf(v) ? (v > 0.0) : (v >= 1e20); };
+
     // ROWS
     out << "ROWS\n";
     out << " N  OBJ\n";
     for (int64_t i = 0; i < problem.num_rows(); ++i) {
-        const std::string& rname = problem.row_names()[i];
+        const std::string& rname = row_names[i];
         double lb = problem.row_lower()[i];
         double ub = problem.row_upper()[i];
 
         char type = 'E';
-        if (lb <= -model::SIH_INFINITY / 2.0 && ub < model::SIH_INFINITY / 2.0) {
+        if (is_neg_inf(lb) && !is_pos_inf(ub)) {
             type = 'L';
-        } else if (lb > -model::SIH_INFINITY / 2.0 && ub >= model::SIH_INFINITY / 2.0) {
+        } else if (!is_neg_inf(lb) && is_pos_inf(ub)) {
             type = 'G';
         } else if (lb == ub) {
             type = 'E';
@@ -426,7 +439,7 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
     const auto& csc_values = problem.A().csc_values();
 
     for (int64_t j = 0; j < problem.num_cols(); ++j) {
-        const std::string& cname = problem.col_names()[j];
+        const std::string& cname = col_names[j];
         bool is_int = (problem.var_types()[j] == model::VariableType::Integer ||
                        problem.var_types()[j] == model::VariableType::Binary);
 
@@ -452,7 +465,7 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
             int64_t r_idx = csc_row_ind[k];
             double val = csc_values[k];
             out << "    " << std::left << std::setw(8) << cname
-                << "  " << std::setw(8) << problem.row_names()[r_idx]
+                << "  " << std::setw(8) << row_names[r_idx]
                 << "  " << val << "\n";
         }
     }
@@ -468,13 +481,13 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
     for (int64_t i = 0; i < problem.num_rows(); ++i) {
         double lb = problem.row_lower()[i];
         double ub = problem.row_upper()[i];
-        const std::string& rname = problem.row_names()[i];
+        const std::string& rname = row_names[i];
 
-        if (lb <= -model::SIH_INFINITY / 2.0 && ub < model::SIH_INFINITY / 2.0) {
+        if (is_neg_inf(lb) && !is_pos_inf(ub)) {
             if (std::abs(ub) > 1e-15) {
                 out << "    RHS1      " << std::setw(8) << rname << "  " << ub << "\n";
             }
-        } else if (lb > -model::SIH_INFINITY / 2.0 && ub >= model::SIH_INFINITY / 2.0) {
+        } else if (!is_neg_inf(lb) && is_pos_inf(ub)) {
             if (std::abs(lb) > 1e-15) {
                 out << "    RHS1      " << std::setw(8) << rname << "  " << lb << "\n";
             }
@@ -493,7 +506,7 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
     for (int64_t i = 0; i < problem.num_rows(); ++i) {
         double lb = problem.row_lower()[i];
         double ub = problem.row_upper()[i];
-        if (lb > -model::SIH_INFINITY / 2.0 && ub < model::SIH_INFINITY / 2.0 && lb != ub) {
+        if (!is_neg_inf(lb) && !is_pos_inf(ub) && lb != ub) {
             has_ranges = true;
             break;
         }
@@ -503,8 +516,8 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
         for (int64_t i = 0; i < problem.num_rows(); ++i) {
             double lb = problem.row_lower()[i];
             double ub = problem.row_upper()[i];
-            if (lb > -model::SIH_INFINITY / 2.0 && ub < model::SIH_INFINITY / 2.0 && lb != ub) {
-                out << "    RNG1      " << std::setw(8) << problem.row_names()[i] << "  " << (ub - lb) << "\n";
+            if (!is_neg_inf(lb) && !is_pos_inf(ub) && lb != ub) {
+                out << "    RNG1      " << std::setw(8) << row_names[i] << "  " << (ub - lb) << "\n";
             }
         }
     }
@@ -512,7 +525,7 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
     // BOUNDS
     out << "BOUNDS\n";
     for (int64_t j = 0; j < problem.num_cols(); ++j) {
-        const std::string& cname = problem.col_names()[j];
+        const std::string& cname = col_names[j];
         double lb = problem.col_lower()[j];
         double ub = problem.col_upper()[j];
         auto vt = problem.var_types()[j];
@@ -522,13 +535,13 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
         } else if (lb == ub) {
             out << " FX BND1      " << std::setw(8) << cname << "  " << lb << "\n";
         } else {
-            if (lb <= -model::SIH_INFINITY / 2.0 && ub >= model::SIH_INFINITY / 2.0) {
+            if (is_neg_inf(lb) && is_pos_inf(ub)) {
                 out << " FR BND1      " << cname << "\n";
             } else {
-                if (lb != 0.0) {
+                if (!is_neg_inf(lb) && lb != 0.0) {
                     out << " LO BND1      " << std::setw(8) << cname << "  " << lb << "\n";
                 }
-                if (ub < model::SIH_INFINITY / 2.0) {
+                if (!is_pos_inf(ub)) {
                     if (vt == model::VariableType::Integer) {
                         out << " UI BND1      " << std::setw(8) << cname << "  " << ub << "\n";
                     } else {
@@ -547,13 +560,13 @@ void write_mps(const model::Problem& problem, const std::string& filepath, bool 
         const auto& q_values = problem.Q().csc_values();
 
         for (int64_t j = 0; j < problem.num_cols(); ++j) {
-            const std::string& cname2 = problem.col_names()[j];
+            const std::string& cname2 = col_names[j];
             const int64_t start = q_col_ptr[j];
             const int64_t end = q_col_ptr[j + 1];
             for (int64_t k = start; k < end; ++k) {
                 int64_t i = q_row_ind[k];
-                if (i <= j) { // Only upper or lower triangle needed in QUADOBJ
-                    out << "    " << std::left << std::setw(8) << problem.col_names()[i]
+                if (i <= j) {
+                    out << "    " << std::left << std::setw(8) << col_names[i]
                         << "  " << std::setw(8) << cname2
                         << "  " << q_values[k] << "\n";
                 }

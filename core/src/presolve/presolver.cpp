@@ -25,6 +25,19 @@ PresolveResult Presolver::presolve(const model::Problem& problem,
     std::vector<int64_t> col_map(orig_n);
     for (int64_t j = 0; j < orig_n; ++j) col_map[j] = j;
 
+    auto& init_row_lower = result.presolved_problem.row_lower();
+    auto& init_row_upper = result.presolved_problem.row_upper();
+    auto& init_col_lower = result.presolved_problem.col_lower();
+    auto& init_col_upper = result.presolved_problem.col_upper();
+    for (int64_t j = 0; j < orig_n; ++j) {
+        if (!model::is_bounded_below(init_col_lower[j])) init_col_lower[j] = -model::SIH_INFINITY;
+        if (!model::is_bounded_above(init_col_upper[j])) init_col_upper[j] =  model::SIH_INFINITY;
+    }
+    for (int64_t i = 0; i < orig_m; ++i) {
+        if (!model::is_bounded_below(init_row_lower[i])) init_row_lower[i] = -model::SIH_INFINITY;
+        if (!model::is_bounded_above(init_row_upper[i])) init_row_upper[i] =  model::SIH_INFINITY;
+    }
+
     bool changed = true;
     int pass = 0;
 
@@ -35,18 +48,26 @@ PresolveResult Presolver::presolve(const model::Problem& problem,
         int64_t m = result.presolved_problem.num_rows();
         int64_t n = result.presolved_problem.num_cols();
 
-        if (m == 0 || n == 0) {
-            result.problem_empty = true;
-            result.status = model::SolutionStatus::Optimal;
-            return result;
-        }
-
-        const auto& A = result.presolved_problem.A();
-        const auto& c = result.presolved_problem.c();
         auto& row_lower = result.presolved_problem.row_lower();
         auto& row_upper = result.presolved_problem.row_upper();
         auto& col_lower = result.presolved_problem.col_lower();
         auto& col_upper = result.presolved_problem.col_upper();
+        const auto& c   = result.presolved_problem.c();
+        const auto& A   = result.presolved_problem.A();
+
+        if (n == 0) {
+            for (int64_t i = 0; i < m; ++i) {
+                if (0.0 < row_lower[i] - tol || 0.0 > row_upper[i] + tol) {
+                    result.status = model::SolutionStatus::Infeasible;
+                    result.certificate_ray.assign(orig_m, 0.0);
+                    result.certificate_ray[row_map[i]] = (0.0 < row_lower[i]) ? 1.0 : -1.0;
+                    return result;
+                }
+            }
+            result.problem_empty = true;
+            result.status = model::SolutionStatus::Optimal;
+            return result;
+        }
 
         std::vector<int64_t> row_degrees(m, 0);
         std::vector<int64_t> col_degrees(n, 0);

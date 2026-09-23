@@ -30,15 +30,15 @@ DualSimplexEngine::DualSimplexEngine(const model::Problem& problem, const model:
     const auto& col_l = problem.col_lower();
     const auto& col_u = problem.col_upper();
     for (int64_t j = 0; j < m_n; ++j) {
-        m_lb[j] = col_l[j];
-        m_ub[j] = col_u[j];
+        m_lb[j] = model::is_bounded_below(col_l[j]) ? col_l[j] : -model::SIH_INFINITY;
+        m_ub[j] = model::is_bounded_above(col_u[j]) ? col_u[j] :  model::SIH_INFINITY;
     }
 
     const auto& row_l = problem.row_lower();
     const auto& row_u = problem.row_upper();
     for (int64_t i = 0; i < m_m; ++i) {
-        m_lb[m_n + i] = row_l[i];
-        m_ub[m_n + i] = row_u[i];
+        m_lb[m_n + i] = model::is_bounded_below(row_l[i]) ? row_l[i] : -model::SIH_INFINITY;
+        m_ub[m_n + i] = model::is_bounded_above(row_u[i]) ? row_u[i] :  model::SIH_INFINITY;
     }
 
     m_basic_vars.assign(m_m, -1);

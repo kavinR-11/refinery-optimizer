@@ -81,3 +81,18 @@ def test_toy_problem(prob_def):
             f"row_viols={rat_res['row_violations']}, col_viols={rat_res['col_violations']}, "
             f"int_viols={rat_res['int_violations']}"
         )
+
+    # 4. Continuous LP: Solve directly with indigenous SimplexSolver
+    if not p.is_mip() and not p.is_qp():
+        indig_sol = sih_solver.solve(p)
+        status_name = indig_sol.status.name
+        assert status_name == expected_status, (
+            f"Indigenous solver status mismatch on {prob_def['name']}: got {status_name}, expected {expected_status}"
+        )
+        if expected_status == "Optimal":
+            assert abs(indig_sol.primal_objective - expected_obj) < 1e-4 * (1.0 + abs(expected_obj)), (
+                f"Indigenous solver obj mismatch on {prob_def['name']}: got {indig_sol.primal_objective}, expected {expected_obj}"
+            )
+            indig_chk = sih_solver.check_solution(p, indig_sol)
+            assert indig_chk.all_checks_passed, f"Indigenous checker failed on {prob_def['name']}: {indig_chk.summary}"
+

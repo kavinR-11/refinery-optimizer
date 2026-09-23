@@ -9,6 +9,7 @@
 #include "sih/checker/checker.hpp"
 #include "sih/telemetry/telemetry.hpp"
 #include "sih/utils/affinity.hpp"
+#include "sih/simplex/simplex_solver.hpp"
 
 namespace py = pybind11;
 using namespace sih;
@@ -136,6 +137,11 @@ PYBIND11_MODULE(_core, m) {
         .def_readwrite("time_cpu_sec", &model::Solution::time_cpu_sec)
         .def_readwrite("time_presolve_sec", &model::Solution::time_presolve_sec)
         .def_readwrite("time_solver_sec", &model::Solution::time_solver_sec)
+        .def_readwrite("ray", &model::Solution::ray)
+        .def_readwrite("rhs_down", &model::Solution::rhs_down)
+        .def_readwrite("rhs_up", &model::Solution::rhs_up)
+        .def_readwrite("obj_down", &model::Solution::obj_down)
+        .def_readwrite("obj_up", &model::Solution::obj_up)
         .def("is_optimal", &model::Solution::is_optimal)
         .def("is_feasible", &model::Solution::is_feasible);
 
@@ -174,6 +180,12 @@ PYBIND11_MODULE(_core, m) {
         .value("Aggressive", model::PresolveMode::Aggressive)
         .export_values();
 
+    py::enum_<model::RatioTest>(m, "RatioTest")
+        .value("Textbook", model::RatioTest::Textbook)
+        .value("Harris", model::RatioTest::Harris)
+        .value("HarrisBFRT", model::RatioTest::HarrisBFRT)
+        .export_values();
+
     py::class_<model::StrategyConfig>(m, "StrategyConfig")
         .def(py::init<>())
         .def_readwrite("algorithm", &model::StrategyConfig::algorithm)
@@ -181,6 +193,13 @@ PYBIND11_MODULE(_core, m) {
         .def_readwrite("branching_rule", &model::StrategyConfig::branching_rule)
         .def_readwrite("node_selection", &model::StrategyConfig::node_selection)
         .def_readwrite("presolve", &model::StrategyConfig::presolve)
+        .def_readwrite("max_presolve_passes", &model::StrategyConfig::max_presolve_passes)
+        .def_readwrite("ratio_test", &model::StrategyConfig::ratio_test)
+        .def_readwrite("enable_scaling", &model::StrategyConfig::enable_scaling)
+        .def_readwrite("power_of_two_scaling", &model::StrategyConfig::power_of_two_scaling)
+        .def_readwrite("refactor_frequency", &model::StrategyConfig::refactor_frequency)
+        .def_readwrite("enable_perturbation", &model::StrategyConfig::enable_perturbation)
+        .def_readwrite("perturbation_magnitude", &model::StrategyConfig::perturbation_magnitude)
         .def_readwrite("cut_rounds", &model::StrategyConfig::cut_rounds)
         .def_readwrite("enable_gpu", &model::StrategyConfig::enable_gpu);
 
@@ -197,6 +216,22 @@ PYBIND11_MODULE(_core, m) {
         .def_readwrite("log_to_console", &model::Options::log_to_console)
         .def_readwrite("telemetry_log_path", &model::Options::telemetry_log_path)
         .def_readwrite("strategy", &model::Options::strategy);
+
+    // --- Simplex Solver & Sensitivity ---
+    py::class_<simplex::SensitivityReport>(m, "SensitivityReport")
+        .def(py::init<>())
+        .def_readwrite("rhs_down", &simplex::SensitivityReport::rhs_down)
+        .def_readwrite("rhs_up", &simplex::SensitivityReport::rhs_up)
+        .def_readwrite("obj_down", &simplex::SensitivityReport::obj_down)
+        .def_readwrite("obj_up", &simplex::SensitivityReport::obj_up);
+
+    py::class_<simplex::SimplexSolver>(m, "SimplexSolver")
+        .def(py::init<>())
+        .def_static("solve", &simplex::SimplexSolver::solve,
+                    py::arg("problem"), py::arg("options") = model::Options{})
+        .def_static("solve_from_basis", &simplex::SimplexSolver::solve_from_basis,
+                    py::arg("problem"), py::arg("col_basis"), py::arg("row_basis"),
+                    py::arg("options") = model::Options{});
 
     // --- MPS IO ---
     m.def("read_mps", &io::read_mps, py::arg("filepath"), "Read an MPS or QPS problem file");
@@ -218,6 +253,8 @@ PYBIND11_MODULE(_core, m) {
         .def_readonly("max_integrality_violation", &checker::CheckResult::max_integrality_violation)
         .def_readonly("evaluated_objective", &checker::CheckResult::evaluated_objective)
         .def_readonly("objective_discrepancy", &checker::CheckResult::objective_discrepancy)
+        .def_readonly("is_certificate_valid", &checker::CheckResult::is_certificate_valid)
+        .def_readonly("certificate_violation", &checker::CheckResult::certificate_violation)
         .def_readonly("all_checks_passed", &checker::CheckResult::all_checks_passed)
         .def_readonly("summary", &checker::CheckResult::summary);
 

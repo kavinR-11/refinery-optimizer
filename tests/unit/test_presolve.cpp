@@ -76,7 +76,7 @@ void test_fixed_variable_and_row_singleton() {
     prob.col_lower() = {0.0, 3.0};
     prob.col_upper() = {10.0, 3.0}; // x1 fixed to 3
 
-    auto res = Presolver::presolve(prob);
+    auto res = Presolver::presolve(prob, 1);
     // Fixed col x1 eliminated, row singleton row 0 eliminated after tightening x0 upper bound from 10 to 4
     TEST_ASSERT(res.presolved_problem.num_cols() == 1);
     TEST_ASSERT(res.presolved_problem.col_upper()[0] == 4.0);

@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <limits>
+#include <cmath>
 #include <optional>
 
 namespace sih {
@@ -23,6 +24,15 @@ enum class VariableType {
 };
 
 inline constexpr double SIH_INFINITY = std::numeric_limits<double>::infinity();
+inline constexpr double SIH_INF_THRESHOLD = 1e20;
+
+inline bool is_bounded_above(double v) noexcept {
+    return !std::isinf(v) && (v < SIH_INF_THRESHOLD);
+}
+
+inline bool is_bounded_below(double v) noexcept {
+    return !std::isinf(v) && (v > -SIH_INF_THRESHOLD);
+}
 
 class Problem {
 public:

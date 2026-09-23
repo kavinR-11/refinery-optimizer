@@ -21,6 +21,9 @@ try:
         BranchingRule,
         NodeSelection,
         PresolveMode,
+        RatioTest,
+        SimplexSolver,
+        SensitivityReport,
         read_mps,
         write_mps,
         check_solution,
@@ -36,6 +39,21 @@ try:
 except ImportError:
     # Extension module not yet built in current path
     pass
+
+def solve(problem: "Problem", options: Optional["Options"] = None) -> "Solution":
+    """Solve an optimization problem using the indigenous simplex engine."""
+    if options is None:
+        options = Options()
+    return SimplexSolver.solve(problem, options)
+
+def solve_from_basis(problem: "Problem",
+                     col_basis: List["BasisStatus"],
+                     row_basis: List["BasisStatus"],
+                     options: Optional["Options"] = None) -> "Solution":
+    """Warm-start an optimization solve from an existing basis configuration."""
+    if options is None:
+        options = Options()
+    return SimplexSolver.solve_from_basis(problem, col_basis, row_basis, options)
 
 __version__ = "0.1.0"
 __all__ = [
@@ -54,6 +72,11 @@ __all__ = [
     "BranchingRule",
     "NodeSelection",
     "PresolveMode",
+    "RatioTest",
+    "SimplexSolver",
+    "SensitivityReport",
+    "solve",
+    "solve_from_basis",
     "read_mps",
     "write_mps",
     "check_solution",

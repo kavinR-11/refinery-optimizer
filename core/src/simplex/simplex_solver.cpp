@@ -94,6 +94,19 @@ model::Solution SimplexSolver::solve(const model::Problem& problem,
     auto start_time = std::chrono::high_resolution_clock::now();
 
     model::Problem current_prob = problem;
+    auto& cl = current_prob.col_lower();
+    auto& cu = current_prob.col_upper();
+    for (int64_t j = 0; j < current_prob.num_cols(); ++j) {
+        if (!model::is_bounded_below(cl[j])) cl[j] = -model::SIH_INFINITY;
+        if (!model::is_bounded_above(cu[j])) cu[j] =  model::SIH_INFINITY;
+    }
+    auto& rl = current_prob.row_lower();
+    auto& ru = current_prob.row_upper();
+    for (int64_t i = 0; i < current_prob.num_rows(); ++i) {
+        if (!model::is_bounded_below(rl[i])) rl[i] = -model::SIH_INFINITY;
+        if (!model::is_bounded_above(ru[i])) ru[i] =  model::SIH_INFINITY;
+    }
+
     scaling::ScalingFactors scaling_factors;
     bool enable_scaling = options.strategy.enable_scaling;
 
@@ -159,12 +172,53 @@ model::Solution SimplexSolver::solve(const model::Problem& problem,
         dual_engine.init_cold_start();
         sol = dual_engine.solve();
 
+        // Primal Simplex cleanup / Phase 2 after dual simplex reaches primal feasibility
         if (sol.is_optimal()) {
-            auto sens = compute_sensitivity(current_prob, sol, dual_engine.lu(), dual_engine.basic_vars());
-            sol.rhs_down = std::move(sens.rhs_down);
-            sol.rhs_up   = std::move(sens.rhs_up);
-            sol.obj_down = std::move(sens.obj_down);
-            sol.obj_up   = std::move(sens.obj_up);
+            bool has_dual_infeas = false;
+            double dual_tol = options.dual_feasibility_tol;
+            for (int64_t j = 0; j < current_prob.num_cols(); ++j) {
+                if (sol.col_basis[j] == model::BasisStatus::AtLower && sol.reduced_costs[j] < -dual_tol) {
+                    has_dual_infeas = true;
+                    break;
+                }
+                if (sol.col_basis[j] == model::BasisStatus::AtUpper && sol.reduced_costs[j] > dual_tol) {
+                    has_dual_infeas = true;
+                    break;
+                }
+            }
+            if (!has_dual_infeas) {
+                for (int64_t i = 0; i < current_prob.num_rows(); ++i) {
+                    if (sol.row_basis[i] == model::BasisStatus::AtLower && sol.row_duals[i] < -dual_tol) {
+                        has_dual_infeas = true;
+                        break;
+                    }
+                    if (sol.row_basis[i] == model::BasisStatus::AtUpper && sol.row_duals[i] > dual_tol) {
+                        has_dual_infeas = true;
+                        break;
+                    }
+                }
+            }
+
+            if (has_dual_infeas) {
+                primal_engine.init_warm_start(sol.col_basis, sol.row_basis);
+                auto cleanup_sol = primal_engine.solve();
+                cleanup_sol.simplex_iterations += sol.simplex_iterations;
+                sol = std::move(cleanup_sol);
+
+                if (sol.is_optimal()) {
+                    auto sens = compute_sensitivity(current_prob, sol, primal_engine.lu(), primal_engine.basic_vars());
+                    sol.rhs_down = std::move(sens.rhs_down);
+                    sol.rhs_up   = std::move(sens.rhs_up);
+                    sol.obj_down = std::move(sens.obj_down);
+                    sol.obj_up   = std::move(sens.obj_up);
+                }
+            } else {
+                auto sens = compute_sensitivity(current_prob, sol, dual_engine.lu(), dual_engine.basic_vars());
+                sol.rhs_down = std::move(sens.rhs_down);
+                sol.rhs_up   = std::move(sens.rhs_up);
+                sol.obj_down = std::move(sens.obj_down);
+                sol.obj_up   = std::move(sens.obj_up);
+            }
         }
     }
 
@@ -204,26 +258,40 @@ model::Solution SimplexSolver::solve_from_basis(const model::Problem& problem,
                                                  const model::Options& options) {
     auto start_time = std::chrono::high_resolution_clock::now();
 
-    PrimalSimplexEngine primal_engine(problem, options);
+    model::Problem current_prob = problem;
+    auto& cl = current_prob.col_lower();
+    auto& cu = current_prob.col_upper();
+    for (int64_t j = 0; j < current_prob.num_cols(); ++j) {
+        if (!model::is_bounded_below(cl[j])) cl[j] = -model::SIH_INFINITY;
+        if (!model::is_bounded_above(cu[j])) cu[j] =  model::SIH_INFINITY;
+    }
+    auto& rl = current_prob.row_lower();
+    auto& ru = current_prob.row_upper();
+    for (int64_t i = 0; i < current_prob.num_rows(); ++i) {
+        if (!model::is_bounded_below(rl[i])) rl[i] = -model::SIH_INFINITY;
+        if (!model::is_bounded_above(ru[i])) ru[i] =  model::SIH_INFINITY;
+    }
+
+    PrimalSimplexEngine primal_engine(current_prob, options);
     primal_engine.init_warm_start(col_basis, row_basis);
 
     model::Solution sol;
     if (primal_engine.is_primal_feasible()) {
         sol = primal_engine.solve();
         if (sol.is_optimal()) {
-            auto sens = compute_sensitivity(problem, sol, primal_engine.lu(), primal_engine.basic_vars());
+            auto sens = compute_sensitivity(current_prob, sol, primal_engine.lu(), primal_engine.basic_vars());
             sol.rhs_down = std::move(sens.rhs_down);
             sol.rhs_up   = std::move(sens.rhs_up);
             sol.obj_down = std::move(sens.obj_down);
             sol.obj_up   = std::move(sens.obj_up);
         }
     } else {
-        DualSimplexEngine engine(problem, options);
+        DualSimplexEngine engine(current_prob, options);
         engine.init_warm_start(col_basis, row_basis);
         sol = engine.solve();
 
         if (sol.is_optimal()) {
-            auto sens = compute_sensitivity(problem, sol, engine.lu(), engine.basic_vars());
+            auto sens = compute_sensitivity(current_prob, sol, engine.lu(), engine.basic_vars());
             sol.rhs_down = std::move(sens.rhs_down);
             sol.rhs_up   = std::move(sens.rhs_up);
             sol.obj_down = std::move(sens.obj_down);
