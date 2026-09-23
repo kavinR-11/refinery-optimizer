@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `docs/environment.md`: Detailed baseline environment specification.
   - `tools/download_netlib.py`, `tools/download_miplib.py`, `tools/download_maros_meszaros.py`, `tools/prepare_datasets.py`: Benchmark dataset preparation scripts with offline fallback instructions.
   - `docs/tools.md`: Design doc for developer tooling.
+  - `desingn/stitch_industrial_optimization_solver_dashboard/`: Full industrial UI dashboard design suite (HTML/CSS + mockups + design tokens) covering Solve Overview, Refinery Planning, Solver Internals, Benchmarks & Perf, Strategy Learning Log, and System Performance & Hardware Acceleration (GPU PDHG crossover analysis for RTX 4060).
 
 - **Core Data Model & Thread Affinity**:
   - `sih::model::SparseMatrix`: Dual Compressed Sparse Column (CSC) and Compressed Sparse Row (CSR) matrix representation with $O(nnz)$ triplet conversion, matrix-vector multiplication, transpose multiplication, and $O(1)$ transposition.

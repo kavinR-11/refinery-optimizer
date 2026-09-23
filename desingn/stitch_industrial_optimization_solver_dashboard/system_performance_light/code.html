@@ -1,0 +1,769 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>OptimaCore - System Performance &amp; Hardware Acceleration</title>
+<!-- Load Tailwind CSS v3 with forms and container-queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+            }
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-scrollbar">
+    /* Subtle custom scrollbar for dense data panels */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+<style data-purpose="chart-styling">
+    .grid-line {
+      stroke: #f1f5f9;
+      stroke-width: 1;
+    }
+    .chart-axis text {
+      fill: #64748b;
+      font-size: 10px;
+      font-family: monospace;
+    }
+    .chart-marker {
+      transition: transform 0.2s ease;
+    }
+    .chart-marker:hover {
+      transform: scale(1.3);
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-sky-100 selection:text-sky-900">
+<!-- BEGIN: Application Shell -->
+<div class="flex h-screen w-full overflow-hidden">
+<!-- BEGIN: Left Sidebar -->
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 select-none z-20">
+<div class="flex flex-col">
+<!-- Logo and App Title -->
+<div class="h-14 px-4 border-b border-slate-200 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-sky-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+</svg>
+</div>
+<div>
+<div class="font-black text-slate-900 tracking-tight text-sm leading-none flex items-center gap-1.5">
+                OPTIMACORE
+                <span class="text-[10px] font-mono px-1 py-0.5 bg-slate-100 text-slate-600 rounded font-normal">v2.4</span>
+</div>
+<div class="text-[9px] font-mono tracking-wider text-slate-400 font-medium">LP/MILP/QP KERNEL</div>
+</div>
+</div>
+<button class="text-slate-400 hover:text-slate-600 p-1" title="Collapse sidebar">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 19l-7-7 7-7m8 14l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<!-- Solver State Ribbon -->
+<div class="px-4 py-2 bg-slate-50 border-b border-slate-200 font-mono text-xs">
+<div class="flex items-center justify-between text-[11px] mb-1">
+<span class="text-slate-500 font-medium uppercase tracking-wider text-[9px]">SOLVER STATE</span>
+<span class="inline-flex items-center gap-1 text-emerald-600 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> CONVERGED
+            </span>
+</div>
+<div class="flex items-center justify-between text-[10px] text-slate-500">
+<span class="">GAP: <strong class="text-slate-700">0.000%</strong></span>
+<span class="">ITERS: <strong class="text-slate-700">14,892</strong></span>
+</div>
+</div>
+<!-- Navigation Menu -->
+<div class="p-3">
+<div class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-2 py-1">CONTROL PLANE</div>
+<nav class="space-y-0.5 mt-1 text-xs">
+<!-- Solve Overview -->
+<a class="flex items-center justify-between px-2.5 py-1.5 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 group transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Solve Overview</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 text-emerald-600 bg-emerald-50 rounded border border-emerald-200">Live</span>
+</a>
+<!-- Refinery Planning -->
+<a class="flex items-center justify-between px-2.5 py-1.5 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 group transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Refinery Planning</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 text-slate-500 bg-slate-100 rounded border border-slate-200">Demo</span>
+</a>
+<!-- Solver Internals -->
+<a class="flex items-center justify-between px-2.5 py-1.5 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 group transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Solver Internals</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 text-indigo-600 bg-indigo-50 rounded border border-indigo-200">Explain</span>
+</a>
+<!-- Benchmarks & Perf -->
+<a class="flex items-center justify-between px-2.5 py-1.5 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 group transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Benchmarks &amp; Perf</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 text-amber-700 bg-amber-50 rounded border border-amber-200">vs HiGHS</span>
+</a>
+<!-- ACTIVE: System Performance -->
+<a class="flex items-center justify-between px-2.5 py-1.5 rounded bg-sky-50 text-sky-900 border-l-2 border-sky-600 font-medium" href="#">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m14-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">System Performance</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 text-sky-700 bg-sky-100 rounded border border-sky-200 font-semibold">GPU/CUDA</span>
+</a>
+<!-- Strategy Log -->
+<a class="flex items-center justify-between px-2.5 py-1.5 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 group transition-colors" href="#">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Strategy Log</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 text-slate-500 bg-slate-100 rounded border border-slate-200">History</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Sidebar Footer Hardware Stats -->
+<div class="p-3 border-t border-slate-200 bg-white font-mono text-[11px] space-y-3">
+<div class="space-y-2.5">
+<div>
+<div class="flex justify-between text-slate-500 text-[10px] mb-1">
+<span class="">HOST RAM (AVX-512)</span>
+<span class="font-bold text-slate-700">44.3%</span>
+</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-sky-500 h-full rounded-full" style="width: 44.3%"></div>
+</div>
+<div class="text-[10px] text-slate-400 mt-0.5 flex justify-between">
+<span class="">28.4 GB alloc</span>
+<span class="">64.0 GB pool</span>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-500 text-[10px] mb-1">
+<span class="">DEVICE VRAM (CUDA)</span>
+<span class="font-bold text-slate-700">67.7%</span>
+</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-sky-600 h-full rounded-full" style="width: 67.7%"></div>
+</div>
+<div class="text-[10px] text-slate-400 mt-0.5 flex justify-between">
+<span class="">5.4 GB alloc</span>
+<span class="">8.0 GB pool</span>
+</div>
+</div>
+</div>
+
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+<a class="hover:text-slate-800 flex items-center gap-1" href="#">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Docs
+          </a>
+<a class="hover:text-slate-800 flex items-center gap-1" href="#">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Settings
+          </a>
+
+</div>
+</div>
+</aside>
+<!-- END: Left Sidebar -->
+<!-- BEGIN: Main Workspace Area -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- BEGIN: Persistent Top Header Bar -->
+<header class="h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 z-10 gap-4">
+<!-- Left Telemetry Badges (With Overlap Protection) -->
+<div class="flex items-center min-w-0 flex-1 gap-2 overflow-hidden font-mono text-[11px]">
+<!-- KERNEL -->
+<span class="shrink-0 inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+<span class="text-slate-400 font-normal">KERNEL:</span>
+<strong class="font-semibold text-slate-800">PDHG-GPU v2.4 (Custom CUDA Kernels)</strong>
+</span>
+<!-- BLAS/PRECISION -->
+<span class="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+<span class="text-slate-400 font-normal">PRECISION:</span>
+<strong class="font-semibold text-slate-800">PDHG-GPU v2.4 (Custom CUDA Kernels)</strong>
+</span>
+<!-- THREADS -->
+<span class="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 hidden md:inline-flex">
+<span class="text-slate-400 font-normal">THREADS:</span>
+<strong class="font-semibold text-slate-800">PDHG-GPU v2.4 (Custom CUDA Kernels)</strong>
+</span>
+<!-- PROFILE (Truncated gracefully with max width) -->
+<span class="shrink-0 max-w-[190px] truncate inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200" title="PROFILE: PetroChem_Refinery_Alpha">
+<span class="text-slate-400 font-normal">PROFILE:</span>
+<span class="truncate font-semibold">PetroChem_Refinery_Alpha</span>
+</span>
+<!-- NOVELTY BADGE -->
+<span class="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-semibold">
+<svg class="w-3 h-3 text-sky-600" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" fill-rule="evenodd"></path></svg>
+            NOVELTY: GPU First-Order Kernel
+          </span>
+</div>
+<!-- Right Action Zone -->
+<div class="flex items-center gap-3 shrink-0 ml-auto">
+<div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-sky-100 border border-sky-200 text-sky-800 flex items-center justify-center font-bold text-xs font-mono">EV</div><div class="flex flex-col text-left"><span class="text-xs font-semibold text-slate-800 leading-none">Dr. E. Vance</span><span class="text-[10px] text-slate-400 font-mono mt-0.5 leading-none">Refinery Ops Lead</span></div></div><div class="h-4 w-px bg-slate-200 shrink-0"></div>
+<a class="shrink-0 inline-flex items-center gap-1 text-slate-500 hover:text-slate-800 text-xs px-2 py-1 rounded hover:bg-slate-100 transition-colors" href="#">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">Docs</span>
+</a>
+<!-- Light Mode Sun Icon Button -->
+
+</div>
+</header>
+<!-- END: Persistent Top Header Bar -->
+<!-- BEGIN: Scrollable Content Viewport -->
+<main class="flex-1 overflow-y-auto p-5 space-y-6">
+<!-- Page Header & Metadata Ribbon -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-3 pb-3 border-b border-slate-200">
+<div>
+<div class="text-[10px] font-mono text-slate-400 tracking-wider">PIPELINE_ORCHESTRATOR / TELEMETRY / SYSTEM_PERFORMANCE</div>
+<h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5 mt-0.5">
+              System Performance &amp; Hardware Acceleration
+              <span class="text-xs font-mono font-medium px-2 py-0.5 bg-sky-100 text-sky-800 rounded border border-sky-200">PDHG-CUDA Engine Active</span>
+</h1>
+<p class="text-xs text-slate-500 mt-0.5">
+              GPU-Accelerated First-Order PDHG Solves with Mixed-Precision FP32/FP64 Iterative Refinement and Stress Validation
+            </p>
+</div>
+<!-- Top Action Buttons -->
+<div class="flex items-center gap-2 shrink-0 font-mono text-xs">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 shadow-sm transition-colors">
+<svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">EXPORT HARDWARE REPORT (.JSON)</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-sky-600 hover:bg-sky-700 text-white font-medium shadow-sm transition-colors">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="">RUN DIAGNOSTIC SUITE</span>
+</button>
+</div>
+</div>
+<!-- BEGIN: Section 1 - GPU Acceleration Telemetry -->
+<section class="space-y-4" data-purpose="gpu-acceleration-section">
+<!-- Section Divider Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono font-bold text-sky-600 tracking-wider">01 /</span>
+<h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">GPU ACCELERATION TELEMETRY &amp; CROSSOVER ANALYSIS</h2>
+</div>
+<span class="text-[11px] font-mono text-slate-400">First-Order Primal-Dual Hybrid Gradient (PDHG) Kernel Benchmark</span>
+</div>
+<!-- Hardware Context Strip -->
+<div class="bg-white border border-slate-200 rounded-lg p-2.5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] font-mono text-slate-600 shadow-sm">
+<span class="inline-flex items-center gap-1.5 font-semibold text-slate-800">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+            </span>
+<span class="text-slate-300">|</span>
+<span class="">VRAM: <strong class="text-slate-800">8.0 GB GDDR6</strong></span>
+<span class="text-slate-300">|</span>
+<span class="">Compute Capability: <strong class="text-slate-800">8.9 (Ada)</strong></span>
+<span class="text-slate-300">|</span>
+<span class="">CUDA Cores: <strong class="text-slate-800">3,072</strong></span>
+<span class="text-slate-300">|</span>
+<span class="">Driver: <strong class="text-slate-800">552.22</strong></span>
+<span class="text-slate-300">|</span>
+<span class="">Bandwidth: <strong class="text-slate-800">256.0 GB/s</strong></span>
+<span class="text-slate-300">|</span>
+<span class="">PCIe: <strong class="text-slate-800">Gen4 x8</strong></span>
+</div>
+<!-- Main Analytics Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+<!-- Card 1: Line Chart (Solve Time vs Problem Size) -->
+<div class="lg:col-span-7 bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-sm font-bold text-slate-800 tracking-tight">Solve Time vs. Problem Non-Zeros (NNZ)</h3>
+<div class="flex items-center gap-3 text-[11px] font-mono">
+<span class="inline-flex items-center gap-1 text-slate-500">
+<span class="w-3 h-0.5 bg-slate-400 inline-block border border-dashed border-slate-400"></span> CPU Simplex/IPM
+                    </span>
+<span class="inline-flex items-center gap-1 text-sky-600 font-medium">
+<span class="w-3 h-0.5 bg-sky-600 inline-block"></span> GPU PDHG + CPU Polish
+                    </span>
+</div>
+</div>
+<p class="text-[11px] text-slate-500 mb-3">
+                  Comparing baseline multi-threaded CPU simplex with GPU first-order iterative PDHG kernel. Note crossover inflection at ~180k non-zeros.
+                </p>
+<!-- High-Fidelity SVG Chart -->
+<div class="relative w-full h-64 bg-slate-50/50 rounded border border-slate-100 p-2">
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 520 220">
+<!-- Background Grid Lines -->
+<line class="grid-line" stroke-dasharray="3,3" x1="50" x2="500" y1="20" y2="20"></line>
+<line class="grid-line" stroke-dasharray="3,3" x1="50" x2="500" y1="60" y2="60"></line>
+<line class="grid-line" stroke-dasharray="3,3" x1="50" x2="500" y1="100" y2="100"></line>
+<line class="grid-line" stroke-dasharray="3,3" x1="50" x2="500" y1="140" y2="140"></line>
+<line class="grid-line" x1="50" x2="500" y1="180" y2="180"></line>
+<!-- Y-Axis Labels -->
+<g class="chart-axis text-right">
+<text text-anchor="end" x="42" y="24">300s</text>
+<text text-anchor="end" x="42" y="64">60s</text>
+<text text-anchor="end" x="42" y="104">10s</text>
+<text text-anchor="end" x="42" y="144">1s</text>
+<text text-anchor="end" x="42" y="184">0.1s</text>
+</g>
+<!-- X-Axis Labels -->
+<g class="chart-axis text-center">
+<text text-anchor="middle" x="70" y="200">10K</text>
+<text text-anchor="middle" x="135" y="200">50K</text>
+<text text-anchor="middle" x="200" y="200">100K</text>
+<text text-anchor="middle" x="275" y="200">500K</text>
+<text text-anchor="middle" x="350" y="200">1M</text>
+<text text-anchor="middle" x="425" y="200">2.5M</text>
+<text text-anchor="middle" x="490" y="200">5M</text>
+</g>
+<!-- Shaded Crossover Benefit Region -->
+<polygon fill="#0ea5e9" fill-opacity="0.08" points="230,126 275,98 350,78 425,58 490,46 490,26 425,38 350,56 275,82 230,126"></polygon>
+<!-- Line 1: CPU Only (Slate / Dashed) -->
+<!-- Coordinates mapped to log-like visual feel: 10K(0.4s) -> 5M(210s) -->
+<polyline fill="none" points="70,168 135,152 200,136 275,102 350,72 425,48 490,26" stroke="#64748b" stroke-dasharray="4,3" stroke-width="2"></polyline>
+<!-- CPU Data points -->
+<circle cx="70" cy="168" fill="#64748b" r="3"></circle>
+<circle cx="135" cy="152" fill="#64748b" r="3"></circle>
+<circle cx="200" cy="136" fill="#64748b" r="3"></circle>
+<circle cx="275" cy="102" fill="#64748b" r="3"></circle>
+<circle cx="350" cy="72" fill="#64748b" r="3"></circle>
+<circle cx="425" cy="48" fill="#64748b" r="3"></circle>
+<circle cx="490" cy="26" fill="#64748b" r="3.5"></circle>
+<!-- Line 2: GPU PDHG + CPU Polish (Sky Blue / Cyan #0284c7) -->
+<!-- Coordinates: 10K(1.8s) -> 5M(18.4s) -->
+<polyline fill="none" points="70,142 135,138 200,130 275,108 350,90 425,74 490,62" stroke="#0284c7" stroke-width="2.5"></polyline>
+<!-- GPU Data points -->
+<circle cx="70" cy="142" fill="#0284c7" r="3"></circle>
+<circle cx="135" cy="138" fill="#0284c7" r="3"></circle>
+<circle cx="200" cy="130" fill="#0284c7" r="3"></circle>
+<circle cx="275" cy="108" fill="#0284c7" r="3"></circle>
+<circle cx="350" cy="90" fill="#0284c7" r="3"></circle>
+<circle cx="425" cy="74" fill="#0284c7" r="3"></circle>
+<circle class="chart-marker" cx="490" cy="62" fill="#0284c7" r="4"></circle>
+<!-- Crossover Point Marker at ~180k NNZ (X=230, Y=126) -->
+<circle cx="230" cy="126" fill="#f59e0b" fill-opacity="0.3" r="6" stroke="#f59e0b" stroke-width="2"></circle>
+<circle cx="230" cy="126" fill="#f59e0b" r="2.5"></circle>
+<!-- Callout Label -->
+<line stroke="#f59e0b" stroke-dasharray="2,2" stroke-width="1.2" x1="230" x2="230" y1="120" y2="78"></line>
+</svg>
+<!-- Crossover Annotation Overlay Box -->
+<div class="absolute left-[39%] top-[22%] bg-white/95 backdrop-blur-sm border border-amber-300 rounded px-2 py-1 shadow-sm font-mono text-[10px] text-slate-800 pointer-events-none">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mr-1"></span>
+<strong class="text-amber-800">Crossover Point (~180k NNZ):</strong>
+<div class="text-[9px] text-slate-600">GPU begins outperforming CPU baseline (11.4x at 5M NNZ)</div>
+</div>
+<!-- 5M Speedup Callout -->
+<div class="absolute right-3 top-3 bg-emerald-50 border border-emerald-200 rounded px-2 py-1 font-mono text-[10px] text-emerald-800">
+                    5M NNZ: <strong>18.4s</strong> (GPU) vs <strong>210.0s</strong> (CPU) <strong class="text-emerald-600 font-bold ml-1">11.4x Faster</strong>
+</div>
+</div>
+</div>
+<!-- Metric mini-summary below chart -->
+<div class="grid grid-cols-3 gap-2 pt-3 mt-2 border-t border-slate-100 font-mono text-xs">
+<div class="p-2 bg-slate-50 rounded">
+<div class="text-[10px] text-slate-400">LATENCY @ 10K NNZ</div>
+<div class="font-bold text-slate-700 mt-0.5">1.8s <span class="text-[10px] font-normal text-slate-400">(PCIe overhead)</span></div>
+</div>
+<div class="p-2 bg-slate-50 rounded">
+<div class="text-[10px] text-slate-400">CROSSOVER THRESHOLD</div>
+<div class="font-bold text-amber-700 mt-0.5">~180,000 NNZ</div>
+</div>
+<div class="p-2 bg-slate-50 rounded">
+<div class="text-[10px] text-slate-400">THROUGHPUT @ 5M NNZ</div>
+<div class="font-bold text-sky-700 mt-0.5">271.7k NNZ / sec</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Precision Note Card + VRAM Usage Panel -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<!-- Precision Note Card -->
+<div class="bg-sky-50/60 border border-sky-200 rounded-lg p-3.5 shadow-sm">
+<div class="flex items-start gap-2.5">
+<div class="p-1.5 bg-sky-100 rounded text-sky-700 shrink-0 mt-0.5">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m14-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h4 class="text-xs font-bold text-slate-900 tracking-tight">Mixed-Precision Execution Model: FP32 GPU + FP64 CPU Polish</h4>
+<p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      PDHG iterations execute matrix-vector multiplications in native single-precision (FP32/TF32) on Tensor Cores to maximize memory bandwidth throughput and minimize VRAM pressure. Upon achieving a relaxed residual threshold (<span class="font-mono text-sky-900 font-semibold">1e-4</span>), basis factorization or projected gradient polishing runs in double-precision (FP64) on host AVX-512 CPU threads to guarantee <span class="font-mono text-sky-900 font-semibold">1e-8</span> exact feasibility and avoid numerical drift.
+                    </p>
+<div class="flex flex-wrap gap-2 mt-2 pt-2 border-t border-sky-200/60 font-mono text-[10px]">
+<span class="px-2 py-0.5 bg-white text-slate-700 rounded border border-sky-200">Max Relative Residual: <strong class="text-sky-800">4.1e-9</strong></span>
+<span class="px-2 py-0.5 bg-white text-slate-700 rounded border border-sky-200">GPU Phase: <strong class="text-sky-800">88% Iters</strong></span>
+<span class="px-2 py-0.5 bg-white text-slate-700 rounded border border-sky-200">CPU Polish: <strong class="text-sky-800">12% Iters</strong></span>
+</div>
+</div>
+</div>
+</div>
+<!-- VRAM Usage Panel -->
+<div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">VRAM Memory Footprint Across Scale</h4>
+<span class="text-[10px] font-mono text-slate-400">8.0 GB Hardware Cap</span>
+</div>
+<p class="text-[11px] text-slate-500 mb-3">VRAM allocation per matrix non-zero bucket during CSR/CSC sparse expansion.</p>
+<!-- VRAM Bar Series -->
+<div class="space-y-1.5 font-mono text-[10px]">
+<!-- Row 1 -->
+<div class="flex items-center gap-2">
+<span class="w-10 text-slate-400 shrink-0">10k</span>
+<div class="flex-1 bg-slate-100 h-3 rounded overflow-hidden relative">
+<div class="bg-sky-400 h-full rounded" style="width: 10%"></div>
+</div>
+<span class="w-12 text-right text-slate-600">0.8 GB</span>
+</div>
+<!-- Row 2 -->
+<div class="flex items-center gap-2">
+<span class="w-10 text-slate-400 shrink-0">50k</span>
+<div class="flex-1 bg-slate-100 h-3 rounded overflow-hidden relative">
+<div class="bg-sky-400 h-full rounded" style="width: 15%"></div>
+</div>
+<span class="w-12 text-right text-slate-600">1.2 GB</span>
+</div>
+<!-- Row 3 -->
+<div class="flex items-center gap-2">
+<span class="w-10 text-slate-400 shrink-0">100k</span>
+<div class="flex-1 bg-slate-100 h-3 rounded overflow-hidden relative">
+<div class="bg-sky-400 h-full rounded" style="width: 23.7%"></div>
+</div>
+<span class="w-12 text-right text-slate-600">1.9 GB</span>
+</div>
+<!-- Row 4 -->
+<div class="flex items-center gap-2">
+<span class="w-10 text-slate-400 shrink-0">500k</span>
+<div class="flex-1 bg-slate-100 h-3 rounded overflow-hidden relative">
+<div class="bg-sky-500 h-full rounded" style="width: 42.5%"></div>
+</div>
+<span class="w-12 text-right text-slate-600">3.4 GB</span>
+</div>
+<!-- Row 5 -->
+<div class="flex items-center gap-2">
+<span class="w-10 text-slate-400 shrink-0">1M</span>
+<div class="flex-1 bg-slate-100 h-3 rounded overflow-hidden relative">
+<div class="bg-sky-600 h-full rounded" style="width: 63.7%"></div>
+</div>
+<span class="w-12 text-right text-slate-600">5.1 GB</span>
+</div>
+<!-- Row 6 -->
+<div class="flex items-center gap-2">
+<span class="w-10 text-slate-400 shrink-0">2.5M</span>
+<div class="flex-1 bg-slate-100 h-3 rounded overflow-hidden relative">
+<div class="bg-amber-500 h-full rounded" style="width: 85%"></div>
+</div>
+<span class="w-12 text-right text-slate-700 font-semibold">6.8 GB</span>
+</div>
+<!-- Row 7 with limit highlight -->
+<div class="flex items-center gap-2">
+<span class="w-10 text-slate-900 font-semibold shrink-0">5M</span>
+<div class="flex-1 bg-slate-100 h-3 rounded overflow-hidden relative">
+<div class="bg-amber-600 h-full rounded" style="width: 92.5%"></div>
+<!-- Dashed limit indicator -->
+<div class="absolute right-0 top-0 bottom-0 w-0.5 bg-rose-500 z-10"></div>
+</div>
+<span class="w-12 text-right text-rose-600 font-bold">7.4 GB</span>
+</div>
+</div>
+<!-- 8.0 GB Hardware Limit Banner -->
+<div class="mt-2 text-right text-[9px] font-mono text-rose-600 flex items-center justify-end gap-1">
+<span class="w-2 h-0.5 bg-rose-500 inline-block"></span>
+<span class="">8.0 GB VRAM Physical Cap (Proximity warning at 5M: <strong>92.5% Allocated</strong>)</span>
+</div>
+</div>
+<!-- Current Active Gauge Status -->
+<div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between font-mono text-[11px]">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
+<span class="text-slate-600">Active Live Allocation:</span>
+<strong class="text-slate-900">5.42 GB / 8.00 GB (67.7%)</strong>
+</div>
+<span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px]">
+                    Free: 2.58 GB
+                  </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Section 1 -->
+<!-- BEGIN: Section 2 - Numerical Robustness & Stress Testing -->
+<section class="space-y-4 pt-2" data-purpose="numerical-robustness-section">
+<!-- Section Divider Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono font-bold text-sky-600 tracking-wider">02 /</span>
+<h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">NUMERICAL ROBUSTNESS &amp; SYNTHETIC STRESS TESTING</h2>
+</div>
+<span class="text-[11px] font-mono text-slate-400">Ill-conditioned matrices, Degeneracy &amp; Infeasibility Ray isolation</span>
+</div>
+<!-- Summary Header Strip -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+<!-- Large Pass-Rate Summary Card -->
+<div class="md:col-span-4 bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-mono uppercase text-slate-400 tracking-wider">STRESS VALIDATION SCORE</span>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-mono font-bold text-[10px]">RESILIENT KERNEL</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-3xl font-black font-mono text-emerald-600 tracking-tight">487 / 500</span>
+<span class="text-sm font-mono text-emerald-700 font-bold">(97.4% Pass)</span>
+</div>
+<p class="text-[11px] text-slate-500 mt-1">
+                  Synthetic perturbation, scaling, and degeneracy suites executed with 0 numerical collapses.
+                </p>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 grid grid-cols-3 gap-2 font-mono text-[10px]">
+<div>
+<div class="text-slate-400">FAILURES</div>
+<div class="font-bold text-rose-600">13 Total</div>
+</div>
+<div>
+<div class="text-slate-400">MEAN ITERS</div>
+<div class="font-bold text-slate-700">2,410</div>
+</div>
+<div>
+<div class="text-slate-400">AVG COND (κ)</div>
+<div class="font-bold text-slate-700">4.8e11</div>
+</div>
+</div>
+</div>
+<!-- Breakdown by Test Category (4 compact stat cards) -->
+<div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- 1. Degenerate LPs -->
+<div class="bg-white border border-slate-200 rounded-lg p-3 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center text-xs font-semibold text-slate-800">
+<span class="">Degenerate LPs</span>
+<span class="font-mono text-emerald-600 text-[11px]">97.6%</span>
+</div>
+<div class="text-base font-bold font-mono text-slate-900 mt-1">122 / 125</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 97.6%"></div>
+</div>
+</div>
+<div class="text-[10px] text-slate-500 mt-2">Cycling &amp; stalling prevented via dual perturbation.</div>
+</div>
+<!-- 2. Badly Scaled -->
+<div class="bg-white border border-slate-200 rounded-lg p-3 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center text-xs font-semibold text-slate-800">
+<span class="">Badly Scaled</span>
+<span class="font-mono text-amber-600 text-[11px]">94.4%</span>
+</div>
+<div class="text-base font-bold font-mono text-slate-900 mt-1">118 / 125</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-amber-500 h-full rounded-full" style="width: 94.4%"></div>
+</div>
+</div>
+<div class="text-[10px] text-slate-500 mt-2">Ruiz equilibration &amp; matrix preconditioners.</div>
+</div>
+<!-- 3. Near-Infeasible -->
+<div class="bg-white border border-slate-200 rounded-lg p-3 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center text-xs font-semibold text-slate-800">
+<span class="">Near-Infeasible</span>
+<span class="font-mono text-emerald-600 text-[11px]">98.4%</span>
+</div>
+<div class="text-base font-bold font-mono text-slate-900 mt-1">123 / 125</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 98.4%"></div>
+</div>
+</div>
+<div class="text-[10px] text-slate-500 mt-2">Farkas ray detection &amp; IIS ray isolation.</div>
+</div>
+<!-- 4. Randomly Generated -->
+<div class="bg-white border border-slate-200 rounded-lg p-3 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center text-xs font-semibold text-slate-800">
+<span class="">Random Dense/Sparse</span>
+<span class="font-mono text-emerald-600 text-[11px]">99.2%</span>
+</div>
+<div class="text-base font-bold font-mono text-slate-900 mt-1">124 / 125</div>
+<div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 99.2%"></div>
+</div>
+</div>
+<div class="text-[10px] text-slate-500 mt-2">Synthetic extreme QP/LP condition stress.</div>
+</div>
+</div>
+</div>
+<!-- Failures & Anomalies Engineering Table -->
+<div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
+<!-- Table Header Toolbar -->
+<div class="p-3 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div>
+<h3 class="text-xs font-bold font-mono text-slate-800 uppercase tracking-wider flex items-center gap-2">
+<span class="">Failed / Degraded Problem Instances (13 Recorded Anomalies)</span>
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+</h3>
+<p class="text-[11px] text-slate-500">Log of test trajectories requiring algorithmic fallback, perturbation, or hit wall-clock cap.</p>
+</div>
+<!-- Filter Tabs -->
+<div class="inline-flex rounded-md border border-slate-200 p-0.5 bg-slate-50 font-mono text-[10px]">
+<button class="px-2.5 py-1 rounded bg-white font-medium text-slate-800 shadow-xs border border-slate-200/80">All Failures (13)</button>
+<button class="px-2.5 py-1 rounded text-slate-500 hover:text-slate-800">Numerical Instability (5)</button>
+<button class="px-2.5 py-1 rounded text-slate-500 hover:text-slate-800">Time Limit Exceeded (6)</button>
+<button class="px-2.5 py-1 rounded text-slate-500 hover:text-slate-800">Rank Deficient (2)</button>
+</div>
+</div>
+<!-- Table Elements -->
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs font-mono border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-[10px] uppercase tracking-wider">
+<th class="py-2.5 px-3">PROBLEM INSTANCE ID</th>
+<th class="py-2.5 px-3">CATEGORY</th>
+<th class="py-2.5 px-3">MATRIX DIM (m × n)</th>
+<th class="py-2.5 px-3">CONDITION NUMBER (κ)</th>
+<th class="py-2.5 px-3">ERROR MODE / TERMINATION REASON</th>
+<th class="py-2.5 px-3 text-right">ACTION TAKEN / RECOVERY</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-[11px]">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-2.5 px-3 font-bold text-slate-800 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                      #STRESS-DEG-084
+                    </td>
+<td class="py-2.5 px-3 text-slate-600">Degenerate LP</td>
+<td class="py-2.5 px-3 text-slate-600">84,000 × 140,000</td>
+<td class="py-2.5 px-3 text-slate-700 font-semibold">1.4 × 10¹⁴</td>
+<td class="py-2.5 px-3 text-amber-700">
+                      Dual Simplex Cycling (Anti-cycling stall &gt; 50k pivots)
+                    </td>
+<td class="py-2.5 px-3 text-right">
+<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px]">
+                        Fell back to FP64 IPM Crossover
+                      </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-2.5 px-3 font-bold text-slate-800 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                      #STRESS-SCALE-031
+                    </td>
+<td class="py-2.5 px-3 text-slate-600">Badly Scaled</td>
+<td class="py-2.5 px-3 text-slate-600">110,000 × 95,000</td>
+<td class="py-2.5 px-3 text-rose-700 font-semibold">8.2 × 10¹⁶</td>
+<td class="py-2.5 px-3 text-rose-700">
+                      Cholesky Factorization Singular Pivot (&lt; 1e-13)
+                    </td>
+<td class="py-2.5 px-3 text-right">
+<span class="px-2 py-0.5 rounded bg-rose-50 text-rose-800 border border-rose-200 text-[10px]">
+                        Diagonal Perturbation Applied + Escalated
+                      </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-2.5 px-3 font-bold text-slate-800 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                      #STRESS-SCALE-112
+                    </td>
+<td class="py-2.5 px-3 text-slate-600">Badly Scaled</td>
+<td class="py-2.5 px-3 text-slate-600">240,000 × 310,000</td>
+<td class="py-2.5 px-3 text-slate-700 font-semibold">3.9 × 10¹⁵</td>
+<td class="py-2.5 px-3 text-amber-700">
+                      Residual Stagnation at 4.2e-4
+                    </td>
+<td class="py-2.5 px-3 text-right">
+<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px]">
+                        Terminated at 300s Wall-clock limit
+                      </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-2.5 px-3 font-bold text-slate-800 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                      #STRESS-NEAR-099
+                    </td>
+<td class="py-2.5 px-3 text-slate-600">Near-Infeasible</td>
+<td class="py-2.5 px-3 text-slate-600">65,000 × 120,000</td>
+<td class="py-2.5 px-3 text-slate-700 font-semibold">2.1 × 10¹²</td>
+<td class="py-2.5 px-3 text-purple-700">
+                      Infeasible Farkas Ray Indeterminate
+                    </td>
+<td class="py-2.5 px-3 text-right">
+<span class="px-2 py-0.5 rounded bg-purple-50 text-purple-800 border border-purple-200 text-[10px]">
+                        IIS Isolation Subroutine Invoked
+                      </span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-2.5 px-3 font-bold text-slate-800 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                      #STRESS-RAND-042
+                    </td>
+<td class="py-2.5 px-3 text-slate-600">Randomly Generated</td>
+<td class="py-2.5 px-3 text-slate-600">500,000 × 500,000</td>
+<td class="py-2.5 px-3 text-slate-700 font-semibold">5.6 × 10¹³</td>
+<td class="py-2.5 px-3 text-amber-700">
+                      GPU VRAM OOM Warning (Paged to Host RAM)
+                    </td>
+<td class="py-2.5 px-3 text-right">
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 text-[10px]">
+                        Resolved via Out-of-Core Tiling (+45% time)
+                      </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination / Footer Summary -->
+<div class="p-2.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-[11px] font-mono text-slate-500">
+<div class="">Displaying 5 representative anomaly logs of 13 recorded fallback incidents</div>
+<div class="flex items-center gap-2">
+<span class="">Kernel Fallback Recovery Rate: <strong class="text-emerald-700">100% Graceful Degrade</strong></span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Section 2 -->
+</main>
+<!-- END: Scrollable Content Viewport -->
+</div>
+<!-- END: Main Workspace Area -->
+</div>
+<!-- END: Application Shell -->
+
+
+
+
+
+
+</body></html>
