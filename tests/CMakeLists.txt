@@ -13,6 +13,7 @@ set(TEST_SOURCES
     unit/test_dual_simplex.cpp
     unit/test_amd.cpp
     unit/test_cholesky.cpp
+    unit/test_ldl.cpp
 )
 
 foreach(test_src ${TEST_SOURCES})
