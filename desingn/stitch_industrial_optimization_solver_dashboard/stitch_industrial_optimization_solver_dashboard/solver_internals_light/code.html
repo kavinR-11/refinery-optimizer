@@ -1,0 +1,765 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "outline": "#707881",
+          "on-primary-fixed-variant": "#004b73",
+          "primary-fixed": "#cce5ff",
+          "surface": "#f8f9ff",
+          "on-secondary-container": "#5c647a",
+          "on-error-container": "#93000a",
+          "error": "#ba1a1a",
+          "surface-container-high": "#dce9ff",
+          "on-tertiary-container": "#f5fff7",
+          "on-surface-variant": "#3f4850",
+          "outline-variant": "#bfc7d2",
+          "on-primary-fixed": "#001d31",
+          "secondary": "#565e74",
+          "on-tertiary": "#ffffff",
+          "primary": "#006194",
+          "error-container": "#ffdad6",
+          "inverse-primary": "#93ccff",
+          "surface-container-highest": "#d3e4fe",
+          "inverse-on-surface": "#eaf1ff",
+          "on-primary-container": "#fdfcff",
+          "surface-container-lowest": "#ffffff",
+          "surface-bright": "#f8f9ff",
+          "surface-dim": "#cbdbf5",
+          "tertiary-fixed-dim": "#68dba9",
+          "inverse-surface": "#213145",
+          "surface-container-low": "#eff4ff",
+          "tertiary": "#006948",
+          "primary-container": "#007bb9",
+          "background": "#f8f9ff",
+          "surface-tint": "#006398",
+          "secondary-fixed": "#dae2fd",
+          "surface-container": "#e5eeff",
+          "tertiary-container": "#00855d",
+          "secondary-fixed-dim": "#bec6e0",
+          "on-tertiary-fixed-variant": "#005137",
+          "surface-variant": "#d3e4fe",
+          "on-surface": "#0b1c30",
+          "on-tertiary-fixed": "#002114",
+          "on-secondary-fixed-variant": "#3f465c",
+          "on-primary": "#ffffff",
+          "on-error": "#ffffff",
+          "primary-fixed-dim": "#93ccff",
+          "on-secondary": "#ffffff",
+          "tertiary-fixed": "#85f8c4",
+          "on-background": "#0b1c30",
+          "on-secondary-fixed": "#131b2e",
+          "secondary-container": "#dae2fd"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-md": "0.75rem",
+          "gutter-desktop": "1.25rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "margin": "1rem",
+          "gutter": "1rem",
+          "space-lg": "1rem",
+          "margin-desktop": "1.5rem",
+          "space-xl": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-md": ["Inter"],
+          "headline-lg": ["Inter"],
+          "label-caps": ["Inter"],
+          "mono-metric-xl": ["JetBrains Mono"],
+          "body-sm": ["Inter"],
+          "body-md": ["Inter"],
+          "headline-sm": ["Inter"],
+          "mono-metric-md": ["JetBrains Mono"],
+          "headline-xl": ["Inter"],
+          "body-lg": ["Inter"],
+          "mono-data-sm": ["JetBrains Mono"],
+          "mono-data-md": ["JetBrains Mono"]
+        },
+        "fontSize": {
+          "headline-md": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+          "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+          "mono-metric-xl": ["24px", {"lineHeight": "28px", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+          "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+          "body-md": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+          "headline-sm": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+          "mono-metric-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+          "mono-data-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+          "headline-xl": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "body-lg": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+          "mono-data-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script></head><body class="bg-slate-100 font-body-md text-body-md text-slate-800 antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-slate-50 border-r border-slate-200 z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center justify-between border-b border-slate-200 bg-white"><div class="flex items-center gap-space-sm"><div class="w-7 h-7 rounded bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700"><span class="material-symbols-outlined text-[18px]">memory</span></div><div class="flex flex-col"><span class="font-label-caps text-label-caps text-slate-900 tracking-wider uppercase font-semibold">OPTIMA<span class="text-sky-600">CORE</span></span><span class="font-mono-data-sm text-[9px] text-slate-500 leading-none">LP/MILP/QP KERNEL</span></div></div><div class="flex items-center gap-space-xs"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono-data-sm text-[9px] font-medium">v2.4</span><button class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors" title="Toggle Workspace Tree" type="button"><span class="material-symbols-outlined text-[16px]">dock_to_left</span></button></div></div><div class="px-space-md py-space-sm bg-slate-50/80 border-b border-slate-200"><div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm text-slate-600 mb-1"><span class="">SOLVER STATE</span><span class="text-emerald-700 font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>CONVERGED</span></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-slate-500"><span class="">GAP: 0.000%</span><span class="">ITERS: 14,892</span></div></div><nav class="flex flex-col gap-0.5 px-space-sm py-space-md" data-active-classes="bg-sky-50 text-sky-700 border-l-2 border-sky-600 font-semibold"><div class="px-space-sm pb-space-xs font-label-caps text-label-caps text-slate-400 uppercase tracking-wider">Control Plane</div><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="solve-overview" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">speed</span><span class="font-body-md text-body-md">Solve Overview</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">Live</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="refinery-planning" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">factory</span><span class="font-body-md text-body-md">Refinery Planning</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-medium">Demo</span></a><a aria-current="page" class="group flex items-center justify-between px-space-sm py-2 rounded transition-all bg-sky-50 text-sky-800 border-l-2 border-sky-600 font-semibold" data-path="solver-internals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-sky-600 group-hover:text-sky-700 transition-colors">hub</span><span class="font-body-md text-body-md">Solver Internals</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-white text-slate-600 border border-slate-200">Explain</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="benchmarks" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">leaderboard</span><span class="font-body-md text-body-md">Benchmarks &amp; Perf</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 font-medium">vs HiGHS</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="learning-log" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">terminal</span><span class="font-body-md text-body-md">Strategy Log</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-white text-slate-600 border border-slate-200">History</span></a></nav></div><div class="flex flex-col border-t border-slate-200 bg-white"><div class="p-space-md border-b border-slate-100"><div class="flex items-center justify-between text-[11px] font-mono-data-sm text-slate-600 mb-1"><span class="">MEM POOL (AVX-512)</span><span class="text-slate-900 font-semibold">44.3%</span></div><div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-sky-600" style="width: 44.3%;"></div></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-slate-400 mt-1"><span class="">28.4 GB alloc</span><span class="">64.0 GB pool</span></div></div><div class="p-space-md"><div class="flex items-center justify-between mb-2"><div class="flex flex-col"><span class="font-label-caps text-[10px] text-slate-400 uppercase">CLUSTER LICENSE</span><span class="font-body-sm text-body-sm text-slate-900 font-medium">Enterprise Tier</span></div><span class="font-mono-data-sm text-[10px] px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600 font-medium">12 Nodes</span></div><div class="flex items-center justify-between pt-2 border-t border-slate-100 text-slate-500"><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-sky-700 transition-colors" data-path="docs" href="#"><span class="material-symbols-outlined text-[16px]">menu_book</span><span class="">Docs</span></a><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-sky-700 transition-colors" data-path="cluster-settings" href="#"><span class="material-symbols-outlined text-[16px]">settings</span><span class="">Settings</span></a><div class="flex items-center gap-1 text-[10px] font-mono-data-sm text-emerald-700 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="">SYNC</span></div></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen bg-slate-100"><header class="fixed top-0 left-72 right-0 h-14 bg-white/95 backdrop-blur-md border-b border-slate-200 z-40 flex items-center justify-between px-space-md"><div class="flex items-center min-w-0 flex-1 gap-2.5 overflow-hidden"><div class="hidden md:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-sky-700 font-semibold">KERNEL:</span><span class="">v2.4.1</span></div><div class="hidden lg:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500 font-medium">BLAS/LAPACK:</span><span class="">Accel</span></div><div class="hidden xl:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500 font-medium">Threads:</span><span class="">32/32 AVX-512</span></div><div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 max-w-[200px] shrink-0 truncate" title="PROFILE: PetroChem_Refinery_Alpha"><span class="material-symbols-outlined text-[14px] text-emerald-700 shrink-0">layers</span><span class="text-slate-900 font-semibold">PROFILE:</span><span class="text-emerald-700 font-medium truncate">PetroChem_Refinery_Alpha</span></div><div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-[11px] font-semibold text-indigo-700 uppercase tracking-wider shrink-0"><span class="material-symbols-outlined text-[14px] text-indigo-600">auto_awesome</span><span class="truncate">Adaptive IIS Conflict Refiner &amp; Sensitivity</span></div></div><div class="flex items-center gap-3 shrink-0 ml-auto"><button class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs rounded-md shadow-sm whitespace-nowrap" type="button"><span class="material-symbols-outlined text-[16px]">add_circle</span><span class="">+ NEW RUN</span></button><a class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 border border-slate-200 rounded-md hover:bg-slate-50 shrink-0 whitespace-nowrap" data-path="docs" href="#"><span class="material-symbols-outlined text-[16px]">help_outline</span><span class="">Docs</span></a><button class="shrink-0 p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md border border-slate-200 inline-flex items-center justify-center" onclick="document.documentElement.classList.toggle('dark')" title="Toggle Theme" type="button"><span class="material-symbols-outlined text-[18px]">dark_mode</span></button></div></header><main class="w-full pt-14 flex-1 bg-slate-100"><div class="flex flex-col w-full">
+<!-- Sub-Header / Run Context Diagnostic Strip -->
+<div class="w-full bg-white border-b border-slate-200 px-space-md py-space-sm flex flex-col xl:flex-row xl:items-center justify-between gap-space-sm">
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="flex items-center gap-2">
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">RUN_ID:</span>
+<span class="font-mono-data-md text-mono-data-md text-sky-700 font-semibold">#OPT-2025-0891</span>
+<span class="font-label-caps text-label-caps px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium border border-slate-200">REFINERY_LP_MILP</span>
+</div>
+<div class="h-4 w-px bg-slate-200 hidden sm:block"></div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="font-label-caps text-label-caps text-emerald-700 font-semibold">CONVERGED TO OPTIMAL</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-600 font-medium">(DUAL GAP: 0.000%)</span>
+</div>
+<div class="h-4 w-px bg-slate-200 hidden md:block"></div>
+<div class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-[15px] text-slate-400">timer</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">SOLVE DURATION:</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-900 font-semibold">842ms</span>
+</div>
+</div>
+<!-- Active Mode Selector & Global Query Input -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center bg-slate-100 p-0.5 rounded border border-slate-200">
+<button class="px-2.5 py-1 rounded bg-white text-sky-800 font-label-caps text-label-caps font-semibold tracking-wider transition-colors shadow-sm" type="button">
+          SENSITIVITY &amp; DUALS
+        </button>
+<button class="px-2.5 py-1 rounded text-slate-600 hover:text-slate-900 font-label-caps text-label-caps tracking-wider transition-colors" type="button">
+          CONFLICT REFINER (IIS)
+        </button>
+<button class="px-2.5 py-1 rounded text-slate-600 hover:text-slate-900 font-label-caps text-label-caps tracking-wider transition-colors" type="button">
+          PLAN DELTA DECOMP
+        </button>
+</div>
+<div class="relative w-64 md:w-80">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-[16px] text-slate-400">search</span>
+<input class="w-full h-8 pl-8 pr-3 bg-white text-slate-800 font-mono-data-sm text-mono-data-sm rounded border border-slate-200 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-colors" placeholder="Filter variable, constraint ID, or unit..." type="text">
+</div>
+</div>
+</div>
+<div class="p-space-md space-y-space-md w-full">
+  <!-- Industrial Workbench Tabs Card -->
+  <div class="w-full bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden flex flex-col">
+    <!-- Tab Bar -->
+    <div class="bg-slate-50/80 border-b border-slate-200 px-space-md pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 select-none">
+      <div class="flex items-center gap-1 overflow-x-auto" id="workbench-tabs" role="tablist">
+        <!-- Tab 1: Sensitivity & Shadow Prices (Active by default) -->
+        <button id="tab-btn-sensitivity" onclick="switchTab('sensitivity')" class="group flex items-center gap-2 px-3.5 py-2.5 font-label-caps text-label-caps uppercase tracking-wider font-semibold border-b-2 border-sky-600 text-sky-700 bg-white rounded-t transition-colors" role="tab" aria-selected="true" type="button">
+          <span class="material-symbols-outlined text-[17px] text-sky-600">insights</span>
+          <span class="">Sensitivity &amp; Shadow Prices</span>
+          <span class="px-1.5 py-0.5 rounded bg-sky-100 text-sky-800 text-[10px] font-mono font-bold">6 ACTIVE</span>
+        </button>
+        <!-- Tab 2: Diagnostics & IIS Refiner -->
+        <button id="tab-btn-iis" onclick="switchTab('iis')" class="group flex items-center gap-2 px-3.5 py-2.5 font-label-caps text-label-caps uppercase tracking-wider font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 rounded-t transition-colors" role="tab" aria-selected="false" type="button">
+          <span class="material-symbols-outlined text-[17px] text-rose-600">error</span>
+          <span class="">Diagnostics &amp; IIS Refiner</span>
+          <span class="px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 text-[10px] font-mono font-bold">3 CONFLICTS</span>
+        </button>
+        <!-- Tab 3: Plan Delta Comparison -->
+        <button id="tab-btn-delta" onclick="switchTab('delta')" class="group flex items-center gap-2 px-3.5 py-2.5 font-label-caps text-label-caps uppercase tracking-wider font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 rounded-t transition-colors" role="tab" aria-selected="false" type="button">
+          <span class="material-symbols-outlined text-[17px] text-emerald-600">alt_route</span>
+          <span class="">Plan Delta Comparison</span>
+          <span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">+$1.94M</span>
+        </button>
+        <!-- Tab 4: Matrix & Bound Tableau -->
+        <button id="tab-btn-tableau" onclick="switchTab('tableau')" class="group flex items-center gap-2 px-3.5 py-2.5 font-label-caps text-label-caps uppercase tracking-wider font-semibold border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 rounded-t transition-colors" role="tab" aria-selected="false" type="button">
+          <span class="material-symbols-outlined text-[17px] text-slate-500">grid_4x4</span>
+          <span class="">Matrix &amp; Bound Tableau</span>
+          <span class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-700 text-[10px] font-mono">320.8k</span>
+        </button>
+      </div>
+      <!-- Quick Console Telemetry Badge -->
+      <div class="hidden xl:flex items-center gap-2 pb-2 text-[11px] font-mono-data-sm text-slate-500">
+        <span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">Active Basis: 18,412 rows × 320.8k cols</span>
+        <span class="px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">Non-Degenerate</span>
+      </div>
+    </div>
+
+    <!-- Tab Panel 1: Sensitivity & Shadow Prices -->
+    <div id="panel-sensitivity" class="p-space-md space-y-space-md bg-white" role="tabpanel">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-headline-md text-headline-md text-slate-900 font-semibold tracking-tight">Post-Optimal Sensitivity &amp; Dual Values</h2>
+            <span class="font-mono-data-sm text-mono-data-sm px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold">BASIS STABLE</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-slate-500 mt-0.5">
+            Marginal economic return per incremental unit relaxations, with upper and lower validity intervals for current basis matrix.
+          </p>
+        </div>
+        <!-- Filter Chips -->
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="font-label-caps text-label-caps text-slate-400 uppercase mr-1">Toggles:</span>
+          <button class="px-2.5 py-1 rounded bg-sky-100 border border-sky-200 text-sky-800 font-label-caps text-label-caps font-semibold transition-colors" type="button">
+            BINDING ONLY (5)
+          </button>
+          <button class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 font-label-caps text-label-caps transition-colors" type="button">
+            DUAL &gt; $0.00
+          </button>
+          <button class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 font-label-caps text-label-caps transition-colors" type="button">
+            SLACK (NON-ZERO)
+          </button>
+          <button class="p-1 rounded bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors" title="Export CSV Matrix" type="button">
+            <span class="material-symbols-outlined text-[16px]">file_download</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sensitivity Engineering Table -->
+      <div class="overflow-x-auto rounded border border-slate-200 bg-white">
+        <table class="w-full text-left font-mono-data-sm text-mono-data-sm">
+          <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-label-caps text-label-caps uppercase">
+            <tr>
+              <th class="py-2.5 px-3">Constraint Identifier</th>
+              <th class="py-2.5 px-3">Physical Domain Interpretation</th>
+              <th class="py-2.5 px-3">Activity Status</th>
+              <th class="py-2.5 px-3 text-right">Dual Value (Shadow Price)</th>
+              <th class="py-2.5 px-3 text-right">Allowable Decrease</th>
+              <th class="py-2.5 px-3 text-right">Allowable Increase</th>
+              <th class="py-2.5 px-4 w-56 text-left">Marginal Gain Visualizer</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-800">
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 font-semibold text-sky-700 font-mono">CCR_REFORMER_CAP</td>
+              <td class="py-2 px-3 text-slate-700">Catalytic Reformer Max Throughput</td>
+              <td class="py-2 px-3">
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  BINDING (98.5%)
+                </span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono-data-md text-mono-data-md font-semibold text-emerald-700 font-mono">+$6.82 <span class="text-slate-400 text-xs">/ bbl</span></td>
+              <td class="py-2 px-3 text-right text-slate-600 font-mono">-12.0 kbd</td>
+              <td class="py-2 px-3 text-right text-slate-900 font-medium font-mono">+4.5 kbd</td>
+              <td class="py-2 px-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                    <div class="bg-emerald-600 h-full rounded-full" style="width: 95%;"></div>
+                  </div>
+                  <span class="text-[10px] text-emerald-700 font-mono font-semibold shrink-0">+$6.82</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 font-semibold text-sky-700 font-mono">CDU_CRUDE_MAX</td>
+              <td class="py-2 px-3 text-slate-700">Main Distillation Unit Intake Limit</td>
+              <td class="py-2 px-3">
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  BINDING (95.8%)
+                </span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono-data-md text-mono-data-md font-semibold text-emerald-700 font-mono">+$4.15 <span class="text-slate-400 text-xs">/ bbl</span></td>
+              <td class="py-2 px-3 text-right text-slate-600 font-mono">-35.2 kbd</td>
+              <td class="py-2 px-3 text-right text-slate-900 font-medium font-mono">+20.0 kbd</td>
+              <td class="py-2 px-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                    <div class="bg-emerald-600 h-full rounded-full" style="width: 62%;"></div>
+                  </div>
+                  <span class="text-[10px] text-emerald-700 font-mono font-semibold shrink-0">+$4.15</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 font-semibold text-sky-700 font-mono">FCC_CAT_CRACKER</td>
+              <td class="py-2 px-3 text-slate-700">FCC Fluid Catalytic Cracker Feed</td>
+              <td class="py-2 px-3">
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  BINDING (96.2%)
+                </span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono-data-md text-mono-data-md font-semibold text-emerald-700 font-mono">+$3.90 <span class="text-slate-400 text-xs">/ bbl</span></td>
+              <td class="py-2 px-3 text-right text-slate-600 font-mono">-14.5 kbd</td>
+              <td class="py-2 px-3 text-right text-slate-900 font-medium font-mono">+8.0 kbd</td>
+              <td class="py-2 px-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                    <div class="bg-emerald-600 h-full rounded-full" style="width: 58%;"></div>
+                  </div>
+                  <span class="text-[10px] text-emerald-700 font-mono font-semibold shrink-0">+$3.90</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 font-semibold text-slate-600 font-mono">SULFUR_PLANT_EMIS</td>
+              <td class="py-2 px-3 text-slate-600">Daily SOx Emission Environmental Ceiling</td>
+              <td class="py-2 px-3">
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                  SLACK (82.0%)
+                </span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono-data-md text-mono-data-md font-semibold text-slate-500 font-mono">$0.00 <span class="text-slate-400 text-xs">/ Ton</span></td>
+              <td class="py-2 px-3 text-right text-slate-600 font-mono">-14.2 Ton</td>
+              <td class="py-2 px-3 text-right text-slate-500 font-mono">+90.0 Ton</td>
+              <td class="py-2 px-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div class="bg-slate-300 h-full w-0"></div>
+                  </div>
+                  <span class="text-[10px] text-slate-400 font-mono shrink-0">$0.00</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 font-semibold text-sky-700 font-mono">JET_A_OCTANE_SPEC</td>
+              <td class="py-2 px-3 text-slate-700">Minimum Jet-A Smoke Point Constraint</td>
+              <td class="py-2 px-3">
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  BINDING (100.0%)
+                </span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono-data-md text-mono-data-md font-semibold text-emerald-700 font-mono">+$1.45 <span class="text-slate-400 text-xs">/ mm</span></td>
+              <td class="py-2 px-3 text-right text-slate-600 font-mono">-1.1 mm</td>
+              <td class="py-2 px-3 text-right text-slate-900 font-medium font-mono">+3.2 mm</td>
+              <td class="py-2 px-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                    <div class="bg-emerald-600 h-full rounded-full" style="width: 25%;"></div>
+                  </div>
+                  <span class="text-[10px] text-emerald-700 font-mono font-semibold shrink-0">+$1.45</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 font-semibold text-sky-700 font-mono">H2_MAKEUP_GAS</td>
+              <td class="py-2 px-3 text-slate-700">Hydrogen Grid Pressure Minimum Header</td>
+              <td class="py-2 px-3">
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  BINDING (99.1%)
+                </span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono-data-md text-mono-data-md font-semibold text-emerald-700 font-mono">+$0.85 <span class="text-slate-400 text-xs">/ kscf</span></td>
+              <td class="py-2 px-3 text-right text-slate-600 font-mono">-8.0 kscf</td>
+              <td class="py-2 px-3 text-right text-slate-900 font-medium font-mono">+5.0 kscf</td>
+              <td class="py-2 px-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                    <div class="bg-emerald-600 h-full rounded-full" style="width: 15%;"></div>
+                  </div>
+                  <span class="text-[10px] text-emerald-700 font-mono font-semibold shrink-0">+$0.85</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sensitivity Footnote / Guidance -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1 pt-1 font-body-sm text-body-sm text-slate-500">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[16px] text-sky-600">lightbulb</span>
+          <span class="">CCR Reformer throughput constraint represents the highest financial leverage bottleneck at +$6.82/bbl margin.</span>
+        </div>
+        <div class="font-mono-data-sm text-[11px] text-slate-600 font-medium">
+          6 of 48 active constraints are non-zero duals
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Panel 2: Diagnostics & IIS Refiner -->
+    <div id="panel-iis" class="hidden p-space-md space-y-space-md bg-white" role="tabpanel">
+      <!-- Infeasibility Diagnosis & Conflict Refiner Sub-Card -->
+      <div class="w-full bg-white border border-rose-200 rounded-lg overflow-hidden shadow-sm">
+        <!-- Accordion Header -->
+        <div class="w-full bg-rose-50/80 border-b border-rose-200 px-space-md py-space-sm flex items-center justify-between">
+          <div class="flex items-center gap-space-md flex-wrap">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping"></span>
+              <span class="font-label-caps text-label-caps tracking-widest text-rose-700 uppercase font-bold">IIS DIAGNOSTIC ACTIVE</span>
+            </div>
+            <span class="font-mono-data-sm text-mono-data-sm text-slate-600">COUNTERFACTUAL RUN #0889 CONFLICT REFINER</span>
+            
+          </div>
+          <div class="flex items-center gap-space-md">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <span class="font-label-caps text-label-caps text-slate-500 uppercase hidden sm:inline">Inspect Subsystem</span>
+              <input checked="" class="hidden" id="iis-toggle" type="checkbox">
+              <div class="w-9 h-5 bg-rose-200 rounded-full relative p-0.5 transition-colors" id="iis-toggle-track">
+                <div class="w-4 h-4 rounded-full bg-rose-600 translate-x-4 transition-transform shadow-sm" id="iis-toggle-thumb"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <!-- IIS Panel Body -->
+        <div class="p-space-md space-y-space-md bg-white" id="iis-content">
+          <!-- Diagnostic Banner -->
+          <div class="rounded-lg p-space-md bg-rose-50 border border-rose-200 flex flex-col md:flex-row gap-space-md items-start md:items-center justify-between">
+            <div class="flex items-start gap-space-md">
+              <div class="w-8 h-8 rounded bg-rose-100 border border-rose-200 flex items-center justify-center shrink-0 text-rose-700">
+                <span class="material-symbols-outlined text-[20px]">warning</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-label-caps text-label-caps text-rose-800 tracking-wider uppercase font-bold">MUTUALLY EXCLUSIVE CONSTRAINTS LOCATED</span>
+                  <span class="font-mono-data-sm text-mono-data-sm text-rose-700 font-semibold px-1.5 py-0.5 rounded bg-rose-100 border border-rose-200">CARDINALITY: 3</span>
+                </div>
+                <p class="font-body-md text-body-md text-slate-800 mt-1 max-w-4xl">
+                  The model cannot satisfy the required Jet-A freeze point (≤ -47.0°C) while simultaneously enforcing the Maya Heavy crude intake quota (&gt; 90 kbd) under current hydrocracker hydrogen feed constraints.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0 self-end md:self-auto">
+              <span class="font-mono-data-sm text-mono-data-sm text-slate-500">SOLVER EFFORT:</span>
+              <span class="font-mono-data-sm text-mono-data-sm text-slate-900 font-semibold">14 Simplex Pivots</span>
+            </div>
+          </div>
+          <!-- Conflicting Irreducible Inconsistent Subsystem (IIS) Table -->
+          <div class="overflow-x-auto rounded border border-slate-200 bg-white">
+            <table class="w-full text-left font-mono-data-sm text-mono-data-sm">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-label-caps text-label-caps uppercase">
+                <tr>
+                  <th class="py-2.5 px-3">Constraint Identifier</th>
+                  <th class="py-2.5 px-3">Bound Specification</th>
+                  <th class="py-2.5 px-3">Calculated Slack / Violation</th>
+                  <th class="py-2.5 px-3">Subsystem Role</th>
+                  <th class="py-2.5 px-3 text-right">Physical Unit Domain</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-800">
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="py-2 px-3 flex items-center gap-2 font-semibold text-rose-700 font-mono">
+                    <span class="material-symbols-outlined text-[16px] text-rose-600">priority_high</span>
+                    <span class="">C_JET_FREEZE_MAX</span>
+                  </td>
+                  <td class="py-2 px-3 text-slate-700 font-mono-data-sm">Upper Bound ≤ -47.0 °C</td>
+                  <td class="py-2 px-3 font-semibold text-rose-700 font-mono">+2.4 °C (Over Limit)</td>
+                  <td class="py-2 px-3 text-slate-500">Upper Limit Active</td>
+                  <td class="py-2 px-3 text-right text-slate-600">Jet-A Fuel Blending Header</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="py-2 px-3 flex items-center gap-2 font-semibold text-amber-700 font-mono">
+                    <span class="material-symbols-outlined text-[16px] text-amber-600">tune</span>
+                    <span class="">MIN_MAYA_FEED_CONTRACT</span>
+                  </td>
+                  <td class="py-2 px-3 text-slate-700 font-mono-data-sm">Lower Bound ≥ 90.0 kbd</td>
+                  <td class="py-2 px-3 font-semibold text-amber-700 font-mono">-14.2 kbd Deficit Required</td>
+                  <td class="py-2 px-3 text-slate-500">Lower Bound Active</td>
+                  <td class="py-2 px-3 text-right text-slate-600">CDU-1 Feedstock Sourcing</td>
+                </tr>
+                <tr class="hover:bg-slate-50/70 transition-colors">
+                  <td class="py-2 px-3 flex items-center gap-2 font-semibold text-slate-900 font-mono">
+                    <span class="material-symbols-outlined text-[16px] text-slate-500">lock</span>
+                    <span class="">H2_REFORMER_MAX_CAP</span>
+                  </td>
+                  <td class="py-2 px-3 text-slate-700 font-mono-data-sm">Upper Bound: 88.4 MMSCFD</td>
+                  <td class="py-2 px-3 text-sky-700 font-semibold font-mono">0.0 MMSCFD (100% Saturated)</td>
+                  <td class="py-2 px-3 text-slate-500">Capacity Ceiling</td>
+                  <td class="py-2 px-3 text-right text-slate-600">Continuous Catalyst Reformer</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Automatic Decision Engine Recommendation -->
+          <div class="p-space-md rounded-lg bg-slate-50 border border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+            <div class="flex items-start gap-space-sm">
+              <span class="material-symbols-outlined text-sky-700 text-[20px] shrink-0 mt-0.5">auto_fix_high</span>
+              <div>
+                <div class="font-label-caps text-label-caps text-sky-800 uppercase font-bold tracking-wider">
+                  PRESCRIPTIVE REPAIR PROPOSAL
+                </div>
+                <p class="font-body-sm text-body-sm text-slate-700 mt-0.5">
+                  Suggested relaxation: Slacken <span class="font-mono-data-sm text-sky-800 bg-sky-100 border border-sky-200 px-1.5 py-0.5 rounded font-semibold">MIN_MAYA_FEED_CONTRACT</span> lower bound from 90.0 kbd to 75.8 kbd <span class="text-slate-400">OR</span> increase Reformer severity +0.8 RON (+ $14.2k/day marginal utility cost).
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button class="h-8 px-space-md bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-label-caps text-label-caps uppercase font-semibold rounded transition-colors flex items-center gap-1.5 shadow-sm" type="button">
+                <span class="material-symbols-outlined text-[15px] text-slate-500">description</span>
+                <span class="">Generate Minimal Repair Proof</span>
+              </button>
+              <button class="h-8 px-space-md bg-sky-600 hover:bg-sky-700 text-white font-label-caps text-label-caps uppercase font-bold rounded transition-all shadow-sm flex items-center gap-1.5" type="button">
+                <span class="material-symbols-outlined text-[15px]">play_arrow</span>
+                <span class="">Apply Relaxation &amp; Re-Solve</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Panel 3: Plan Delta Comparison -->
+    <div id="panel-delta" class="hidden p-space-md space-y-space-md bg-white" role="tabpanel">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-headline-md text-headline-md text-slate-900 font-semibold tracking-tight">Plan Delta Decomposition</h2>
+            <span class="font-mono-data-sm text-mono-data-sm text-slate-500">#OPT-2025-0870 (Baseline) ➔ #OPT-2025-0891 (Current)</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-slate-500 mt-0.5">
+            Mathematical causal graph: What external driver altered intermediate flows and generated net shifts?
+          </p>
+        </div>
+        <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg shadow-sm">
+          <span class="material-symbols-outlined text-emerald-700 text-[18px]">trending_up</span>
+          <span class="font-label-caps text-label-caps text-slate-600 uppercase">NET MARGIN IMPACT:</span>
+          <span class="font-mono-data-md text-mono-data-md text-emerald-800 font-bold font-mono">+$1,940,000 / month</span>
+          <span class="font-mono-data-sm text-mono-data-sm text-emerald-700 bg-white border border-emerald-200 px-1.5 py-0.5 rounded font-semibold font-mono">+4.2%</span>
+        </div>
+      </div>
+      <!-- Market Driver Callout Banner -->
+      <div class="rounded-lg p-space-md bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+        <div class="w-8 h-8 rounded bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 shrink-0">
+          <span class="material-symbols-outlined text-[20px]">insights</span>
+        </div>
+        <div class="space-y-0.5">
+          <div class="font-label-caps text-label-caps text-sky-800 tracking-wider uppercase font-semibold">PRIMARY ECONOMIC EXOGENOUS SHIFT</div>
+          <p class="font-body-md text-body-md text-slate-700">
+            Crude Market Shift: <span class="font-semibold text-emerald-700">WTI Midland benchmark decreased -$3.20/bbl</span>, while the <span class="font-semibold text-emerald-700">Jet-A spot crack spread expanded by +$4.50/bbl</span>. The LP solver reacted by reconfiguring reformate severity and swapping feedstock intake.
+          </p>
+        </div>
+      </div>
+      <!-- 3-Column Delta Breakdown Mosaic -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+        <!-- Card 1: Feedstock Allocation -->
+        <div class="bg-white border border-slate-200 rounded-lg p-space-md space-y-space-md flex flex-col justify-between shadow-sm">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+              <span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">1. FEEDSTOCK ALLOCATION</span>
+              <span class="material-symbols-outlined text-[18px] text-sky-700">oil_barrel</span>
+            </div>
+            <div class="space-y-space-sm pt-1">
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <div class="font-body-md text-body-md text-slate-900 font-medium">Arab Light Crude</div>
+                  <div class="font-mono-data-sm text-mono-data-sm text-slate-500">160.0 ➔ 145.0 kbd</div>
+                </div>
+                <div class="text-right">
+                  <span class="font-mono-data-sm text-mono-data-sm font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-1.5 py-0.5 rounded inline-block font-mono">
+                    ▼ -15.0 kbd (-9.4%)
+                  </span>
+                </div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <div class="font-body-md text-body-md text-slate-900 font-medium">WTI Midland</div>
+                  <div class="font-mono-data-sm text-mono-data-sm text-slate-500">95.0 ➔ 120.0 kbd</div>
+                </div>
+                <div class="text-right">
+                  <span class="font-mono-data-sm text-mono-data-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded inline-block font-mono">
+                    ▲ +25.0 kbd (+26.3%)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="font-body-sm text-body-sm text-slate-600 pt-2 border-t border-slate-100">
+            Shifted slate to light-sweet blend to reduce sulfur desulfurization burden and maximize paraffin yields.
+          </p>
+        </div>
+        <!-- Card 2: Unit Operating Point -->
+        <div class="bg-white border border-slate-200 rounded-lg p-space-md space-y-space-md flex flex-col justify-between shadow-sm">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+              <span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">2. PROCESS UNIT SETPOINTS</span>
+              <span class="material-symbols-outlined text-[18px] text-sky-700">settings_input_component</span>
+            </div>
+            <div class="space-y-space-sm pt-1">
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <div class="font-body-md text-body-md text-slate-900 font-medium">CCR Reformer Severity</div>
+                  <div class="font-mono-data-sm text-mono-data-sm text-slate-500">98.2 RON ➔ 100.1 RON</div>
+                </div>
+                <div class="text-right">
+                  <span class="font-mono-data-sm text-mono-data-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded inline-block font-mono">
+                    ▲ +1.9 RON (+1.9%)
+                  </span>
+                </div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <div class="font-body-md text-body-md text-slate-900 font-medium">H2 Byproduct Generation</div>
+                  <div class="font-mono-data-sm text-mono-data-sm text-slate-500">84.9 ➔ 88.4 MMSCFD</div>
+                </div>
+                <div class="text-right">
+                  <span class="font-mono-data-sm text-mono-data-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded inline-block font-mono">
+                    ▲ +3.5 MMSCFD (+4.1%)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="font-body-sm text-body-sm text-slate-600 pt-2 border-t border-slate-100">
+            Higher reformer severity unlocks required hydrogen supply for downstream hydrotreater Jet-A saturation.
+          </p>
+        </div>
+        <!-- Card 3: Product Slate Shift -->
+        <div class="bg-white border border-slate-200 rounded-lg p-space-md space-y-space-md flex flex-col justify-between shadow-sm">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+              <span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">3. FINAL PRODUCT YIELD</span>
+              <span class="material-symbols-outlined text-[18px] text-sky-700">local_gas_station</span>
+            </div>
+            <div class="space-y-space-sm pt-1">
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <div class="font-body-md text-body-md text-slate-900 font-medium">Regular Mogas 87</div>
+                  <div class="font-mono-data-sm text-mono-data-sm text-slate-500">142.0 ➔ 124.0 kbd</div>
+                </div>
+                <div class="text-right">
+                  <span class="font-mono-data-sm text-mono-data-sm font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-1.5 py-0.5 rounded inline-block font-mono">
+                    ▼ -18.0 kbd (-12.7%)
+                  </span>
+                </div>
+              </div>
+              <div class="p-2.5 rounded bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <div class="font-body-md text-body-md text-slate-900 font-medium">Commercial Jet-A</div>
+                  <div class="font-mono-data-sm text-mono-data-sm text-slate-500">36.0 ➔ 58.0 kbd</div>
+                </div>
+                <div class="text-right">
+                  <span class="font-mono-data-sm text-mono-data-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded inline-block font-mono">
+                    ▲ +22.0 kbd (+61.1%)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="font-body-sm text-body-sm text-slate-600 pt-2 border-t border-slate-100">
+            Maximized Jet-A kerosene cut routing to capture record high crack spread before seasonal delivery expiry.
+          </p>
+        </div>
+      </div>
+      <!-- Plan Trajectory Flowchart & Visual Audit Stream -->
+      <div class="p-space-md rounded-lg bg-slate-50 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-space-md">
+        <div class="flex items-center gap-space-md flex-wrap">
+          <span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">Decomposition Pipeline:</span>
+          <div class="flex items-center gap-2 font-mono-data-sm text-mono-data-sm text-slate-700">
+            <span class="px-2 py-0.5 rounded bg-white border border-slate-200 shadow-sm font-mono">Input Cost Matrix</span>
+            <span class="material-symbols-outlined text-[14px] text-slate-400">arrow_forward</span>
+            <span class="px-2 py-0.5 rounded bg-white border border-slate-200 shadow-sm font-mono">Gradient Re-weight</span>
+            <span class="material-symbols-outlined text-[14px] text-slate-400">arrow_forward</span>
+            <span class="px-2 py-0.5 rounded bg-white border border-slate-200 shadow-sm font-mono">Basis Pivot #1204</span>
+            <span class="material-symbols-outlined text-[14px] text-slate-400">arrow_forward</span>
+            <span class="px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold font-mono shadow-sm">Optimal Vertex Found</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 rounded bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-body-sm text-body-sm transition-colors flex items-center gap-1.5 shadow-sm" type="button">
+            <span class="material-symbols-outlined text-[16px] text-slate-500">visibility</span>
+            <span class="">Export Lineage Graph</span>
+          </button>
+          <button class="px-3 py-1.5 rounded bg-sky-600 hover:bg-sky-700 text-white font-body-sm text-body-sm font-semibold transition-colors flex items-center gap-1.5 shadow-sm" type="button">
+            <span class="material-symbols-outlined text-[16px]">history_edu</span>
+            <span class="">Audit Proof (.mps / .sol)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Panel 4: Matrix & Bound Tableau -->
+    <div id="panel-tableau" class="hidden p-space-md space-y-space-md bg-white" role="tabpanel">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-headline-md text-headline-md text-slate-900 font-semibold tracking-tight">Matrix Coefficient &amp; Bound Tableau</h2>
+            <span class="font-mono-data-sm text-mono-data-sm px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">SPARSE CSC REPR</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-slate-500 mt-0.5">
+            Direct primal-dual basis index lookup, constraint bounds, and simplex pivot trajectory for LP formulation.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="font-mono-data-sm text-[11px] text-slate-500">Density: <strong class="text-slate-800 font-mono">0.042%</strong></span>
+          <button class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-label-caps text-label-caps tracking-wider transition-colors" type="button">
+            Filter Non-Zeros
+          </button>
+        </div>
+      </div>
+      <div class="overflow-x-auto rounded border border-slate-200 bg-white font-mono text-xs">
+        <table class="w-full text-left font-mono-data-sm text-mono-data-sm">
+          <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-label-caps text-label-caps uppercase">
+            <tr>
+              <th class="py-2.5 px-3">Index</th>
+              <th class="py-2.5 px-3">Row Identifier</th>
+              <th class="py-2.5 px-3">Basis State</th>
+              <th class="py-2.5 px-3 text-right">Lower Bound</th>
+              <th class="py-2.5 px-3 text-right">Primal Activity</th>
+              <th class="py-2.5 px-3 text-right">Upper Bound</th>
+              <th class="py-2.5 px-3 text-right">Dual Multiplier</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-800">
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 text-slate-400">#0001</td>
+              <td class="py-2 px-3 font-semibold text-slate-800">ROW_CRUDE_UNIT_CAP_TOTAL</td>
+              <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-semibold">UPPER_BOUND</span></td>
+              <td class="py-2 px-3 text-right text-slate-400">-inf</td>
+              <td class="py-2 px-3 text-right font-semibold text-slate-900">265,000.00</td>
+              <td class="py-2 px-3 text-right text-slate-600">265,000.00</td>
+              <td class="py-2 px-3 text-right text-emerald-700 font-semibold font-mono">+4.1520</td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 text-slate-400">#0002</td>
+              <td class="py-2 px-3 font-semibold text-slate-800">ROW_H2_MAKEUP_PRESSURE_MIN</td>
+              <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-semibold">LOWER_BOUND</span></td>
+              <td class="py-2 px-3 text-right text-slate-600">450.00</td>
+              <td class="py-2 px-3 text-right font-semibold text-slate-900">450.00</td>
+              <td class="py-2 px-3 text-right text-slate-400">+inf</td>
+              <td class="py-2 px-3 text-right text-emerald-700 font-semibold font-mono">+0.8500</td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 text-slate-400">#0003</td>
+              <td class="py-2 px-3 font-semibold text-slate-800">ROW_JET_FREEZE_MAX_BLEND</td>
+              <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-rose-50 border border-rose-200 text-rose-700 text-[10px] font-semibold">INFEASIBLE_SLACK</span></td>
+              <td class="py-2 px-3 text-right text-slate-400">-inf</td>
+              <td class="py-2 px-3 text-right font-semibold text-rose-700">-44.60</td>
+              <td class="py-2 px-3 text-right text-slate-600">-47.00</td>
+              <td class="py-2 px-3 text-right text-rose-600 font-semibold font-mono">+18.4200</td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition-colors">
+              <td class="py-2 px-3 text-slate-400">#0004</td>
+              <td class="py-2 px-3 font-semibold text-slate-800">ROW_SULFUR_STACK_DAILY_CEIL</td>
+              <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-semibold">BASIC_FREE</span></td>
+              <td class="py-2 px-3 text-right text-slate-400">-inf</td>
+              <td class="py-2 px-3 text-right font-semibold text-slate-900">65.80</td>
+              <td class="py-2 px-3 text-right text-slate-600">80.00</td>
+              <td class="py-2 px-3 text-right text-slate-400 font-mono">0.0000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  (function initIISAnalyzerToggle() {
+    const toggle = document.getElementById('iis-toggle');
+    const content = document.getElementById('iis-content');
+    const track = document.getElementById('iis-toggle-track');
+    const thumb = document.getElementById('iis-toggle-thumb');
+
+    if (!toggle || !content || !track || !thumb) return;
+
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        content.classList.remove('hidden');
+        track.classList.add('bg-rose-200');
+        track.classList.remove('bg-slate-200');
+        thumb.classList.add('translate-x-4', 'bg-rose-600');
+        thumb.classList.remove('translate-x-0', 'bg-slate-400');
+      } else {
+        content.classList.add('hidden');
+        track.classList.remove('bg-rose-200');
+        track.classList.add('bg-slate-200');
+        thumb.classList.remove('translate-x-4', 'bg-rose-600');
+        thumb.classList.add('translate-x-0', 'bg-slate-400');
+      }
+    });
+  })();
+</script></main></div>
+
+
+
+</body></html>

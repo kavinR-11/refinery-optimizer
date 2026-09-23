@@ -1,0 +1,692 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "outline": "#707881",
+          "on-primary-fixed-variant": "#004b73",
+          "primary-fixed": "#cce5ff",
+          "surface": "#f8f9ff",
+          "on-secondary-container": "#5c647a",
+          "on-error-container": "#93000a",
+          "error": "#ba1a1a",
+          "surface-container-high": "#dce9ff",
+          "on-tertiary-container": "#f5fff7",
+          "on-surface-variant": "#3f4850",
+          "outline-variant": "#bfc7d2",
+          "on-primary-fixed": "#001d31",
+          "secondary": "#565e74",
+          "on-tertiary": "#ffffff",
+          "primary": "#006194",
+          "error-container": "#ffdad6",
+          "inverse-primary": "#93ccff",
+          "surface-container-highest": "#d3e4fe",
+          "inverse-on-surface": "#eaf1ff",
+          "on-primary-container": "#fdfcff",
+          "surface-container-lowest": "#ffffff",
+          "surface-bright": "#f8f9ff",
+          "surface-dim": "#cbdbf5",
+          "tertiary-fixed-dim": "#68dba9",
+          "inverse-surface": "#213145",
+          "surface-container-low": "#eff4ff",
+          "tertiary": "#006948",
+          "primary-container": "#007bb9",
+          "background": "#f8f9ff",
+          "surface-tint": "#006398",
+          "secondary-fixed": "#dae2fd",
+          "surface-container": "#e5eeff",
+          "tertiary-container": "#00855d",
+          "secondary-fixed-dim": "#bec6e0",
+          "on-tertiary-fixed-variant": "#005137",
+          "surface-variant": "#d3e4fe",
+          "on-surface": "#0b1c30",
+          "on-tertiary-fixed": "#002114",
+          "on-secondary-fixed-variant": "#3f465c",
+          "on-primary": "#ffffff",
+          "on-error": "#ffffff",
+          "primary-fixed-dim": "#93ccff",
+          "on-secondary": "#ffffff",
+          "tertiary-fixed": "#85f8c4",
+          "on-background": "#0b1c30",
+          "on-secondary-fixed": "#131b2e",
+          "secondary-container": "#dae2fd"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-md": "0.75rem",
+          "gutter-desktop": "1.25rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "margin": "1rem",
+          "gutter": "1rem",
+          "space-lg": "1rem",
+          "margin-desktop": "1.5rem",
+          "space-xl": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-md": ["Inter"],
+          "headline-lg": ["Inter"],
+          "label-caps": ["Inter"],
+          "mono-metric-xl": ["JetBrains Mono"],
+          "body-sm": ["Inter"],
+          "body-md": ["Inter"],
+          "headline-sm": ["Inter"],
+          "mono-metric-md": ["JetBrains Mono"],
+          "headline-xl": ["Inter"],
+          "body-lg": ["Inter"],
+          "mono-data-sm": ["JetBrains Mono"],
+          "mono-data-md": ["JetBrains Mono"],
+          "mono-data-lg": ["JetBrains Mono"]
+        },
+        "fontSize": {
+          "headline-md": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+          "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+          "mono-metric-xl": ["24px", {"lineHeight": "28px", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+          "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+          "body-md": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+          "headline-sm": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+          "mono-metric-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+          "headline-xl": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "body-lg": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+          "mono-data-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+          "mono-data-md": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+          "mono-data-lg": ["22px", {"lineHeight": "26px", "fontWeight": "600"}]
+        }
+      }
+    }
+  }
+</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest border-r border-slate-200 z-50 flex flex-col justify-between select-none shadow-sm"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center justify-between border-b border-slate-200 bg-white"><div class="flex items-center gap-space-sm"><div class="w-7 h-7 rounded bg-primary/10 border border-primary/30 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[18px]">memory</span></div><div class="flex flex-col"><span class="font-label-caps text-label-caps text-on-surface tracking-wider uppercase font-semibold">OPTIMA<span class="text-primary font-bold">CORE</span></span><span class="font-mono-data-sm text-[9px] text-outline leading-none">LP/MILP/QP KERNEL</span></div></div><div class="flex items-center gap-space-xs"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono-data-sm text-[9px] font-semibold">v2.4</span><button class="p-1 text-on-surface-variant hover:text-on-surface hover:bg-slate-100 rounded transition-colors" title="Toggle Workspace Tree" type="button"><span class="material-symbols-outlined text-[16px]">dock_to_left</span></button></div></div><div class="px-space-md py-space-sm bg-slate-50/70 border-b border-slate-200"><div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm text-on-surface-variant mb-1"><span class="">SOLVER STATE</span><span class="text-emerald-700 font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>CONVERGED</span></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-outline"><span class="">GAP: 0.000%</span><span class="">ITERS: 14,892</span></div></div><nav class="flex flex-col gap-0.5 px-space-sm py-space-md" data-active-classes="bg-primary/10 text-primary border-l-2 border-primary font-semibold"><div class="px-space-sm pb-space-xs font-label-caps text-label-caps text-outline uppercase tracking-wider">Control Plane</div><a class="group flex items-center justify-between px-space-sm py-2 rounded text-on-surface-variant hover:bg-slate-100 hover:text-on-surface transition-all" data-path="solve-overview" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors">speed</span><span class="font-body-md text-body-md">Solve Overview</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">Live</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-on-surface-variant hover:bg-slate-100 hover:text-on-surface transition-all" data-path="refinery-planning" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors">factory</span><span class="font-body-md text-body-md">Refinery Planning</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-medium">Demo</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-on-surface-variant hover:bg-slate-100 hover:text-on-surface transition-all" data-path="solver-internals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors">hub</span><span class="font-body-md text-body-md">Solver Internals</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-slate-100 text-on-surface-variant border border-slate-200 font-medium">Explain</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-on-surface-variant hover:bg-slate-100 hover:text-on-surface transition-all" data-path="benchmarks" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors">leaderboard</span><span class="font-body-md text-body-md">Benchmarks &amp; Perf</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-medium">vs HiGHS</span></a><a aria-current="page" class="group flex items-center justify-between px-space-sm py-2 rounded transition-all bg-sky-50 text-primary border-l-2 border-primary font-semibold" data-path="learning-log" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-primary">terminal</span><span class="font-body-md text-body-md">Strategy Log</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-sky-100/70 text-primary border border-sky-200 font-medium">History</span></a></nav></div><div class="flex flex-col border-t border-slate-200 bg-slate-50/50"><div class="p-space-md border-b border-slate-200"><div class="flex items-center justify-between text-[11px] font-mono-data-sm text-on-surface-variant mb-1"><span class="">MEM POOL (AVX-512)</span><span class="text-on-surface font-semibold">44.3%</span></div><div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-primary" style="width: 44.3%;"></div></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-outline mt-1"><span class="">28.4 GB alloc</span><span class="">64.0 GB pool</span></div></div><div class="p-space-md"><div class="flex items-center justify-between mb-2"><div class="flex flex-col"><span class="font-label-caps text-[10px] text-outline uppercase font-semibold">CLUSTER LICENSE</span><span class="font-body-sm text-body-sm text-on-surface font-medium">Enterprise Tier</span></div><span class="font-mono-data-sm text-[10px] px-1.5 py-0.5 rounded bg-white border border-slate-200 text-on-surface font-semibold shadow-2xs">12 Nodes</span></div><div class="flex items-center justify-between pt-2 border-t border-slate-200 text-on-surface-variant"><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-primary transition-colors" data-path="docs" href="#"><span class="material-symbols-outlined text-[16px]">menu_book</span><span class="">Docs</span></a><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-primary transition-colors" data-path="cluster-settings" href="#"><span class="material-symbols-outlined text-[16px]">settings</span><span class="">Settings</span></a><div class="flex items-center gap-1 text-[10px] font-mono-data-sm text-emerald-700 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span><span class="">SYNC</span></div></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-14 bg-white/95 backdrop-blur-md border-b border-slate-200 z-40 flex items-center justify-between px-space-md"><div class="flex items-center min-w-0 flex-1 gap-2.5 overflow-hidden"><div class="hidden md:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-primary font-bold">KERNEL:</span><span class="">v2.4.1-rc3</span></div><div class="hidden lg:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500">BLAS/LAPACK:</span><span class="">Accelerated</span></div><div class="hidden xl:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500">Threads:</span><span class="">32/32 AVX-512</span></div><div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 max-w-[200px] shrink-0 truncate" title="PROFILE: PetroChem_Refinery_Alpha"><span class="material-symbols-outlined text-[14px] text-emerald-700 shrink-0">layers</span><span class="font-semibold truncate">PetroChem_Refinery_Alpha</span></div><div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-semibold text-emerald-700 uppercase tracking-wider shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span><span class="">NOVELTY: Reinforcement Learning &amp; GNN Branching</span></div></div><div class="flex items-center gap-3 shrink-0 ml-auto"><button class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs rounded-md shadow-sm whitespace-nowrap" type="button"><span class="material-symbols-outlined text-[16px]">add_circle</span><span class="">+ NEW RUN</span></button><a class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 border border-slate-200 rounded-md hover:bg-slate-50 shrink-0 whitespace-nowrap" href="#"><span class="material-symbols-outlined text-[16px]">help_outline</span><span class="">Docs</span></a><button class="shrink-0 p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md border border-slate-200 inline-flex items-center justify-center" onclick="document.documentElement.classList.toggle('dark')" title="Toggle Theme" type="button"><span class="material-symbols-outlined text-[18px]">dark_mode</span></button></div></header><main class="w-full pt-14 flex-1 bg-surface"><div class="flex flex-col w-full">
+<div class="p-space-lg flex flex-col gap-space-lg">
+<!-- Top Command & Breadcrumb Header -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs font-mono-data-sm text-mono-data-sm text-outline">
+<span class="">PIPELINE_ORCHESTRATOR</span>
+<span class="">/</span>
+<span class="text-on-surface-variant">RUN_ARCHIVE</span>
+<span class="">/</span>
+<span class="text-primary font-bold">STRATEGY_LEARNING_AUDIT</span>
+</div>
+<div class="flex items-center gap-space-md flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-bold">Strategy Learning &amp; Historical Solve Runs</h1><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100/80 border border-emerald-300 text-emerald-800 text-xs font-bold uppercase tracking-wider"><span class="material-symbols-outlined text-[14px]">psychology</span>Solver Novelty: GNN/RL Policy</span>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-2xs">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping"></span>
+<span class="font-label-caps text-label-caps font-semibold">AUTO-LEARNED POLICY ACTIVE</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white border border-slate-200 text-on-surface-variant shadow-2xs">
+<span class="material-symbols-outlined text-[15px] text-primary">psychology</span>
+<span class="font-mono-data-sm text-mono-data-sm">Model Checkpoint: <strong class="text-on-surface font-bold">v3.2-prod</strong></span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap self-start xl:self-auto">
+<button class="h-8 px-space-md rounded bg-white border border-slate-200 text-on-surface hover:bg-slate-50 transition-colors font-label-caps text-label-caps flex items-center gap-1.5 shadow-sm font-semibold" type="button">
+<span class="material-symbols-outlined text-[16px] text-outline">download</span>
+<span class="">EXPORT RUN MANIFEST (.JSON/.CSV)</span>
+</button>
+<button class="h-8 px-space-md rounded bg-primary text-white hover:bg-primary-container transition-all font-label-caps text-label-caps font-semibold flex items-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span class="">RETRAIN POLICY NOW</span>
+</button>
+</div>
+</div>
+<!-- Telemetry Stats Strip -->
+<div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-space-sm">
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="">TOTAL RUNS RECORDED</span>
+<span class="material-symbols-outlined text-[15px] text-slate-400">dataset</span>
+</div>
+<div class="font-mono-metric-xl text-mono-metric-xl text-on-surface font-bold tracking-tight">1,429</div>
+<div class="font-mono-data-sm text-[10px] text-emerald-700 font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">trending_up</span>
+<span class="">+48 runs in last 24h</span>
+</div>
+</div>
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="">AVG SPEEDUP VS HIGHs</span>
+<span class="material-symbols-outlined text-[15px] text-primary">bolt</span>
+</div>
+<div class="font-mono-metric-xl text-mono-metric-xl text-primary font-bold tracking-tight">+34.8%</div>
+<div class="font-mono-data-sm text-[10px] text-outline font-medium">RL Branching advantage</div>
+</div>
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="">OPTIMALITY RATE</span>
+<span class="material-symbols-outlined text-[15px] text-emerald-600">verified</span>
+</div>
+<div class="font-mono-metric-xl text-mono-metric-xl text-emerald-700 font-bold tracking-tight">97.8%</div>
+<div class="font-mono-data-sm text-[10px] text-on-surface-variant font-medium">1,398 / 1,429 solved</div>
+</div>
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="">MEDIAN WALL CLOCK</span>
+<span class="material-symbols-outlined text-[15px] text-slate-400">timer</span>
+</div>
+<div class="font-mono-metric-xl text-mono-metric-xl text-on-surface font-bold tracking-tight">14.2s</div>
+<div class="font-mono-data-sm text-[10px] text-outline font-medium">Refinery MILP suite</div>
+</div>
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="">AVERAGE RL REWARD</span>
+<span class="material-symbols-outlined text-[15px] text-amber-600">military_tech</span>
+</div>
+<div class="font-mono-metric-xl text-mono-metric-xl text-amber-700 font-bold tracking-tight">+0.892</div>
+<div class="font-mono-data-sm text-[10px] text-outline font-medium">Dual Bound Convergence</div>
+</div>
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="">NEXT RETRAIN CYCLE</span>
+<span class="material-symbols-outlined text-[15px] text-slate-400">schedule</span>
+</div>
+<div class="font-mono-metric-xl text-mono-metric-xl text-on-surface font-bold tracking-tight">04:00 UTC</div>
+<div class="font-mono-data-sm text-[10px] text-primary flex items-center gap-1 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="">Scheduled cron (in 3h 14m)</span>
+</div>
+</div>
+</div>
+<!-- Filter Toolbar (CI/CD Style) -->
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-sm flex-1 flex-wrap">
+<div class="relative min-w-[260px] flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[16px] text-outline">search</span>
+<input class="w-full h-8 pl-8 pr-3 rounded bg-slate-50 border border-slate-200 text-on-surface font-mono-data-sm text-mono-data-sm placeholder-outline focus:outline-none focus:ring-1 focus:ring-primary focus:bg-white" placeholder="Search by Run ID (#OPT-2025-xxxx) or Model File..." type="text" value="#OPT-2025-0891">
+</div>
+<!-- Model Class Dropdown Filter -->
+<div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded">
+<span class="font-label-caps text-[9px] text-outline uppercase font-semibold">Class:</span>
+<select class="bg-transparent font-body-sm text-body-sm text-on-surface focus:outline-none cursor-pointer font-medium">
+<option class="bg-white text-on-surface">All Classes</option>
+<option class="bg-white text-on-surface" selected="">Refinery Planning (MILP)</option>
+<option class="bg-white text-on-surface">Gas Grid Pipeline (LP)</option>
+<option class="bg-white text-on-surface">Power Dispatch (QP)</option>
+<option class="bg-white text-on-surface">Crude Blending</option>
+</select>
+</div>
+<!-- Outcome Filter -->
+<div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded">
+<span class="font-label-caps text-[9px] text-outline uppercase font-semibold">Outcome:</span>
+<select class="bg-transparent font-body-sm text-body-sm text-on-surface focus:outline-none cursor-pointer font-medium">
+<option class="bg-white text-on-surface" selected="">All Outcomes</option>
+<option class="bg-white text-emerald-700">Optimal (0.00% Gap)</option>
+<option class="bg-white text-amber-700">Feasible / Time Limit</option>
+<option class="bg-white text-red-700">Infeasible (IIS)</option>
+</select>
+</div>
+<!-- Policy Filter -->
+<div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded">
+<span class="font-label-caps text-[9px] text-outline uppercase font-semibold">Policy:</span>
+<select class="bg-transparent font-body-sm text-body-sm text-on-surface focus:outline-none cursor-pointer font-medium">
+<option class="bg-white text-on-surface" selected="">All Policies</option>
+<option class="bg-white text-primary">Auto-Learned (RL + GNN)</option>
+<option class="bg-white text-on-surface-variant">Default HiGHS Heuristics</option>
+<option class="bg-white text-outline">Manual Simplex Override</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-end lg:self-auto font-mono-data-sm text-mono-data-sm text-outline">
+<span class="">Showing <strong class="text-on-surface font-semibold">6</strong> of <strong class="text-on-surface font-semibold">1,429</strong> historical traces</span>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded bg-slate-100 border border-slate-200 flex items-center justify-center text-outline hover:text-on-surface hover:bg-slate-200 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-7 h-7 rounded bg-slate-100 border border-slate-200 flex items-center justify-center text-outline hover:text-on-surface hover:bg-slate-200 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Execution History Pipeline Feed / Table -->
+<div class="flex flex-col gap-space-xs">
+<!-- Column Header Row -->
+<div class="grid grid-cols-12 px-space-md py-space-xs font-label-caps text-label-caps text-outline uppercase tracking-wider items-center">
+<div class="col-span-3 lg:col-span-2">RUN ID / TIMESTAMP</div>
+<div class="col-span-4 lg:col-span-3">MODEL FILE &amp; TOPOLOGY</div>
+<div class="hidden lg:block lg:col-span-2">STRATEGY &amp; HEURISTIC</div>
+<div class="hidden xl:block xl:col-span-2">PRESOLVE / DIMENSIONS</div>
+<div class="col-span-3 lg:col-span-2">TIMING &amp; PIVOTS</div>
+<div class="col-span-2 lg:col-span-1 text-right">OUTCOME / REWARD</div>
+</div>
+<!-- ROW 1: EXPANDED DETAILED INSPECTION (Run #OPT-2025-0891) -->
+<div class="flex flex-col rounded bg-white border border-slate-200 shadow-sm overflow-hidden transition-all">
+<!-- Main Row Bar -->
+<div class="grid grid-cols-12 px-space-md py-3 items-center hover:bg-slate-50 cursor-pointer bg-sky-50/40 border-b border-slate-200">
+<!-- ID & Time -->
+<div class="col-span-3 lg:col-span-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
+<div class="flex flex-col">
+<span class="font-mono-data-sm text-mono-data-sm font-bold text-primary">#OPT-2025-0891</span>
+<span class="font-mono-data-sm text-[10px] text-outline">12 mins ago (Node #04)</span>
+</div>
+</div>
+<!-- Model & Class -->
+<div class="col-span-4 lg:col-span-3 flex flex-col pr-2">
+<div class="flex items-center gap-1.5 font-mono-data-sm text-mono-data-sm text-on-surface font-semibold truncate">
+<span class="material-symbols-outlined text-[14px] text-emerald-700">factory</span>
+<span class="truncate">refinery_quarterly_plan_v4.mps</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Refinery Planning • Crude Cracking Unit</span>
+</div>
+<!-- Strategy Chosen -->
+<div class="hidden lg:flex lg:col-span-2 flex-col gap-0.5">
+<div class="flex items-center gap-1 font-mono-data-sm text-[11px] text-primary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="">GNN Branching + RINS</span>
+</div>
+<span class="font-label-caps text-[9px] text-outline">POLICY REVISION: v3.2-prod</span>
+</div>
+<!-- Dimensions & Presolve -->
+<div class="hidden xl:flex xl:col-span-2 flex-col">
+<div class="font-mono-data-sm text-[11px] text-on-surface font-medium">142.5k rows × 320.8k cols</div>
+<div class="font-mono-data-sm text-[10px] text-emerald-700 font-semibold">Presolve: -42.1% rows, -38.4% cols</div>
+</div>
+<!-- Timing & Iterations -->
+<div class="col-span-3 lg:col-span-2 flex flex-col">
+<div class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">00:02:14.382</div>
+<div class="font-mono-data-sm text-[10px] text-outline">1.84M pivots • 42,810 nodes</div>
+</div>
+<!-- Outcome & Feedback -->
+<div class="col-span-2 lg:col-span-1 flex flex-col items-end gap-0.5">
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-caps text-[9px] font-bold">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span class="">OPTIMAL</span>
+</span>
+<span class="font-mono-data-sm text-[10px] text-emerald-700 font-semibold">+0.92 Rew (+38%)</span>
+</div>
+</div>
+<!-- Expandable Detail Drawer: What the Solver Learned -->
+<div class="px-space-lg py-space-md bg-slate-50/70 flex flex-col gap-space-md">
+<!-- Audit Header Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm bg-white p-space-sm rounded border border-slate-200">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">analytics</span>
+<span class="font-label-caps text-label-caps text-on-surface uppercase font-bold">Policy Learning Audit Trail &amp; Internal Heuristics Diagnostics</span>
+</div>
+<div class="flex items-center gap-space-sm text-outline font-mono-data-sm text-mono-data-sm">
+<span class="">Branch-and-Bound Seed: <span class="text-on-surface font-mono font-semibold">0x7F9B1E40</span></span>
+<span class="">•</span>
+<span class="">Wall-Clock Efficiency: <span class="text-emerald-700 font-semibold">9.4x faster than LP Simplex root</span></span>
+</div>
+</div>
+<!-- 3-Column Diagnostic Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- 1. Branching Policy Audit -->
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps text-primary uppercase font-bold">
+<span class="material-symbols-outlined text-[15px]">account_tree</span>
+<span class="">Branching Policy Audit</span>
+</div>
+<span class="font-mono-data-sm text-[10px] px-1.5 py-0.5 rounded bg-sky-50 border border-sky-100 text-primary font-semibold">GNN-RL Engine</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Evaluated surrogate variable selection against full strong branching at root and depth &lt; 5.
+              </p>
+<div class="flex flex-col gap-2 pt-1">
+<div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm">
+<span class="text-outline">Strong Branching Agreement:</span>
+<span class="text-emerald-700 font-bold">94.2% fidelity</span>
+</div>
+<div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+<div class="h-full bg-emerald-600" style="width: 94.2%;"></div>
+</div>
+<div class="flex items-center justify-between font-mono-data-sm text-[10px] text-outline">
+<span class="">Compute Cost Ratio: <strong class="text-primary font-semibold">1 / 10.4x</strong></span>
+<span class="">Nodes pruned early: <strong class="text-on-surface font-semibold">18,490</strong></span>
+</div>
+</div>
+<div class="mt-auto pt-2 bg-slate-50 border border-slate-100 p-2 rounded flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-amber-600">lightbulb</span>
+<span class="font-body-sm text-[11px] text-on-surface">Learned: Down-weight fractional hydrogen flow variables in early node exploration.</span>
+</div>
+</div>
+<!-- 2. Cut Generator Efficacy -->
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps text-emerald-800 uppercase font-bold">
+<span class="material-symbols-outlined text-[15px] text-emerald-700">content_cut</span>
+<span class="">Cut Generator Efficacy</span>
+</div>
+<span class="font-mono-data-sm text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">+$1.24M Dual Bound</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm p-1.5 rounded bg-slate-50 border border-slate-100">
+<span class="text-on-surface font-medium">Gomory Mixed-Integer</span>
+<span class="text-primary font-semibold">412 applied (78.4% active)</span>
+</div>
+<div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm p-1.5 rounded bg-slate-50 border border-slate-100">
+<span class="text-on-surface font-medium">Mixed-Integer Rounding (MIR)</span>
+<span class="text-on-surface-variant font-medium">84 applied (41 active)</span>
+</div>
+<div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm p-1.5 rounded bg-slate-50 border border-slate-100">
+<span class="text-on-surface font-medium">Lift-and-Project</span>
+<span class="text-on-surface-variant font-medium">28 applied (19 active)</span>
+</div>
+</div>
+<div class="mt-auto pt-2 bg-slate-50 border border-slate-100 p-2 rounded flex items-center justify-between font-mono-data-sm text-[11px]">
+<span class="text-outline">Root Gap Closed by Cuts:</span>
+<span class="text-emerald-700 font-bold">62.8% of relaxation</span>
+</div>
+</div>
+<!-- 3. Primal Heuristics & Feasibility Hits -->
+<div class="p-space-md rounded bg-white border border-slate-200 flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps text-amber-800 uppercase font-bold">
+<span class="material-symbols-outlined text-[15px] text-amber-600">psychology_alt</span>
+<span class="">Primal Heuristic Hits</span>
+</div>
+<span class="font-mono-data-sm text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">3 Incumbents Found</span>
+</div>
+<div class="flex flex-col gap-2 font-mono-data-sm text-mono-data-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[14px] text-emerald-600 mt-0.5 font-bold">check</span>
+<div>
+<strong class="text-on-surface">RINS (Relaxation Induced):</strong>
+<div class="text-[11px] text-outline">Found incumbent at Node #14,200 (Obj: $84,102,490)</div>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[14px] text-emerald-600 mt-0.5 font-bold">check</span>
+<div>
+<strong class="text-on-surface">Feasibility Pump:</strong>
+<div class="text-[11px] text-outline">Repaired integer feasibility in 8 passes at 00:00:19</div>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[14px] text-outline mt-0.5">remove</span>
+<div>
+<span class="text-on-surface-variant font-medium">Genetic Algorithm Mutation:</span>
+<div class="text-[11px] text-outline">Aborted (threshold not reached)</div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-2 bg-slate-50 border border-slate-100 p-2 rounded flex items-center justify-between font-mono-data-sm text-[11px]">
+<span class="text-outline">Policy Delta Vector:</span>
+<span class="text-primary font-mono font-bold">[+0.14 w_rins, -0.05 w_fp]</span>
+</div>
+</div>
+</div>
+<!-- Bottom Telemetry Trace & Node Specs Bar -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center bg-white border border-slate-200 p-space-md rounded shadow-sm">
+<!-- Sparkline Visual -->
+<div class="lg:col-span-5 flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="">SOLVER RESOURCE SATURATION PROFILE</span>
+<span class="text-primary font-mono font-bold">32 THREADS (AVX-512)</span>
+</div>
+<div class="h-12 w-full bg-slate-50 border border-slate-200 rounded flex items-center px-2">
+<!-- Inline SVG Telemetry Sparkline on crisp light grid -->
+<svg class="w-full h-8 overflow-visible" viewBox="0 0 300 40">
+<path d="M0,35 L20,32 L40,12 L60,14 L80,6 L100,8 L120,4 L140,5 L160,10 L180,6 L200,8 L220,12 L240,6 L260,8 L280,18 L300,38" fill="none" stroke="#007bb9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M0,38 L20,36 L40,25 L60,20 L80,18 L100,16 L120,15 L140,15 L160,16 L180,15 L200,16 L220,18 L240,17 L260,20 L280,24 L300,38" fill="none" stroke="#00855d" stroke-dasharray="3 3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+</svg>
+</div>
+<div class="flex items-center justify-between font-mono-data-sm text-[9px] text-outline">
+<span class="">0s (Root LP)</span>
+<span class="">Peak Mem: 14.8 GB (Node 28k)</span>
+<span class="">134.3s (Dual Conv)</span>
+</div>
+</div>
+<!-- Hardware Node Context -->
+<div class="lg:col-span-4 flex flex-col justify-center gap-1 font-mono-data-sm text-mono-data-sm text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-outline">computer</span>
+<span class="">Hardware: <strong class="text-on-surface font-semibold">AMD EPYC 9654 96-Core</strong></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-outline">memory</span>
+<span class="">Compilation: <strong class="text-on-surface font-semibold">GCC 13.2 -O3 AVX-512 BLAS</strong></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-outline">lock</span>
+<span class="">Primal Bound Hash: <span class="text-outline font-mono text-[10px]">d41d8cd98f00b204e9800998</span></span>
+</div>
+</div>
+<!-- Actions -->
+<div class="lg:col-span-3 flex flex-col gap-1.5 justify-center">
+<button class="h-7 px-3 rounded bg-slate-100 border border-slate-200 hover:bg-slate-200 text-on-surface font-label-caps text-label-caps font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-2xs" type="button">
+<span class="material-symbols-outlined text-[14px]">replay</span>
+<span class="">RE-RUN WITH SAME SEED</span>
+</button>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="h-7 px-2 rounded bg-white border border-slate-200 hover:bg-slate-50 text-on-surface-variant font-mono-data-sm text-[11px] font-medium flex items-center justify-center gap-1 transition-colors shadow-2xs" type="button">
+<span class="material-symbols-outlined text-[14px]">file_download</span>
+<span class="">.sol file</span>
+</button>
+<button class="h-7 px-2 rounded bg-white border border-slate-200 hover:bg-slate-50 text-on-surface-variant font-mono-data-sm text-[11px] font-medium flex items-center justify-center gap-1 transition-colors shadow-2xs" type="button">
+<span class="material-symbols-outlined text-[14px]">grid_on</span>
+<span class="">Tableau</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ROW 2: COLLAPSED (#OPT-2025-0890) -->
+<div class="grid grid-cols-12 px-space-md py-3 items-center rounded bg-white border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+<div class="col-span-3 lg:col-span-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<div class="flex flex-col">
+<span class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">#OPT-2025-0890</span>
+<span class="font-mono-data-sm text-[10px] text-outline">48 mins ago</span>
+</div>
+</div>
+<div class="col-span-4 lg:col-span-3 flex flex-col pr-2">
+<div class="flex items-center gap-1.5 font-mono-data-sm text-mono-data-sm text-on-surface font-semibold truncate">
+<span class="material-symbols-outlined text-[14px] text-primary">oil_barrel</span>
+<span class="truncate">crude_blending_hourly.lp</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Crude Blending • Continuous LP</span>
+</div>
+<div class="hidden lg:flex lg:col-span-2 flex-col gap-0.5">
+<span class="font-mono-data-sm text-[11px] text-on-surface font-semibold">Primal-Dual Barrier</span>
+<span class="font-label-caps text-[9px] text-outline">Simplex Crossover</span>
+</div>
+<div class="hidden xl:flex xl:col-span-2 flex-col">
+<div class="font-mono-data-sm text-[11px] text-on-surface font-medium">24.1k rows × 52.0k cols</div>
+<div class="font-mono-data-sm text-[10px] text-outline font-medium">Presolve: -18.2% rows</div>
+</div>
+<div class="col-span-3 lg:col-span-2 flex flex-col">
+<div class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">00:00:04.120</div>
+<div class="font-mono-data-sm text-[10px] text-outline">84,192 pivots • 1 node</div>
+</div>
+<div class="col-span-2 lg:col-span-1 flex flex-col items-end gap-0.5">
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-caps text-[9px] font-bold">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span class="">OPTIMAL</span>
+</span>
+<span class="font-mono-data-sm text-[10px] text-emerald-700 font-semibold">+0.81 Rew</span>
+</div>
+</div>
+<!-- ROW 3: COLLAPSED (#OPT-2025-0889 - INFEASIBLE IIS) -->
+<div class="grid grid-cols-12 px-space-md py-3 items-center rounded bg-white border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+<div class="col-span-3 lg:col-span-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<div class="flex flex-col">
+<span class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">#OPT-2025-0889</span>
+<span class="font-mono-data-sm text-[10px] text-outline">2h 15m ago</span>
+</div>
+</div>
+<div class="col-span-4 lg:col-span-3 flex flex-col pr-2">
+<div class="flex items-center gap-1.5 font-mono-data-sm text-mono-data-sm text-on-surface font-semibold truncate">
+<span class="material-symbols-outlined text-[14px] text-red-600">warning</span>
+<span class="truncate">refinery_contingency_test.mps</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Stress Test • Hydrocracker Outage</span>
+</div>
+<div class="hidden lg:flex lg:col-span-2 flex-col gap-0.5">
+<span class="font-mono-data-sm text-[11px] text-outline font-semibold">Manual Heuristics</span>
+<span class="font-label-caps text-[9px] text-red-700 font-semibold">IIS ISOLATION ACTIVE</span>
+</div>
+<div class="hidden xl:flex xl:col-span-2 flex-col">
+<div class="font-mono-data-sm text-[11px] text-on-surface font-medium">142.5k rows × 320.8k cols</div>
+<div class="font-mono-data-sm text-[10px] text-red-600 font-semibold">Farkas Ray Found</div>
+</div>
+<div class="col-span-3 lg:col-span-2 flex flex-col">
+<div class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">00:00:45.018</div>
+<div class="font-mono-data-sm text-[10px] text-outline">419,000 pivots • Phase I</div>
+</div>
+<div class="col-span-2 lg:col-span-1 flex flex-col items-end gap-0.5">
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200 font-label-caps text-[9px] font-bold">
+<span class="material-symbols-outlined text-[12px]">cancel</span>
+<span class="">INFEASIBLE</span>
+</span>
+<span class="font-mono-data-sm text-[10px] text-outline font-semibold">IIS Extracted</span>
+</div>
+</div>
+<!-- ROW 4: COLLAPSED (#OPT-2025-0888 - QP SOLVE) -->
+<div class="grid grid-cols-12 px-space-md py-3 items-center rounded bg-white border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+<div class="col-span-3 lg:col-span-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<div class="flex flex-col">
+<span class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">#OPT-2025-0888</span>
+<span class="font-mono-data-sm text-[10px] text-outline">3h 40m ago</span>
+</div>
+</div>
+<div class="col-span-4 lg:col-span-3 flex flex-col pr-2">
+<div class="flex items-center gap-1.5 font-mono-data-sm text-mono-data-sm text-on-surface font-semibold truncate">
+<span class="material-symbols-outlined text-[14px] text-sky-700">hub</span>
+<span class="truncate">pipeline_network_qp.nl</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Gas Grid Pipeline • Quadratic Non-linear</span>
+</div>
+<div class="hidden lg:flex lg:col-span-2 flex-col gap-0.5">
+<span class="font-mono-data-sm text-[11px] text-on-surface font-semibold">Interior Point Barrier</span>
+<span class="font-label-caps text-[9px] text-outline">Cholesky Factorization</span>
+</div>
+<div class="hidden xl:flex xl:col-span-2 flex-col">
+<div class="font-mono-data-sm text-[11px] text-on-surface font-medium">88.0k rows × 140.2k cols</div>
+<div class="font-mono-data-sm text-[10px] text-emerald-700 font-semibold">Convex Hessian (PD)</div>
+</div>
+<div class="col-span-3 lg:col-span-2 flex flex-col">
+<div class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">00:00:18.640</div>
+<div class="font-mono-data-sm text-[10px] text-outline">64 Newton iterations</div>
+</div>
+<div class="col-span-2 lg:col-span-1 flex flex-col items-end gap-0.5">
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-caps text-[9px] font-bold">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span class="">OPTIMAL</span>
+</span>
+<span class="font-mono-data-sm text-[10px] text-outline font-semibold">1.2e-7 tol</span>
+</div>
+</div>
+<!-- ROW 5: COLLAPSED (#OPT-2025-0887 - MILP AUTO-LEARNED) -->
+<div class="grid grid-cols-12 px-space-md py-3 items-center rounded bg-white border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+<div class="col-span-3 lg:col-span-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<div class="flex flex-col">
+<span class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">#OPT-2025-0887</span>
+<span class="font-mono-data-sm text-[10px] text-outline">5h 10m ago</span>
+</div>
+</div>
+<div class="col-span-4 lg:col-span-3 flex flex-col pr-2">
+<div class="flex items-center gap-1.5 font-mono-data-sm text-mono-data-sm text-on-surface font-semibold truncate">
+<span class="material-symbols-outlined text-[14px] text-emerald-700">build_circle</span>
+<span class="truncate">catalyst_replacement_milp.mps</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Turnaround Maintenance • Schedule MILP</span>
+</div>
+<div class="hidden lg:flex lg:col-span-2 flex-col gap-0.5">
+<div class="flex items-center gap-1 font-mono-data-sm text-[11px] text-primary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="">Auto-Learned Policy</span>
+</div>
+<span class="font-label-caps text-[9px] text-outline">GNN Branching v3.1</span>
+</div>
+<div class="hidden xl:flex xl:col-span-2 flex-col">
+<div class="font-mono-data-sm text-[11px] text-on-surface font-medium">64.0k rows × 110.0k cols</div>
+<div class="font-mono-data-sm text-[10px] text-emerald-700 font-semibold">Presolve: -32.4% rows</div>
+</div>
+<div class="col-span-3 lg:col-span-2 flex flex-col">
+<div class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">00:01:14.200</div>
+<div class="font-mono-data-sm text-[10px] text-outline">892,100 pivots • 12,400 nodes</div>
+</div>
+<div class="col-span-2 lg:col-span-1 flex flex-col items-end gap-0.5">
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-caps text-[9px] font-bold">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span class="">OPTIMAL</span>
+</span>
+<span class="font-mono-data-sm text-[10px] text-emerald-700 font-semibold">+0.88 Rew (0.008%)</span>
+</div>
+</div>
+<!-- ROW 6: COLLAPSED (#OPT-2025-0886 - TIME LIMIT FEASIBLE) -->
+<div class="grid grid-cols-12 px-space-md py-3 items-center rounded bg-white border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer shadow-sm">
+<div class="col-span-3 lg:col-span-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<div class="flex flex-col">
+<span class="font-mono-data-sm text-mono-data-sm font-bold text-on-surface">#OPT-2025-0886</span>
+<span class="font-mono-data-sm text-[10px] text-outline">6h 02m ago</span>
+</div>
+</div>
+<div class="col-span-4 lg:col-span-3 flex flex-col pr-2">
+<div class="flex items-center gap-1.5 font-mono-data-sm text-mono-data-sm text-on-surface font-semibold truncate">
+<span class="material-symbols-outlined text-[14px] text-amber-700">tune</span>
+<span class="truncate">turnaround_maintenance_sched.mps</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Annual Shutdown Matrix • Mega Scale</span>
+</div>
+<div class="hidden lg:flex lg:col-span-2 flex-col gap-0.5">
+<div class="flex items-center gap-1 font-mono-data-sm text-[11px] text-primary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="">Auto-Learned Policy</span>
+</div>
+<span class="font-label-caps text-[9px] text-outline">Adaptive Pruning</span>
+</div>
+<div class="hidden xl:flex xl:col-span-2 flex-col">
+<div class="font-mono-data-sm text-[11px] text-on-surface font-medium">210.0k rows × 480.0k cols</div>
+<div class="font-mono-data-sm text-[10px] text-outline">0.02% density</div>
+</div>
+<div class="col-span-3 lg:col-span-2 flex flex-col">
+<div class="font-mono-data-sm text-mono-data-sm font-bold text-amber-700">00:05:00.000</div>
+<div class="font-mono-data-sm text-[10px] text-outline">3.2M pivots • 98,100 nodes</div>
+</div>
+<div class="col-span-2 lg:col-span-1 flex flex-col items-end gap-0.5">
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 font-label-caps text-[9px] font-bold">
+<span class="material-symbols-outlined text-[12px]">timelapse</span>
+<span class="">TIME_LIMIT</span>
+</span>
+<span class="font-mono-data-sm text-[10px] text-on-surface-variant font-medium">0.04% gap feasible</span>
+</div>
+</div>
+</div>
+<!-- Strategy Retraining Queue / Pipeline Sync Card -->
+<div class="p-space-lg rounded bg-white border border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg shadow-sm">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded bg-sky-50 border border-sky-100 flex items-center justify-center text-primary shrink-0 shadow-2xs">
+<span class="material-symbols-outlined text-[24px]">model_training</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Active Experience Replay Buffer</span>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-label-caps text-[9px] font-semibold">BUFFER STATUS: 84% SATURATED</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+            412 new solve episode trajectories queued for offline reinforcement learning. Retraining will optimize GNN cut selection embeddings and variable branching priorities against the latest seasonal refinery throughput constraints.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0 self-end lg:self-auto">
+<div class="flex flex-col text-right font-mono-data-sm text-mono-data-sm">
+<span class="text-on-surface font-bold">412 / 500 Episodes</span>
+<span class="text-outline text-[10px]">Batch Size: 64 • PyTorch C++ LibTorch</span>
+</div>
+<button class="h-9 px-space-md rounded bg-primary hover:bg-primary-container text-white font-label-caps text-label-caps font-semibold shadow-sm transition-all flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span class="">TRIGGER LIBTORCH RETRAIN</span>
+</button>
+</div>
+</div>
+</div>
+</div></main></div>
+
+</body></html>

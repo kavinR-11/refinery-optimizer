@@ -1,0 +1,571 @@
+<!DOCTYPE html><html lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"outline":"#64748B","surface":"#FFFFFF","on-surface-variant":"#475569","outline-variant":"#E2E8F0","secondary":"#059669","primary":"#0284C7","surface-container-highest":"#E2E8F0","inverse-on-surface":"#F8FAFC","on-primary-container":"#FFFFFF","surface-container-lowest":"#FFFFFF","surface-bright":"#FFFFFF","surface-dim":"#F1F5F9","inverse-surface":"#0F172A","surface-container-low":"#F8FAFC","tertiary":"#D97706","primary-container":"#0284C7","background":"#F8FAFC","surface-tint":"#0284C7","surface-container":"#F1F5F9","tertiary-container":"#FEF3C7","surface-variant":"#E2E8F0","on-surface":"#0F172A","on-primary":"#FFFFFF","on-error":"#FFFFFF","on-secondary":"#FFFFFF","on-background":"#0F172A","secondary-container":"#ECFDF5","error":"#DC2626","error-container":"#FEE2E2"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"1rem","space-sm":"0.5rem","space-md":"0.75rem","space-xs":"0.25rem","space-xl":"1.75rem","gutter":"0.75rem","space-lg":"1.25rem"},fontFamily:{"body-md":["Inter","sans-serif"],"label-caps":["JetBrains Mono","monospace"],"mono-data-sm":["JetBrains Mono","monospace"],"headline-xl":["Inter","sans-serif"],"mono-data-md":["JetBrains Mono","monospace"],"body-lg":["Inter","sans-serif"],"mono-data-lg":["JetBrains Mono","monospace"],"headline-lg":["Inter","sans-serif"],"headline-xl-mobile":["Inter","sans-serif"],"headline-md":["Inter","sans-serif"],"body-sm":["Inter","sans-serif"]},fontSize:{"body-md":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"label-caps":["10px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"600"}],"mono-data-sm":["11px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"500"}],"headline-xl":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"mono-data-md":["14px",{"lineHeight":"20px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-lg":["15px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"400"}],"mono-data-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["18px",{"lineHeight":"26px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}]}}}}</script></head><body class="bg-slate-50 font-body-md text-body-md text-slate-900 antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-white border-r border-slate-200 z-50 flex flex-col justify-between select-none shadow-sm"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center justify-between border-b border-slate-200 bg-white"><div class="flex items-center gap-space-sm"><div class="w-7 h-7 rounded bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 shadow-sm"><span class="material-symbols-outlined text-[18px]">memory</span></div><div class="flex flex-col"><span class="font-label-caps text-label-caps text-slate-900 tracking-wider uppercase font-bold">OPTIMA<span class="text-sky-600">CORE</span></span><span class="font-mono-data-sm text-[9px] text-slate-500 leading-none">LP/MILP/QP KERNEL</span></div></div><div class="flex items-center gap-space-xs"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono-data-sm text-[9px] font-semibold">v2.4</span><button class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors" title="Toggle Workspace Tree" type="button"><span class="material-symbols-outlined text-[16px]">dock_to_left</span></button></div></div><div class="px-space-md py-space-sm bg-slate-50/80 border-b border-slate-200"><div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm text-slate-600 mb-1"><span class="">SOLVER STATE</span><span class="text-emerald-700 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>CONVERGED</span></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-slate-500"><span class="">GAP: 0.000%</span><span class="">ITERS: 14,892</span></div></div><nav class="flex flex-col gap-0.5 px-space-sm py-space-md" data-active-classes="bg-sky-50 text-sky-700 border-l-2 border-sky-600 font-semibold"><div class="px-space-sm pb-space-xs font-label-caps text-label-caps text-slate-400 uppercase tracking-wider">Control Plane</div><a aria-current="page" class="group flex items-center justify-between px-space-sm py-2 rounded transition-all bg-sky-50 text-sky-700 border-l-2 border-sky-600 font-semibold" data-path="solve-overview" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-sky-600">speed</span><span class="font-body-md text-body-md">Solve Overview</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-emerald-100/70 text-emerald-800 border border-emerald-200 font-semibold">Live</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all" data-path="refinery-planning" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">factory</span><span class="font-body-md text-body-md">Refinery Planning</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-medium">Demo</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all" data-path="solver-internals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">hub</span><span class="font-body-md text-body-md">Solver Internals</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 font-medium">Explain</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all" data-path="benchmarks" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">leaderboard</span><span class="font-body-md text-body-md">Benchmarks &amp; Perf</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-medium">vs HiGHS</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all" data-path="learning-log" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">terminal</span><span class="font-body-md text-body-md">Strategy Log</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 font-medium">History</span></a></nav></div><div class="flex flex-col border-t border-slate-200 bg-slate-50/60"><div class="p-space-md border-b border-slate-200"><div class="flex items-center justify-between text-[11px] font-mono-data-sm text-slate-600 mb-1"><span class="">MEM POOL (AVX-512)</span><span class="text-slate-900 font-semibold">44.3%</span></div><div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-sky-600 rounded-full" style="width: 44.3%;"></div></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-slate-500 mt-1"><span class="">28.4 GB alloc</span><span class="">64.0 GB pool</span></div></div><div class="p-space-md"><div class="flex items-center justify-between mb-2"><div class="flex flex-col"><span class="font-label-caps text-[10px] text-slate-400 uppercase font-semibold">CLUSTER LICENSE</span><span class="font-body-sm text-body-sm text-slate-800 font-medium">Enterprise Tier</span></div><span class="font-mono-data-sm text-[10px] px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-600 font-semibold shadow-xs">12 Nodes</span></div><div class="flex items-center justify-between pt-2 border-t border-slate-200 text-slate-600"><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-sky-600 transition-colors" data-path="docs" href="#"><span class="material-symbols-outlined text-[16px]">menu_book</span><span class="">Docs</span></a><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-sky-600 transition-colors" data-path="cluster-settings" href="#"><span class="material-symbols-outlined text-[16px]">settings</span><span class="">Settings</span></a><div class="flex items-center gap-1 text-[10px] font-mono-data-sm text-emerald-700 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="">SYNC</span></div></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen bg-slate-50"><header class="fixed top-0 left-72 right-0 h-14 bg-white/95 backdrop-blur-md border-b border-slate-200 z-40 flex items-center justify-between px-space-md shadow-xs"><div class="flex items-center min-w-0 flex-1 gap-2.5 overflow-hidden"><span class="hidden md:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-sky-700 font-semibold">KERNEL:</span><span class="">v2.4.1-rc3</span></span><span class="hidden lg:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500 font-semibold">BLAS/LAPACK:</span><span class="">Accelerated</span></span><span class="hidden xl:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500 font-semibold">Threads:</span><span class="">32/32 AVX-512</span></span><div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 max-w-[200px] shrink-0 truncate" title="PROFILE: PetroChem_Refinery_Alpha"><span class="material-symbols-outlined text-[14px] text-emerald-600 shrink-0">layers</span><span class="font-bold text-slate-800 shrink-0">PROFILE:</span><span class="truncate block text-slate-700">PetroChem_Refinery_Alpha</span></div><div class="hidden 2xl:inline-flex items-center gap-1.5 px-2 py-1 rounded bg-slate-50 border border-slate-200 text-xs font-mono text-slate-500 shrink-0"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span><span class="text-slate-900 font-medium">4ms</span><span class="text-slate-300">•</span><span class="text-emerald-700 font-semibold">Active Sync</span></div></div><div class="flex items-center gap-3 shrink-0 ml-auto"><button class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs rounded-md shadow-sm whitespace-nowrap active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[16px]">add_circle</span><span class="">+ NEW RUN</span></button><a class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 border border-slate-200 rounded-md hover:bg-slate-50 shrink-0 whitespace-nowrap shadow-xs transition-colors" data-path="docs" href="#"><span class="material-symbols-outlined text-[16px]">help_outline</span><span class="">Docs</span></a><button class="shrink-0 p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md border border-slate-200 inline-flex items-center justify-center shadow-xs transition-colors" onclick="document.documentElement.classList.toggle('dark')" title="Toggle Theme" type="button"><span class="material-symbols-outlined text-[18px]">dark_mode</span></button></div></header><main class="w-full pt-14 flex-1 bg-slate-50"><div class="flex flex-col w-full">
+<!-- Top Telemetry & Command Strip -->
+<div class="relative w-full overflow-hidden p-space-md lg:p-space-lg flex flex-col gap-space-lg">
+<!-- Top Command Strip -->
+<div class="w-full flex flex-wrap items-center justify-between gap-space-md bg-white rounded-lg p-space-md border border-slate-200 shadow-xs">
+<div class="flex items-center gap-space-md flex-wrap">
+<div class="flex items-center gap-2 px-2.5 py-1 rounded bg-emerald-50 border border-emerald-200">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-caps text-label-caps uppercase text-emerald-800 tracking-wider font-bold">Active Dispatcher</span>
+</div>
+<div class="h-4 w-px bg-slate-200"></div>
+<div class="flex items-center gap-2 font-mono-data-sm text-mono-data-sm text-slate-600">
+<span class="text-slate-400">TARGET INSTANCE:</span>
+<span class="text-slate-900 font-semibold">prod-compute-cluster-alpha (32x EPYC 9654)</span>
+</div>
+<div class="hidden xl:flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-sky-50 border border-sky-200 font-mono-data-sm text-mono-data-sm text-sky-700 font-semibold">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span class="">SIMD AVX-512 ENGAGED</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500 hidden sm:inline">SYS LOAD: <strong class="text-slate-800">41.2%</strong></span>
+<div class="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden hidden sm:block">
+<div class="h-full bg-emerald-500" style="width: 41.2%;"></div>
+</div>
+<button class="px-2.5 py-1 rounded bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-label-caps text-label-caps transition-all flex items-center gap-1 font-semibold" type="button">
+<span class="material-symbols-outlined text-[14px] text-slate-500">tune</span>
+<span class="">HEURISTIC TUNER</span>
+</button>
+</div>
+</div>
+<!-- Main Dual Workzone: Run Submission Panel (Left) & Live Solver Telemetry (Right) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- ZONE 1: RUN SUBMISSION PANEL (5 cols) -->
+<section class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Panel Container Card -->
+<div class="bg-white rounded-xl p-space-lg border border-slate-200 shadow-sm flex flex-col gap-space-md relative">
+<div class="flex items-center justify-between pb-1 border-b border-slate-100">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sky-600 text-[20px]">input</span>
+<h2 class="font-headline-md text-headline-md text-slate-900 tracking-tight font-bold">Run Submission</h2>
+</div>
+<span class="font-label-caps text-label-caps px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 tracking-wide font-bold">MILP STACK</span>
+</div>
+<!-- Drag and Drop Active Model Spec Card -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-caps text-label-caps text-slate-500 uppercase tracking-wider font-semibold">Model File Source</label>
+<div class="relative group bg-slate-50 rounded-lg p-space-md border border-slate-200 cursor-pointer transition-all hover:border-sky-300 hover:bg-sky-50/30">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded bg-sky-100 border border-sky-200 flex items-center justify-center text-sky-700 shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-mono-data-md text-mono-data-md text-slate-900 font-bold truncate group-hover:text-sky-700 transition-colors">
+                      refinery_quarterly_plan_v4.mps
+                    </span>
+<div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 font-mono-data-sm text-mono-data-sm text-slate-500">
+<span class="text-slate-800 font-semibold">18.4 MB</span>
+<span class="">•</span>
+<span class="">142,500 rows</span>
+<span class="">•</span>
+<span class="">320,800 cols</span>
+</div>
+</div>
+</div>
+<span class="font-label-caps text-label-caps px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold shrink-0">MPS LOADED</span>
+</div>
+<!-- Non-zero density telemetry strip -->
+<div class="mt-space-sm pt-space-xs border-t border-slate-200/60 flex items-center justify-between font-mono-data-sm text-mono-data-sm text-slate-500">
+<span class="">Non-Zero Sparsity Density:</span>
+<span class="text-sky-700 font-mono-data-sm font-semibold">0.0412% (Sparsity Preserved)</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-slate-600 font-label-caps text-label-caps px-1">
+<span class="hover:text-sky-600 cursor-pointer transition-colors flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[13px]">file_upload</span> Upload .mps / .lp / .nl
+              </span>
+<span class="text-slate-400">MPS format preferred</span>
+</div>
+</div>
+<!-- Solver Mode Switcher -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-caps text-label-caps text-slate-500 uppercase tracking-wider font-semibold">Solver Kernel Architecture</label>
+<span class="font-mono-data-sm text-[10px] text-sky-700 font-semibold">Primal Simplex + Dual Cut Pool</span>
+</div>
+<div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
+<button class="py-2 px-1 text-center rounded text-slate-600 hover:text-slate-900 font-label-caps text-label-caps uppercase font-semibold transition-all" type="button">
+                LP (Simplex)
+              </button>
+<button class="py-2 px-1 text-center rounded bg-white text-sky-700 shadow-xs border border-slate-200 font-label-caps text-label-caps uppercase font-bold flex items-center justify-center gap-1.5" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                MILP (B&amp;C)
+              </button>
+<button class="py-2 px-1 text-center rounded text-slate-600 hover:text-slate-900 font-label-caps text-label-caps uppercase font-semibold transition-all" type="button">
+                QP (IPM)
+              </button>
+</div>
+</div>
+<!-- Strategy Configuration Selectors & Dropdowns -->
+<div class="space-y-space-sm bg-slate-50 p-space-md rounded-lg border border-slate-200">
+<!-- Presolve -->
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">PRESOLVE LEVEL</span>
+<div class="relative">
+<select class="w-full bg-white text-slate-900 border border-slate-200 font-mono-data-sm text-mono-data-sm rounded px-3 py-2 appearance-none outline-none focus:border-sky-500 cursor-pointer shadow-xs transition-colors">
+<option selected="">Aggressive Dual Reductions + Probing (Level 3)</option>
+<option>Standard Bound Strengthening + Substitution</option>
+<option>Minimal (Bound Tightening Only)</option>
+<option>Disabled (Pass Raw Formulation)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-slate-400 pointer-events-none text-[16px]">expand_more</span>
+</div>
+</div>
+<!-- Heuristics & Cuts in 2-Col Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">PRIMAL HEURISTICS</span>
+<div class="relative">
+<select class="w-full bg-white text-slate-900 border border-slate-200 font-mono-data-sm text-mono-data-sm rounded px-3 py-2 appearance-none outline-none focus:border-sky-500 cursor-pointer shadow-xs transition-colors">
+<option selected="">RINS + Feasibility Pump (Freq: 10)</option>
+<option>Genetic Algorithm Diving</option>
+<option>Local Branching + Mutation</option>
+<option>Pure Feasibility Pump</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-slate-400 pointer-events-none text-[16px]">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">CUT GENERATION</span>
+<div class="relative">
+<select class="w-full bg-white text-slate-900 border border-slate-200 font-mono-data-sm text-mono-data-sm rounded px-3 py-2 appearance-none outline-none focus:border-sky-500 cursor-pointer shadow-xs transition-colors">
+<option selected="">Gomory Mixed + Lift-and-Project</option>
+<option>Clique Cuts + Cover Cuts Only</option>
+<option>Aggressive Multi-Commodity Flow</option>
+<option>Zero-Half + MIR Cuts</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-slate-400 pointer-events-none text-[16px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Strategy Policy Toggle -->
+<div class="pt-1 flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">POLICY ARBITRATION</span>
+<div class="flex items-center gap-1 bg-slate-200/80 p-0.5 rounded border border-slate-200">
+<button class="px-2.5 py-1 rounded bg-white text-sky-700 shadow-xs font-label-caps text-label-caps font-bold" type="button">
+                  AUTO-LEARNED POLICY
+                </button>
+<button class="px-2.5 py-1 rounded text-slate-600 hover:text-slate-900 font-label-caps text-label-caps font-semibold" type="button">
+                  MANUAL TUNED
+                </button>
+</div>
+</div>
+<!-- Numerical Solvers Bound Control -->
+<div class="grid grid-cols-3 gap-space-sm pt-2 border-t border-slate-200">
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">MAX THREADS</label>
+<div class="flex items-center bg-white border border-slate-200 rounded px-2 py-1.5 shadow-xs">
+<input class="w-full bg-transparent font-mono-data-md text-mono-data-md text-slate-900 font-semibold outline-none" type="number" value="32">
+<span class="font-mono-data-sm text-[10px] text-slate-400 ml-1">AVX</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">MIP GAP TOL</label>
+<div class="flex items-center bg-white border border-slate-200 rounded px-2 py-1.5 shadow-xs">
+<input class="w-full bg-transparent font-mono-data-md text-mono-data-md text-emerald-600 font-semibold outline-none" type="text" value="1.00e-4">
+<span class="font-mono-data-sm text-[10px] text-slate-400 ml-1">%</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">TIME LIMIT</label>
+<div class="flex items-center bg-white border border-slate-200 rounded px-2 py-1.5 shadow-xs">
+<input class="w-full bg-transparent font-mono-data-md text-mono-data-md text-slate-900 font-semibold outline-none" type="number" value="300">
+<span class="font-mono-data-sm text-[10px] text-slate-400 ml-1">SEC</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Action Bar -->
+<div class="pt-space-xs flex flex-col sm:flex-row items-center gap-space-sm">
+<button class="w-full sm:flex-1 h-11 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-headline-md text-body-md font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span class="">Launch Solve</span>
+</button>
+<button class="w-full sm:w-auto h-11 px-4 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-label-caps text-label-caps uppercase font-bold transition-all" type="button">
+              Dry Run Presolve
+            </button>
+<button class="w-full sm:w-auto h-11 px-3 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-800 font-label-caps text-label-caps uppercase transition-all shadow-xs" title="Clear Model Cache" type="button">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+</div>
+</div>
+<!-- System Architecture Card / Quick Insights -->
+<div class="bg-white rounded-xl p-space-md border border-slate-200 shadow-xs flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+<span class="material-symbols-outlined text-[18px]">dns</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-slate-900 font-semibold">NUMA Socket Binding Active</span>
+<span class="font-mono-data-sm text-[11px] text-slate-500">Thread Affinity: Cores 0-31 [Socket 0: 16 | Socket 1: 16]</span>
+</div>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">ZERO CONTENTION</span>
+</div>
+</section>
+<!-- ZONE 2: LIVE ACTIVE SOLVE TELEMETRY CARD (7 cols) -->
+<section class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Header Active Solve Telemetry Banner -->
+<div class="bg-white rounded-xl p-space-lg border border-slate-200 shadow-sm flex flex-col gap-space-md relative">
+<!-- Run Status & Run ID Header -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm border-b border-slate-100">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-label-caps text-label-caps font-bold">
+<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+<span class="">STATUS: SOLVING (Branch &amp; Bound Tree Exploration)</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500 font-medium">RUN ID: <strong class="text-slate-900 font-bold">#OPT-2025-0891</strong></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-mono-data-sm text-mono-data-sm text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded font-bold">GAP: 0.0289%</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">(Target ≤ 0.0100%)</span>
+</div>
+</div>
+<!-- Real-Time Monospace Ticker Metrics Grid (6 Metric Cards) -->
+<div class="grid grid-cols-2 lg:grid-cols-3 gap-space-sm">
+<!-- Metric 1: Elapsed Time -->
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-space-md flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">Elapsed Time</span>
+<span class="material-symbols-outlined text-[16px] text-slate-400">timer</span>
+</div>
+<div class="font-mono-data-lg text-mono-data-lg text-slate-900 font-bold mt-1 tracking-tight">
+                00:02:14<span class="text-sky-600 text-[15px]">.382</span>
+</div>
+<span class="font-mono-data-sm text-[10px] text-slate-500 mt-0.5">WALL CLOCK / 300s LIMIT</span>
+</div>
+<!-- Metric 2: Simplex Iterations -->
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-space-md flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">Simplex Pivots</span>
+<span class="material-symbols-outlined text-[16px] text-slate-400">sync</span>
+</div>
+<div class="font-mono-data-lg text-mono-data-lg text-slate-900 font-bold mt-1 tracking-tight">
+                1,842,910
+              </div>
+<span class="font-mono-data-sm text-[10px] text-emerald-700 font-semibold mt-0.5">+13,640 pivots/sec</span>
+</div>
+<!-- Metric 3: Active B&B Nodes -->
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-space-md flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-slate-500 uppercase font-semibold">B&amp;B Nodes</span>
+<span class="material-symbols-outlined text-[16px] text-slate-400">account_tree</span>
+</div>
+<div class="font-mono-data-lg text-mono-data-lg text-slate-900 font-bold mt-1 tracking-tight">
+                42,810
+              </div>
+<span class="font-mono-data-sm text-[10px] text-slate-500 mt-0.5">11,402 open leaves</span>
+</div>
+<!-- Metric 4: Primal Bound (Best Incumbent) -->
+<div class="bg-sky-50/60 border border-sky-200 rounded-lg p-space-md flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-sky-800 uppercase font-bold">Primal (Incumbent)</span>
+<span class="material-symbols-outlined text-[16px] text-sky-700">trending_down</span>
+</div>
+<div class="font-mono-data-lg text-mono-data-lg text-sky-700 font-bold mt-1 tracking-tight">
+                $14,892,410<span class="text-[14px] text-sky-600">.22</span>
+</div>
+<span class="font-mono-data-sm text-[10px] text-sky-700 font-medium mt-0.5">Discovered @ 00:02:13</span>
+</div>
+<!-- Metric 5: Dual Bound (Relaxation) -->
+<div class="bg-emerald-50/60 border border-emerald-200 rounded-lg p-space-md flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-emerald-800 uppercase font-bold">Dual (Relaxation)</span>
+<span class="material-symbols-outlined text-[16px] text-emerald-700">trending_up</span>
+</div>
+<div class="font-mono-data-lg text-mono-data-lg text-emerald-700 font-bold mt-1 tracking-tight">
+                $14,888,105<span class="text-[14px] text-emerald-600">.10</span>
+</div>
+<span class="font-mono-data-sm text-[10px] text-emerald-700 font-medium mt-0.5">Lagrangian Bound</span>
+</div>
+<!-- Metric 6: Relative MIP Gap -->
+<div class="bg-amber-50/60 border border-amber-200 rounded-lg p-space-md flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-amber-800 uppercase font-bold">Relative Gap</span>
+<span class="material-symbols-outlined text-[16px] text-amber-700">data_thresholding</span>
+</div>
+<div class="font-mono-data-lg text-mono-data-lg text-amber-700 font-bold mt-1 tracking-tight">
+                0.0289%
+              </div>
+<div class="w-full h-1.5 bg-amber-100 rounded-full overflow-hidden mt-1.5 border border-amber-200">
+<div class="h-full bg-amber-500" style="width: 71.1%;"></div>
+</div>
+</div>
+</div>
+<!-- Interactive SVG Convergence Chart (Logarithmic Dual vs Primal bounds over iterations) -->
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-space-md flex flex-col gap-2 relative shadow-xs">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-caps text-label-caps text-slate-800 uppercase tracking-wider font-bold">Dual-Primal Bounds Convergence Curve</span>
+<span class="font-mono-data-sm text-[11px] text-slate-500">Real-Time Progression (0 - 140s)</span>
+</div>
+<div class="flex items-center gap-4 font-mono-data-sm text-[11px]">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-0.5 bg-sky-600 rounded-full"></span>
+<span class="text-sky-700 font-semibold">Primal ($14.89M)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-0.5 bg-emerald-600 rounded-full"></span>
+<span class="text-emerald-700 font-semibold">Dual ($14.88M)</span>
+</div>
+<div class="flex items-center gap-1 text-amber-700 font-semibold">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="">Cut Injections (42)</span>
+</div>
+</div>
+</div>
+<!-- The Chart Canvas -->
+<div class="relative w-full h-52 bg-white rounded border border-slate-200 overflow-hidden flex items-end">
+<!-- Static SVG Convergence Visualization with Cut markers -->
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 700 200">
+<defs>
+<!-- Convergence Gap Shading Gradient -->
+<linearGradient id="convergenceGapGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0284C7" stop-opacity="0.14"></stop>
+<stop offset="100%" stop-color="#059669" stop-opacity="0.08"></stop>
+</linearGradient>
+<!-- Cut Line Dash pattern -->
+<linearGradient id="cutLineGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#F59E0B" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#F59E0B" stop-opacity="0.1"></stop>
+</linearGradient>
+</defs>
+<!-- Background Delicate Light Grid Lines -->
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="0" x2="700" y1="40" y2="40"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="0" x2="700" y1="80" y2="80"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="0" x2="700" y1="120" y2="120"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="0" x2="700" y1="160" y2="160"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="140" x2="140" y1="0" y2="200"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="280" x2="280" y1="0" y2="200"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="420" x2="420" y1="0" y2="200"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" x1="560" x2="560" y1="0" y2="200"></line>
+<!-- Vertical Cut Injection Ticks -->
+<line stroke="url(#cutLineGrad)" stroke-dasharray="2 2" stroke-width="1.5" x1="120" x2="120" y1="30" y2="180"></line>
+<circle cx="120" cy="30" fill="#D97706" r="3"></circle>
+<line stroke="url(#cutLineGrad)" stroke-dasharray="2 2" stroke-width="1.5" x1="260" x2="260" y1="48" y2="175"></line>
+<circle cx="260" cy="48" fill="#D97706" r="3"></circle>
+<line stroke="url(#cutLineGrad)" stroke-dasharray="2 2" stroke-width="1.5" x1="390" x2="390" y1="62" y2="160"></line>
+<circle cx="390" cy="62" fill="#D97706" r="3"></circle>
+<line stroke="url(#cutLineGrad)" stroke-dasharray="2 2" stroke-width="1.5" x1="530" x2="530" y1="75" y2="140"></line>
+<circle cx="530" cy="75" fill="#D97706" r="3"></circle>
+<line stroke="url(#cutLineGrad)" stroke-dasharray="2 2" stroke-width="1.5" x1="640" x2="640" y1="84" y2="120"></line>
+<circle cx="640" cy="84" fill="#D97706" r="3"></circle>
+<!-- Shaded Gap Poly between Upper Primal and Lower Dual curves -->
+<polygon fill="url(#convergenceGapGrad)" points="
+                  0,10 
+                  80,24 140,38 220,52 310,64 420,74 530,82 620,88 695,92 
+                  695,108 620,114 530,122 420,132 310,146 220,160 140,174 80,185 0,196
+                "></polygon>
+<!-- Primal Curve (Sky blue - Descending upper bound) -->
+<path d="M 0,10 C 100,28 200,50 320,66 C 440,78 560,86 700,93" fill="none" stroke="#0284C7" stroke-width="2.5"></path>
+<!-- Dual Curve (Emerald green - Ascending lower bound) -->
+<path d="M 0,196 C 90,182 190,164 320,144 C 450,128 570,116 700,107" fill="none" stroke="#059669" stroke-width="2.5"></path>
+<!-- Current Pointer Crosshairs -->
+<circle cx="695" cy="93" fill="#0284C7" r="4.5" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<circle cx="695" cy="107" fill="#059669" r="4.5" stroke="#FFFFFF" stroke-width="1.5"></circle>
+</svg>
+<!-- Real-Time Floating Tooltip overlay -->
+<div class="absolute right-4 top-4 bg-white/95 border border-slate-200 backdrop-blur-md px-3 py-2 rounded shadow-md font-mono-data-sm text-[10px] text-slate-800 flex flex-col">
+<span class="text-slate-500 font-medium">T = 134.3s (Node 42,810)</span>
+<span class="text-sky-700 font-bold">Primal: $14,892,410.22</span>
+<span class="text-emerald-700 font-bold">Dual: $14,888,105.10</span>
+<span class="text-amber-700 font-bold">Absolute Gap: $4,305.12</span>
+</div>
+</div>
+<!-- Chart Horizontal Axis Labels -->
+<div class="flex items-center justify-between font-mono-data-sm text-[10px] text-slate-500 px-1">
+<span class="">00:00 (Presolve Root)</span>
+<span class="">00:30 (Cut Phase I)</span>
+<span class="">01:00 (Node 12,000)</span>
+<span class="">01:30 (RINS Incumbent)</span>
+<span class="">02:14 (Active B&amp;C)</span>
+</div>
+</div>
+<!-- Dynamic Diagnostic Stream (Light Engineering Terminal) -->
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-space-md flex flex-col gap-1.5 font-mono-data-sm text-mono-data-sm shadow-xs">
+<div class="flex items-center justify-between pb-1 border-b border-slate-200/60">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-sky-700">terminal</span>
+<span class="font-label-caps text-label-caps text-slate-700 uppercase tracking-wider font-bold">Live Kernel Diagnostic Stream</span>
+</div>
+<div class="flex items-center gap-2 text-[10px] text-slate-500">
+<span class="inline-flex items-center gap-1 text-emerald-700 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>TAIL -f</span>
+<span class="">Auto-Scroll: ON</span>
+</div>
+</div>
+<!-- Terminal Output Lines -->
+<div class="space-y-1.5 bg-white border border-slate-200 p-space-sm rounded font-mono-data-sm text-[11px] leading-relaxed select-text overflow-x-auto shadow-inner">
+<div class="text-slate-700">
+<span class="text-slate-400 font-medium">[00:02:11.902]</span> Root LP relaxation solved in 842.1ms (Objective: 14,886,210.04)
+              </div>
+<div class="text-slate-700">
+<span class="text-slate-400 font-medium">[00:02:12.441]</span> Node 42000: Dual <span class="text-emerald-700 font-semibold">14887920.4</span>, Primal <span class="text-sky-700 font-semibold">14892410.2</span>, Gap <span class="text-amber-700 font-bold">0.0301%</span> (Cuts: +24 Gomory, +8 MIR)
+              </div>
+<div class="text-emerald-800 bg-emerald-50/70 border border-emerald-200 px-1.5 py-0.5 rounded">
+<span class="text-slate-500 font-medium">[00:02:13.118]</span> <strong class="text-emerald-700">[INCUMBENT]</strong> Heuristic RINS found new integer solution: <span class="font-bold text-slate-900">$14,892,410.22</span> (Thread #14, Depth 16)
+              </div>
+<div class="text-slate-700">
+<span class="text-slate-400 font-medium">[00:02:14.020]</span> Strong branching on integer var <code class="text-sky-700 bg-sky-50 border border-sky-200 px-1 py-0.2 rounded font-semibold">'distill_unit_3_mode_switch'</code> (depth 18, 4 candidates left)
+              </div>
+<div class="text-slate-700 flex items-center gap-2">
+<span class="text-slate-400 font-medium">[00:02:14.382]</span> Parallel synchronization barrier reached across 32 threads. Branch-and-Cut active.
+                <span class="inline-block w-1.5 h-3 bg-sky-600 animate-pulse"></span>
+</div>
+</div>
+</div>
+<!-- Interactive Control Buttons -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="h-9 px-3 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-label-caps text-label-caps uppercase flex items-center gap-1.5 transition-all font-semibold" type="button">
+<span class="material-symbols-outlined text-[16px] text-amber-600">pause_circle</span>
+<span class="">Pause Branching</span>
+</button>
+<button class="h-9 px-3 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-label-caps text-label-caps uppercase flex items-center gap-1.5 transition-all font-semibold" type="button">
+<span class="material-symbols-outlined text-[16px] text-sky-700">auto_fix_high</span>
+<span class="">Inject Feasible Heuristic</span>
+</button>
+<button class="h-9 px-3 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-label-caps text-label-caps uppercase flex items-center gap-1.5 transition-all font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-[16px] text-slate-500">file_download</span>
+<span class="">Export MPS</span>
+</button>
+</div>
+<button class="h-9 px-4 rounded bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 font-label-caps text-label-caps uppercase font-bold flex items-center gap-1.5 transition-all shadow-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">stop_circle</span>
+<span class="">Stop &amp; Return Incumbent</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- ZONE 3: ACTIVE JOBS QUEUE & CLUSTER NODE HEALTH (Bottom Full-Width Zone) -->
+<section class="w-full flex flex-col gap-space-sm">
+<div class="bg-white rounded-xl p-space-lg border border-slate-200 shadow-sm flex flex-col gap-space-md">
+<!-- Table Header & Filter Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-md pb-space-xs border-b border-slate-100">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-sky-600 text-[22px]">developer_board</span>
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md text-slate-900 font-bold">Active Worker Threads &amp; Cluster Topology</h3>
+<span class="font-body-sm text-body-sm text-slate-500">Node instance hardware telemetry, cache miss rates, and B&amp;C task partition</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded text-mono-data-sm text-mono-data-sm text-slate-700">
+<span class="text-slate-400">TOTAL CORES:</span>
+<span class="text-sky-700 font-bold">32 / 32 Physical</span>
+<span class="text-slate-300">•</span>
+<span class="text-slate-400">L3 CACHE:</span>
+<span class="text-slate-900 font-bold">256 MB V-Cache</span>
+</div>
+<button class="px-3 py-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-label-caps text-label-caps flex items-center gap-1 shadow-xs transition-all font-semibold" type="button">
+<span class="material-symbols-outlined text-[15px]">refresh</span>
+<span class="">Rebalance Pool</span>
+</button>
+</div>
+</div>
+<!-- High Density Data Table -->
+<div class="w-full overflow-x-auto rounded-lg bg-white border border-slate-200 shadow-xs">
+<table class="w-full text-left font-mono-data-sm text-mono-data-sm text-slate-700 border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-label-caps text-label-caps uppercase tracking-wider font-semibold">
+<th class="py-2.5 px-space-md">Worker ID</th>
+<th class="py-2.5 px-space-md">NUMA Core</th>
+<th class="py-2.5 px-space-md">Assigned Subtree</th>
+<th class="py-2.5 px-space-md">Heuristic Mode</th>
+<th class="py-2.5 px-space-md">Current Pivots</th>
+<th class="py-2.5 px-space-md">Memory Footprint</th>
+<th class="py-2.5 px-space-md">L3 Miss %</th>
+<th class="py-2.5 px-space-md">Thread State</th>
+<th class="py-2.5 px-space-md text-right">Checkpoint</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 font-mono-data-sm text-body-sm">
+<!-- Thread 0 (Master) -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-2 px-space-md font-semibold text-sky-700 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
+                  th-00 (Master)
+                </td>
+<td class="py-2 px-space-md text-slate-900">Socket 0 / Core 00</td>
+<td class="py-2 px-space-md text-slate-600">Node #0 Root (Coordination)</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 font-label-caps text-label-caps font-semibold">Dual Simplex</span></td>
+<td class="py-2 px-space-md text-slate-900 font-semibold">142,890</td>
+<td class="py-2 px-space-md text-slate-600">2,410 MB</td>
+<td class="py-2 px-space-md text-emerald-700 font-bold">0.08%</td>
+<td class="py-2 px-space-md"><span class="text-emerald-700 font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>BROADCASTING</span></td>
+<td class="py-2 px-space-md text-right text-slate-500">00:02:14</td>
+</tr>
+<!-- Thread 14 (Incumbent Finder) -->
+<tr class="bg-emerald-50/40 hover:bg-emerald-50/70 transition-colors">
+<td class="py-2 px-space-md font-semibold text-emerald-700 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  th-14 (Heuristic)
+                </td>
+<td class="py-2 px-space-md text-slate-900">Socket 0 / Core 14</td>
+<td class="py-2 px-space-md text-slate-700">Subtree #1,840 (Depth 16)</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-emerald-100 border border-emerald-200 text-emerald-800 font-label-caps text-label-caps font-bold">RINS Active</span></td>
+<td class="py-2 px-space-md text-emerald-800 font-bold">398,204</td>
+<td class="py-2 px-space-md text-slate-700">1,820 MB</td>
+<td class="py-2 px-space-md text-emerald-700 font-bold">0.12%</td>
+<td class="py-2 px-space-md"><span class="text-emerald-800 font-bold bg-emerald-100/60 px-1.5 py-0.5 rounded border border-emerald-200">INCUMBENT FOUND</span></td>
+<td class="py-2 px-space-md text-right text-emerald-800 font-semibold">00:02:13</td>
+</tr>
+<!-- Thread 04 -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-2 px-space-md font-medium text-slate-900">th-04 (Branch)</td>
+<td class="py-2 px-space-md text-slate-700">Socket 0 / Core 04</td>
+<td class="py-2 px-space-md text-slate-600">Subtree #2,109 (Depth 22)</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 font-label-caps text-label-caps font-semibold">Strong Branching</span></td>
+<td class="py-2 px-space-md text-slate-900 font-semibold">201,450</td>
+<td class="py-2 px-space-md text-slate-600">1,120 MB</td>
+<td class="py-2 px-space-md text-slate-700">0.19%</td>
+<td class="py-2 px-space-md"><span class="text-sky-700 font-medium">EXPLORING</span></td>
+<td class="py-2 px-space-md text-right text-slate-500">00:02:14</td>
+</tr>
+<!-- Thread 18 (Socket 1) -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-2 px-space-md font-medium text-slate-900">th-18 (Cutter)</td>
+<td class="py-2 px-space-md text-slate-700">Socket 1 / Core 02</td>
+<td class="py-2 px-space-md text-slate-600">Subtree #3,491 (Depth 12)</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-800 font-label-caps text-label-caps font-semibold">Gomory / MIR</span></td>
+<td class="py-2 px-space-md text-slate-900 font-semibold">178,920</td>
+<td class="py-2 px-space-md text-slate-600">980 MB</td>
+<td class="py-2 px-space-md text-slate-700">0.14%</td>
+<td class="py-2 px-space-md"><span class="text-sky-700 font-medium">GENERATING CUTS</span></td>
+<td class="py-2 px-space-md text-right text-slate-500">00:02:14</td>
+</tr>
+<!-- Thread 31 (Socket 1) -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="py-2 px-space-md font-medium text-slate-900">th-31 (FeasPump)</td>
+<td class="py-2 px-space-md text-slate-700">Socket 1 / Core 15</td>
+<td class="py-2 px-space-md text-slate-600">Subtree #4,012 (Depth 09)</td>
+<td class="py-2 px-space-md"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 font-label-caps text-label-caps font-semibold">Feasibility Pump</span></td>
+<td class="py-2 px-space-md text-slate-900 font-semibold">92,100</td>
+<td class="py-2 px-space-md text-slate-600">840 MB</td>
+<td class="py-2 px-space-md text-slate-500">0.05%</td>
+<td class="py-2 px-space-md"><span class="text-slate-500 font-medium">SYNCHRONIZING</span></td>
+<td class="py-2 px-space-md text-right text-slate-500">00:02:14</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Node Fleet Micro-Status Row -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs font-mono-data-sm text-[11px] text-slate-500">
+<div class="flex items-center gap-4 flex-wrap">
+<span class="flex items-center gap-1 text-slate-700"><strong class="text-sky-700">Worker Fleet Status:</strong> 32 Threads Active across 2 NUMA Nodes</span>
+<span class="">Allocated Memory: <strong class="text-slate-900">28.4 GB</strong> / 64.0 GB Pool</span>
+<span class="">Garbage Collection: <strong class="text-emerald-700 font-semibold">0 Pauses (Deterministic C++ Core)</strong></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-slate-700">Total Simplex Pivots Across All Workers: <strong class="text-sky-700 font-bold">1,842,910</strong></span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div></main></div>
+
+</body></html>

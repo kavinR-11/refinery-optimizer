@@ -1,0 +1,708 @@
+<!DOCTYPE html><html lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"outline":"#707881","on-primary-fixed-variant":"#004b73","primary-fixed":"#cce5ff","surface":"#f8f9ff","on-secondary-container":"#5c647a","on-error-container":"#93000a","error":"#ba1a1a","surface-container-high":"#dce9ff","on-tertiary-container":"#f5fff7","on-surface-variant":"#3f4850","outline-variant":"#e2e8f0","on-primary-fixed":"#001d31","secondary":"#00855d","on-tertiary":"#ffffff","primary":"#006194","error-container":"#ffdad6","inverse-primary":"#93ccff","surface-container-highest":"#e2e8f0","inverse-on-surface":"#eaf1ff","on-primary-container":"#fdfcff","surface-container-lowest":"#ffffff","surface-bright":"#f8f9ff","surface-dim":"#cbdbf5","tertiary-fixed-dim":"#68dba9","inverse-surface":"#213145","surface-container-low":"#f8fafc","tertiary":"#006948","primary-container":"#0284c7","background":"#f8f9ff","surface-tint":"#006398","secondary-fixed":"#dae2fd","surface-container":"#f1f5f9","tertiary-container":"#00855d","secondary-fixed-dim":"#bec6e0","on-tertiary-fixed-variant":"#005137","surface-variant":"#e2e8f0","on-surface":"#0f172a","on-tertiary-fixed":"#002114","on-secondary-fixed-variant":"#3f465c","on-primary":"#ffffff","on-error":"#ffffff","primary-fixed-dim":"#93ccff","on-secondary":"#ffffff","tertiary-fixed":"#85f8c4","on-background":"#0f172a","on-secondary-fixed":"#131b2e","secondary-container":"#dae2fd"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-md":"0.75rem","gutter-desktop":"1.25rem","space-sm":"0.5rem","space-xs":"0.25rem","margin":"1rem","gutter":"1rem","space-lg":"1rem","margin-desktop":"1.5rem","space-xl":"1.5rem"},fontFamily:{"headline-md":["Inter"],"headline-lg":["Inter"],"label-caps":["Inter"],"mono-metric-xl":["JetBrains Mono"],"body-sm":["Inter"],"body-md":["Inter"],"headline-sm":["Inter"],"mono-metric-md":["JetBrains Mono"],"headline-xl":["Inter"],"body-lg":["Inter"],"mono-data-sm":["JetBrains Mono"]},fontSize:{"headline-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"mono-metric-xl":["24px",{"lineHeight":"28px","letterSpacing":"-0.03em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"body-md":["13px",{"lineHeight":"18px","fontWeight":"400"}],"headline-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"mono-metric-md":["14px",{"lineHeight":"20px","fontWeight":"500"}],"headline-xl":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["14px",{"lineHeight":"20px","fontWeight":"400"}],"mono-data-sm":["11px",{"lineHeight":"14px","fontWeight":"400"}]}}}}</script></head><body class="bg-slate-50 font-body-md text-body-md text-slate-800 antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-white border-r border-slate-200 z-50 flex flex-col justify-between select-none shadow-[1px_0_4px_rgba(0,0,0,0.03)]"><div class="flex flex-col"><div class="h-14 px-space-md flex items-center justify-between border-b border-slate-200 bg-white"><div class="flex items-center gap-space-sm"><div class="w-7 h-7 rounded bg-sky-50 border border-sky-300 flex items-center justify-center text-sky-600"><span class="material-symbols-outlined text-[18px]">memory</span></div><div class="flex flex-col"><span class="font-label-caps text-label-caps text-slate-900 tracking-wider uppercase font-bold">OPTIMA<span class="text-sky-600">CORE</span></span><span class="font-mono-data-sm text-[9px] text-slate-500 leading-none">LP/MILP/QP KERNEL</span></div></div><div class="flex items-center gap-space-xs"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-300 text-emerald-700 font-mono-data-sm text-[9px] font-semibold">v2.4</span><button class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors" title="Toggle Workspace Tree" type="button"><span class="material-symbols-outlined text-[16px]">dock_to_left</span></button></div></div><div class="px-space-md py-space-sm bg-slate-50 border-b border-slate-200"><div class="flex items-center justify-between font-mono-data-sm text-mono-data-sm text-slate-600 mb-1 font-medium"><span class="">SOLVER STATE</span><span class="text-emerald-600 flex items-center gap-1 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>CONVERGED</span></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-slate-500"><span class="">GAP: 0.000%</span><span class="">ITERS: 14,892</span></div></div><nav class="flex flex-col gap-0.5 px-space-sm py-space-md" data-active-classes="bg-sky-50 text-sky-700 border-l-2 border-sky-600 font-semibold"><div class="px-space-sm pb-space-xs font-label-caps text-label-caps text-slate-400 uppercase tracking-wider font-semibold">Control Plane</div><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="solve-overview" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">speed</span><span class="font-body-md text-body-md font-medium">Solve Overview</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">Live</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="refinery-planning" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">factory</span><span class="font-body-md text-body-md font-medium">Refinery Planning</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-medium">Demo</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="solver-internals" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">hub</span><span class="font-body-md text-body-md font-medium">Solver Internals</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 font-medium">Explain</span></a><a aria-current="page" class="group flex items-center justify-between px-space-sm py-2 rounded transition-all bg-sky-50 text-sky-700 border-l-2 border-sky-600 font-semibold" data-path="benchmarks" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-sky-600 transition-colors">leaderboard</span><span class="font-body-md text-body-md">Benchmarks &amp; Perf</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-medium">vs HiGHS</span></a><a class="group flex items-center justify-between px-space-sm py-2 rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all" data-path="learning-log" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-sky-600 transition-colors">terminal</span><span class="font-body-md text-body-md font-medium">Strategy Log</span></div><span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 font-medium">History</span></a></nav></div><div class="flex flex-col border-t border-slate-200 bg-white"><div class="p-space-md border-b border-slate-200"><div class="flex items-center justify-between text-[11px] font-mono-data-sm text-slate-600 mb-1"><span class="">MEM POOL (AVX-512)</span><span class="text-slate-900 font-semibold">44.3%</span></div><div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200"><div class="h-full bg-sky-500 rounded-full" style="width: 44.3%;"></div></div><div class="flex items-center justify-between font-mono-data-sm text-[10px] text-slate-500 mt-1"><span class="">28.4 GB alloc</span><span class="">64.0 GB pool</span></div></div><div class="p-space-md"><div class="flex items-center justify-between mb-2"><div class="flex flex-col"><span class="font-label-caps text-[10px] text-slate-400 uppercase font-semibold">CLUSTER LICENSE</span><span class="font-body-sm text-body-sm text-slate-800 font-medium">Enterprise Tier</span></div><span class="font-mono-data-sm text-[10px] px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 font-medium">12 Nodes</span></div><div class="flex items-center justify-between pt-2 border-t border-slate-100 text-slate-500"><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-sky-600 transition-colors" data-path="docs" href="#"><span class="material-symbols-outlined text-[16px]">menu_book</span><span class="">Docs</span></a><a class="flex items-center gap-1 font-body-sm text-body-sm hover:text-sky-600 transition-colors" data-path="cluster-settings" href="#"><span class="material-symbols-outlined text-[16px]">settings</span><span class="">Settings</span></a><div class="flex items-center gap-1 text-[10px] font-mono-data-sm text-emerald-600 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="">SYNC</span></div></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen bg-slate-50"><header class="fixed top-0 left-72 right-0 h-14 bg-white/95 backdrop-blur-md border-b border-slate-200 z-40 flex items-center justify-between px-space-md shadow-[0_1px_3px_rgba(0,0,0,0.02)]"><div class="flex items-center min-w-0 flex-1 gap-2.5 overflow-hidden"><div class="hidden md:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-sky-700 font-bold">KERNEL:</span><span class="">v2.4.1-rc3</span></div><div class="hidden lg:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500 font-medium">BLAS/LAPACK:</span><span class="text-slate-800 font-medium">Accelerated</span></div><div class="hidden xl:inline-flex shrink-0 px-2 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 items-center gap-1.5"><span class="text-slate-500">Threads:</span><span class="text-slate-800 font-medium">32/32 AVX-512</span></div><div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700 max-w-[200px] shrink-0 truncate" title="PROFILE: PetroChem_Refinery_Alpha"><span class="material-symbols-outlined text-[14px] text-emerald-600">layers</span><span class="font-bold text-slate-800">PROFILE:</span><span class="text-emerald-700 font-semibold truncate">PetroChem_Alpha</span></div><div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-violet-50 border border-violet-200 text-[11px] font-semibold text-violet-700 uppercase tracking-wider shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse"></span><span class="">NOVELTY: Learned Strategy Benchmarks</span></div></div><div class="flex items-center gap-3 shrink-0 ml-auto"><button class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs rounded-md shadow-sm whitespace-nowrap" type="button"><span class="material-symbols-outlined text-[16px]">add_circle</span><span class="">+ NEW RUN</span></button><a class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 border border-slate-200 rounded-md hover:bg-slate-50 shrink-0 whitespace-nowrap" href="#"><span class="material-symbols-outlined text-[16px]">help_outline</span><span class="">Docs</span></a><button class="shrink-0 p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md border border-slate-200 inline-flex items-center justify-center" onclick="document.documentElement.classList.toggle('dark')" title="Toggle Theme" type="button"><span class="material-symbols-outlined text-[18px]">dark_mode</span></button></div></header><main class="w-full pt-14 flex-1 bg-slate-50"><div class="flex flex-col w-full p-space-md gap-space-lg text-slate-800">
+<!-- Top Metadata & Hardware Test Rig Bar -->
+<div class="flex flex-col gap-space-sm bg-white p-space-md rounded border border-slate-200 shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600">
+<span class="material-symbols-outlined text-[20px]">leaderboard</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-2.5 flex-wrap"><span class="font-headline-md text-headline-md text-slate-900 font-bold">Search Strategy Policy Ablation</span><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-violet-50 border border-violet-300 text-violet-700 text-xs font-semibold uppercase tracking-wider"><span class="material-symbols-outlined text-[14px] text-violet-600">auto_awesome</span>Novelty: Learned Policy Advantage</span></div>
+<span class="px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-700 font-mono-data-sm text-mono-data-sm uppercase font-semibold">Suite v2.4-Eval</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">MIPLIB 2017 Benchmark Subset (50 Hard Instances) + 12 Petrochemical LP/MILP Models</span>
+</div>
+</div>
+<!-- Quick Run Controls & Filter -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center bg-slate-50 border border-slate-200 px-space-sm py-1 rounded">
+<span class="font-label-caps text-label-caps text-slate-500 font-semibold mr-2">INSTANCE CLASS:</span>
+<select class="bg-transparent text-slate-800 font-mono-data-sm text-mono-data-sm font-medium outline-none cursor-pointer" id="instance-filter">
+<option value="all">ALL (62 INSTANCES)</option>
+<option value="milp">MIPLIB HARD MILP (50)</option>
+<option value="petro">PETROCHEM LP/MILP (12)</option>
+</select>
+</div>
+<button class="flex items-center gap-1.5 h-8 px-space-md bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded font-label-caps text-label-caps font-medium transition-all shadow-sm" id="re-benchmark-btn" type="button">
+<span class="material-symbols-outlined text-[16px] text-sky-600">restart_alt</span>
+<span class="">RE-RUN PROFILE</span>
+</button>
+<button class="flex items-center gap-1.5 h-8 px-space-md bg-sky-600 hover:bg-sky-700 text-white rounded font-label-caps text-label-caps font-bold transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span class="">EXPORT CSV / JSON</span>
+</button>
+</div>
+</div>
+<!-- Hardware & Solver Execution Constraints Spec Bar -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-space-sm pt-space-sm bg-slate-50 p-space-sm rounded border border-slate-200">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-slate-400 font-semibold">HARDWARE TEST RIG</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-800 font-medium truncate" title="Dual AMD EPYC 9654 (192 Cores, 384 Threads)">2x EPYC 9654 (192C/384T)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-slate-400 font-semibold">MEMORY &amp; VECTOR</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-800 font-medium">768 GB DDR5 • AVX-512</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-slate-400 font-semibold">WALL-CLOCK TIMEOUT</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-800 font-medium">300.0s / Instance</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-slate-400 font-semibold">CONCURRENCY &amp; PRE</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-800 font-medium">32 Threads • Presolve ON</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-slate-400 font-semibold">REFERENCE ENGINE</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-600 font-medium">HiGHS v1.7.0 (Simplex/B&amp;B)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-slate-400 font-semibold">EVAL TIMESTAMP</span>
+<span class="font-mono-data-sm text-mono-data-sm text-emerald-700 font-bold">TODAY 03:41:19 UTC</span>
+</div>
+</div>
+</div>
+<!-- Global Speedup & High-Impact KPI Banners -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-space-md">
+<!-- Macro Speedup KPI Card -->
+<div class="relative overflow-hidden bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col justify-between group">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-sky-700 tracking-widest uppercase font-bold">OVERALL GEOMEAN SPEEDUP</span>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono-data-sm text-mono-data-sm flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>vs HiGHS 1.7.0
+        </span>
+</div>
+<div class="my-space-sm flex items-baseline gap-2">
+<span class="font-mono-metric-xl text-[34px] leading-none text-sky-700 font-bold">1.48x</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">geometric mean</span>
+</div>
+<div class="flex items-center justify-between text-slate-600 font-mono-data-sm text-mono-data-sm pt-2 bg-slate-50 px-2 py-1 rounded border border-slate-100">
+<span class="">MIPLIB geomean: <strong class="text-slate-900">1.39x</strong></span>
+<span class="">Petrochem: <strong class="text-sky-700 font-bold">1.84x</strong></span>
+</div>
+</div>
+<!-- Simplex Efficiency -->
+<div class="bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-slate-600 tracking-widest uppercase font-bold">PIVOT REDUCTION</span>
+<span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-mono-data-sm text-mono-data-sm font-semibold">-23.4%</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-2">
+<span class="font-mono-metric-xl text-[34px] leading-none text-slate-900 font-bold">4.12M</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">pivots saved</span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-600 leading-tight">
+        Hyper-sparse LU updates &amp; projected steepest-edge dual pricing suppress redundant Phase-II bases.
+      </p>
+</div>
+<!-- Numerical Stability / Integrity -->
+<div class="bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-emerald-700 tracking-widest uppercase font-bold">NUMERICAL INTEGRITY</span>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono-data-sm text-mono-data-sm font-semibold">ZERO DEVIATION</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-2">
+<span class="font-mono-metric-xl text-[34px] leading-none text-emerald-600 font-bold">100.0%</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">feasibility check</span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-600 leading-tight">
+        Zero numerical flip/inconsistencies across 62,800 constraints with condition number <span class="font-mono-data-sm text-slate-900 font-semibold">κ &gt; 10¹²</span>.
+      </p>
+</div>
+<!-- Primal Incumbent Speed -->
+<div class="bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-amber-700 tracking-widest uppercase font-bold">FIRST INT INCUMBENT</span>
+<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono-data-sm text-mono-data-sm font-semibold">EARLY HIT</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-2">
+<span class="font-mono-metric-xl text-[34px] leading-none text-amber-700 font-bold">2.8x</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">faster discovery</span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-600 leading-tight">
+        GNN-guided feasibility pump hits valid discrete configurations in root node relaxation.
+      </p>
+</div>
+</div>
+<!-- Mid Charts Grid (Visual Rigorous Vector Telemetry) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md">
+<!-- Chart A: Runtime Comparison Across Size Buckets (7 cols) -->
+<div class="xl:col-span-7 bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pb-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-2.5 flex-wrap"><span class="font-headline-md text-headline-md text-slate-900 font-bold">Search Strategy Policy Ablation</span><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-violet-50 border border-violet-300 text-violet-700 text-xs font-semibold uppercase tracking-wider"><span class="material-symbols-outlined text-[14px] text-violet-600">auto_awesome</span>Novelty: Learned Policy Advantage</span></div>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">Shifted geometric mean wall-clock time (seconds, lower is better)</span>
+</div>
+<!-- Legend -->
+<div class="flex items-center gap-space-md bg-slate-50 border border-slate-200 px-space-sm py-1 rounded">
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps">
+<span class="w-2.5 h-2.5 rounded-sm bg-sky-600"></span>
+<span class="text-sky-800 font-bold">OptimaCore v2.4</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps">
+<span class="w-2.5 h-2.5 rounded-sm bg-slate-400"></span>
+<span class="text-slate-600 font-medium">HiGHS v1.7.0</span>
+</div>
+</div>
+</div>
+<!-- Vector Bar Chart Canvas -->
+<div class="w-full h-64 bg-slate-50/70 border border-slate-200 rounded p-space-sm flex flex-col justify-between relative overflow-hidden">
+<!-- SVG Technical Grid & Plot -->
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 640 210">
+<defs>
+<linearGradient id="optimaGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0284c7"></stop>
+<stop offset="100%" stop-color="#0369a1"></stop>
+</linearGradient>
+<linearGradient id="highsGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#94a3b8"></stop>
+<stop offset="100%" stop-color="#64748b"></stop>
+</linearGradient>
+</defs>
+<!-- Horizontal Grid Lines -->
+<line stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="620" y1="20" y2="20"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="32" y="24">80s</text>
+<line stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="620" y1="65" y2="65"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="32" y="69">60s</text>
+<line stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="620" y1="110" y2="110"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="32" y="114">40s</text>
+<line stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="620" y1="155" y2="155"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="32" y="159">20s</text>
+<line stroke="#cbd5e1" stroke-width="1.5" x1="40" x2="620" y1="190" y2="190"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="32" y="193">0s</text>
+<!-- Category 1: Small (<50k rows) -->
+<!-- HiGHS Bar: 8.6s -> height ~ 19.3px -> y = 190 - 19.3 = 170.7 -->
+<rect fill="url(#highsGrad)" height="19" rx="1" width="34" x="75" y="171"></rect>
+<text fill="#475569" font-family="JetBrains Mono" font-size="9" font-weight="600" text-anchor="middle" x="92" y="165">8.6s</text>
+<!-- OptimaCore Bar: 4.8s -> height ~ 10.8px -> y = 190 - 10.8 = 179.2 -->
+<rect fill="url(#optimaGrad)" height="11" rx="1" width="34" x="115" y="179"></rect>
+<text fill="#0369a1" font-family="JetBrains Mono" font-size="9" font-weight="700" text-anchor="middle" x="132" y="173">4.8s</text>
+<!-- Category 2: Medium (50k-500k) -->
+<!-- HiGHS Bar: 32.4s -> height ~ 72.9px -> y = 190 - 72.9 = 117.1 -->
+<rect fill="url(#highsGrad)" height="73" rx="1" width="34" x="215" y="117"></rect>
+<text fill="#475569" font-family="JetBrains Mono" font-size="9" font-weight="600" text-anchor="middle" x="232" y="110">32.4s</text>
+<!-- OptimaCore Bar: 21.1s -> height ~ 47.4px -> y = 190 - 47.4 = 142.6 -->
+<rect fill="url(#optimaGrad)" height="48" rx="1" width="34" x="255" y="142"></rect>
+<text fill="#0369a1" font-family="JetBrains Mono" font-size="9" font-weight="700" text-anchor="middle" x="272" y="136">21.1s</text>
+<!-- Category 3: Large MILP (>500k) -->
+<!-- HiGHS Bar: 74.1s -> height ~ 166.7px -> y = 190 - 166.7 = 23.3 -->
+<rect fill="url(#highsGrad)" height="167" rx="1" width="34" x="355" y="23"></rect>
+<text fill="#475569" font-family="JetBrains Mono" font-size="9" font-weight="600" text-anchor="middle" x="372" y="17">74.1s</text>
+<!-- OptimaCore Bar: 48.2s -> height ~ 108.4px -> y = 190 - 108.4 = 81.6 -->
+<rect fill="url(#optimaGrad)" height="108" rx="1" width="34" x="395" y="82"></rect>
+<text fill="#0369a1" font-family="JetBrains Mono" font-size="9" font-weight="700" text-anchor="middle" x="412" y="76">48.2s</text>
+<!-- Category 4: PetroChem Refinery Alpha (Dense/Degenerate) -->
+<!-- HiGHS Bar: 28.6s -> height ~ 64.3px -> y = 190 - 64.3 = 125.7 -->
+<rect fill="url(#highsGrad)" height="64" rx="1" width="34" x="495" y="126"></rect>
+<text fill="#475569" font-family="JetBrains Mono" font-size="9" font-weight="600" text-anchor="middle" x="512" y="119">28.6s</text>
+<!-- OptimaCore Bar: 14.8s -> height ~ 33.3px -> y = 190 - 33.3 = 156.7 -->
+<rect fill="url(#optimaGrad)" height="33" rx="1" width="34" x="535" y="157"></rect>
+<text fill="#0369a1" font-family="JetBrains Mono" font-size="9" font-weight="700" text-anchor="middle" x="552" y="151">14.8s</text>
+</svg>
+</div>
+<!-- X-Axis Labels & Dynamic Speedup Pill -->
+<div class="grid grid-cols-4 pt-2 text-center font-mono-data-sm text-mono-data-sm text-slate-600">
+<div class="flex flex-col items-center">
+<span class="text-slate-800 font-semibold">Small (&lt;50k rows)</span>
+<span class="text-emerald-600 font-bold">1.79x faster</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-slate-800 font-semibold">Medium (50k-500k)</span>
+<span class="text-emerald-600 font-bold">1.53x faster</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-slate-800 font-semibold">Large MILP (&gt;500k)</span>
+<span class="text-sky-700 font-bold">1.54x faster</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-slate-800 font-semibold">Refinery Planning</span>
+<span class="text-sky-700 font-bold">1.93x faster</span>
+</div>
+</div>
+</div>
+<!-- Chart B: B&B Iterations & Gap Progression Line Chart (5 cols) -->
+<div class="xl:col-span-5 bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex flex-col">
+<div class="flex items-center gap-2.5 flex-wrap"><span class="font-headline-md text-headline-md text-slate-900 font-bold">Search Strategy Policy Ablation</span><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-violet-50 border border-violet-300 text-violet-700 text-xs font-semibold uppercase tracking-wider"><span class="material-symbols-outlined text-[14px] text-violet-600">auto_awesome</span>Novelty: Learned Policy Advantage</span></div>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">Relative MIP Gap (%) vs Wall Clock (Instance: <code class="text-sky-700 font-semibold">refinery_expansion_milp</code>)</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono-data-sm text-mono-data-sm font-bold">0.01% TARGET</span>
+</div>
+<!-- Convergence SVG Canvas -->
+<div class="w-full h-64 bg-slate-50/70 border border-slate-200 rounded p-space-sm relative overflow-hidden flex flex-col justify-between">
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 460 210">
+<defs>
+<linearGradient id="areaOptima" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0284c7" stop-opacity="0.18"></stop>
+<stop offset="100%" stop-color="#0284c7" stop-opacity="0.01"></stop>
+</linearGradient>
+</defs>
+<!-- Grid Lines -->
+<line stroke="#e2e8f0" stroke-dasharray="2 4" stroke-width="1" x1="35" x2="445" y1="20" y2="20"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="30" y="24">100%</text>
+<line stroke="#e2e8f0" stroke-dasharray="2 4" stroke-width="1" x1="35" x2="445" y1="75" y2="75"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="30" y="79">10%</text>
+<line stroke="#e2e8f0" stroke-dasharray="2 4" stroke-width="1" x1="35" x2="445" y1="130" y2="130"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="30" y="134">1.0%</text>
+<line stroke="#e2e8f0" stroke-dasharray="2 4" stroke-width="1" x1="35" x2="445" y1="185" y2="185"></line>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="9" text-anchor="end" x="30" y="189">0.01%</text>
+<!-- HiGHS Gap Curve (Slate Line) -->
+<path d="M 35 20 L 90 42 L 170 65 L 250 92 L 320 125 L 380 155 L 420 185" fill="none" stroke="#94a3b8" stroke-dasharray="4 3" stroke-width="2"></path>
+<!-- OptimaCore Gap Curve (Sky-600 Line) -->
+<path d="M 35 20 L 65 30 L 105 78 L 155 125 L 210 168 L 245 185 L 445 185 L 445 185 L 35 185 Z" fill="url(#areaOptima)"></path>
+<path d="M 35 20 L 65 30 L 105 78 L 155 125 L 210 168 L 245 185 L 445 185" fill="none" stroke="#0284c7" stroke-width="2.5"></path>
+<!-- Key Annotation Pin: Early Incumbent Found via RL -->
+<circle cx="105" cy="78" fill="#0284c7" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
+<line stroke="#0284c7" stroke-width="1" x1="105" x2="140" y1="78" y2="45"></line>
+<rect fill="#ffffff" height="24" rx="2" stroke="#cbd5e1" stroke-width="1" width="145" x="140" y="32"></rect>
+<text fill="#0369a1" font-family="JetBrains Mono" font-size="8.5" font-weight="700" x="146" y="44">GNN Root Incumbent</text>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="7.5" x="146" y="52">Gap plunged 94% in 38s</text>
+<!-- Optimal Target Milestone Points -->
+<circle cx="245" cy="185" fill="#10b981" r="4.5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#047857" font-family="JetBrains Mono" font-size="9" font-weight="bold" text-anchor="middle" x="245" y="176">112s (OptimaCore)</text>
+<circle cx="420" cy="185" fill="#94a3b8" r="3.5"></circle>
+<text fill="#64748b" font-family="JetBrains Mono" font-size="8.5" font-weight="600" text-anchor="middle" x="420" y="176">198s (HiGHS)</text>
+</svg>
+</div>
+<!-- Time Convergence Metric Callouts -->
+<div class="flex items-center justify-between pt-2 border-t border-slate-200 text-mono-data-sm font-mono-data-sm">
+<span class="text-slate-600">Time to 0.01% Gap:</span>
+<div class="flex items-center gap-3">
+<span class="text-slate-700"><span class="text-slate-400">HiGHS:</span> 198.4s</span>
+<span class="text-sky-700 font-bold"><span class="text-slate-400">OptimaCore:</span> 112.1s (43% faster)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Warm-Start vs Cold-Start Efficiency Comparison Section -->
+<div class="bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-xs">
+<div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-2.5 flex-wrap"><span class="font-headline-md text-headline-md text-slate-900 font-bold">Search Strategy Policy Ablation</span><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-violet-50 border border-violet-300 text-violet-700 text-xs font-semibold uppercase tracking-wider"><span class="material-symbols-outlined text-[14px] text-violet-600">auto_awesome</span>Novelty: Learned Policy Advantage</span></div>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono-data-sm text-mono-data-sm font-bold">14.2x Faster Re-Solve</span>
+</div>
+<p class="font-body-md text-body-md text-slate-600">
+          Consecutive rolling-horizon dispatch cycles (refinery crude blending adjustments, bound perturbances ±4.5%).
+        </p>
+</div>
+<div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-space-sm py-1 rounded">
+<span class="font-label-caps text-label-caps text-slate-500 font-semibold">CRASH BASIS:</span>
+<span class="font-mono-data-sm text-mono-data-sm text-emerald-700 font-bold">Active Triangularized LU</span>
+</div>
+</div>
+<!-- Side-by-Side Diagnostic Bar Comparators -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Cold Start Card -->
+<div class="bg-slate-50 p-space-md rounded border border-slate-200 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+<span class="font-label-caps text-label-caps text-slate-800 font-bold tracking-wider">COLD START (FULL PHASE I/II)</span>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500 font-medium">Scratch Solve</span>
+</div>
+<div class="my-space-md flex items-baseline justify-between">
+<div class="flex flex-col">
+<span class="font-mono-metric-xl text-[28px] text-slate-900 font-bold">48.20s</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">1,842,910 dual simplex pivots</span>
+</div>
+<div class="text-right font-mono-data-sm text-mono-data-sm text-slate-500">
+<span class="">Peak RSS: 14.8 GB</span><br>
+<span class="">Slack factor: 0.88</span>
+</div>
+</div>
+<!-- Component Progress Breakdown -->
+<div class="space-y-1.5 font-mono-data-sm text-[10px]">
+<div class="flex justify-between text-slate-600 font-medium">
+<span class="">Basis Inversion &amp; Factorization</span>
+<span class="text-slate-800 font-semibold">18.4s</span>
+</div>
+<div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400 rounded-full" style="width: 38.1%;"></div>
+</div>
+<div class="flex justify-between text-slate-600 font-medium">
+<span class="">Dual Steer Iterations</span>
+<span class="text-slate-800 font-semibold">22.6s</span>
+</div>
+<div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400 rounded-full" style="width: 46.8%;"></div>
+</div>
+<div class="flex justify-between text-slate-600 font-medium">
+<span class="">Bound Propagation &amp; Cut Pool</span>
+<span class="text-slate-800 font-semibold">7.2s</span>
+</div>
+<div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400 rounded-full" style="width: 14.9%;"></div>
+</div>
+</div>
+</div>
+<!-- Warm Start Card -->
+<div class="bg-sky-50/40 p-space-md rounded border border-sky-200 flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-sky-600 animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-sky-800 font-bold tracking-wider">WARM START (PROJECTED BOUNDS + BASIS CRASH)</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-sky-100 text-sky-800 border border-sky-300 font-mono-data-sm text-mono-data-sm font-bold">14.2x ACCELERATION</span>
+</div>
+<div class="my-space-md flex items-baseline justify-between">
+<div class="flex flex-col">
+<span class="font-mono-metric-xl text-[28px] text-sky-700 font-bold">3.40s</span>
+<span class="font-mono-data-sm text-mono-data-sm text-emerald-700 font-semibold">112,400 pivots (-93.9%)</span>
+</div>
+<div class="text-right font-mono-data-sm text-mono-data-sm text-slate-600">
+<span class="">Peak RSS: 4.1 GB</span><br>
+<span class="text-emerald-700 font-semibold">Re-use efficiency: 97.4%</span>
+</div>
+</div>
+<!-- Component Progress Breakdown with Savings Highlight -->
+<div class="space-y-1.5 font-mono-data-sm text-[10px]">
+<div class="flex justify-between text-slate-700 font-medium">
+<span class="">Basis Crash Phase (Projected)</span>
+<span class="text-emerald-700 font-bold">1.4s (-92.3%)</span>
+</div>
+<div class="w-full h-1.5 bg-sky-200 rounded-full overflow-hidden">
+<div class="h-full bg-sky-600 rounded-full" style="width: 41.1%;"></div>
+</div>
+<div class="flex justify-between text-slate-700 font-medium">
+<span class="">Presolve Domain Reduction</span>
+<span class="text-emerald-700 font-bold">1.2s (-78.4%)</span>
+</div>
+<div class="w-full h-1.5 bg-sky-200 rounded-full overflow-hidden">
+<div class="h-full bg-sky-600 rounded-full" style="width: 35.2%;"></div>
+</div>
+<div class="flex justify-between text-slate-700 font-medium">
+<span class="">Filtered Cut Restoration</span>
+<span class="text-emerald-700 font-bold">0.8s (-65.1%)</span>
+</div>
+<div class="w-full h-1.5 bg-sky-200 rounded-full overflow-hidden">
+<div class="h-full bg-sky-600 rounded-full" style="width: 23.5%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Optimization Takeaway Ticker -->
+<div class="bg-slate-50 border border-slate-200 p-space-sm rounded flex flex-col md:flex-row items-center justify-between gap-space-sm text-mono-data-sm font-mono-data-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-emerald-600">verified</span>
+<span class="text-slate-900 font-semibold">Continuous Industrial Dispatch Recommendation:</span>
+</div>
+<div class="flex items-center gap-space-md text-slate-600">
+<span class="">Subproblem cycle latency: <strong class="text-sky-700">&lt; 3.5s</strong></span>
+<span class="">•</span>
+<span class="">Preserves Dual Simplex Stability Bounds</span>
+<span class="">•</span>
+<span class="text-emerald-700 font-bold">Zero Phase I Restarts Needed</span>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Learned vs Default vs Random Policy Comparison & Instance Matrix -->
+<div class="bg-white p-space-md rounded border border-slate-200 shadow-sm flex flex-col gap-space-md">
+<!-- Strategy Comparison Cards -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between">
+<div>
+<div class="flex items-center gap-2.5 flex-wrap"><span class="font-headline-md text-headline-md text-slate-900 font-bold">Search Strategy Policy Ablation</span><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-violet-50 border border-violet-300 text-violet-700 text-xs font-semibold uppercase tracking-wider"><span class="material-symbols-outlined text-[14px] text-violet-600">auto_awesome</span>Novelty: Learned Policy Advantage</span></div>
+<p class="font-body-md text-body-md text-slate-600">Comparing node selection, cut selection, and variable branching policies on 50 MIPLIB hard benchmarks.</p>
+</div>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-500">Ablation Baseline: Gomory Strong Branching</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-space-xs">
+<!-- Policy 1: Auto-Learned Policy (Active Best) -->
+<div class="bg-sky-50/50 p-space-md rounded border-2 border-sky-300 flex flex-col justify-between relative overflow-hidden shadow-sm">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sky-700 text-[18px]">psychology</span>
+<span class="font-label-caps text-label-caps text-sky-900 font-bold">POLICY 1: AUTO-LEARNED (RL + GNN)</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 font-mono-data-sm text-[10px] font-bold">+36.2% OVER BASE</span>
+</div>
+<div class="my-space-sm space-y-1">
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">Geomean Solve Time:</span>
+<span class="font-mono-data-md text-mono-data-md text-sky-800 font-bold">38.4s</span>
+</div>
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">MIP Gap Closed:</span>
+<span class="font-mono-data-md text-mono-data-md text-emerald-700 font-bold">99.8%</span>
+</div>
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">Total B&amp;B Nodes:</span>
+<span class="font-mono-data-md text-mono-data-md text-slate-900 font-semibold">28,400 nodes</span>
+</div>
+</div>
+<div class="pt-2 border-t border-sky-200 text-[11px] font-mono-data-sm text-slate-600 flex items-center justify-between">
+<span class="">Branching: <span class="text-slate-900 font-semibold">GNN Embeddings</span></span>
+<span class="text-emerald-700 font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Active Engine</span>
+</div>
+</div>
+<!-- Policy 2: Default Engineering Heuristics -->
+<div class="bg-slate-50 p-space-md rounded border border-slate-200 flex flex-col justify-between">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-slate-600 text-[18px]">tune</span>
+<span class="font-label-caps text-label-caps text-slate-800 font-bold">POLICY 2: DEFAULT HEURISTICS</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-700 border border-slate-300 font-mono-data-sm text-[10px] font-semibold">BASELINE REF</span>
+</div>
+<div class="my-space-sm space-y-1">
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">Geomean Solve Time:</span>
+<span class="font-mono-data-md text-mono-data-md text-slate-900 font-bold">60.2s</span>
+</div>
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">MIP Gap Closed:</span>
+<span class="font-mono-data-md text-mono-data-md text-slate-700 font-semibold">98.4%</span>
+</div>
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">Total B&amp;B Nodes:</span>
+<span class="font-mono-data-md text-mono-data-md text-slate-800 font-semibold">45,900 nodes</span>
+</div>
+</div>
+<div class="pt-2 border-t border-slate-200 text-[11px] font-mono-data-sm text-slate-600 flex items-center justify-between">
+<span class="">Branching: <span class="text-slate-800 font-medium">Strong + Gomory Cuts</span></span>
+<span class="text-slate-500">Standard Default</span>
+</div>
+</div>
+<!-- Policy 3: Randomized Tie-Breaking Control -->
+<div class="bg-rose-50/40 p-space-md rounded border border-rose-200 flex flex-col justify-between">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-rose-600 text-[18px]">casino</span>
+<span class="font-label-caps text-label-caps text-rose-900 font-bold">POLICY 3: RANDOMIZED ABLATION</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200 font-mono-data-sm text-[10px] font-bold">-49.2% LOSS</span>
+</div>
+<div class="my-space-sm space-y-1">
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">Geomean Solve Time:</span>
+<span class="font-mono-data-md text-mono-data-md text-rose-700 font-bold">118.6s</span>
+</div>
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">MIP Gap Closed:</span>
+<span class="font-mono-data-md text-mono-data-md text-slate-700 font-semibold">91.2%</span>
+</div>
+<div class="flex justify-between items-baseline">
+<span class="font-body-sm text-body-sm text-slate-600">Total B&amp;B Nodes:</span>
+<span class="font-mono-data-md text-mono-data-md text-slate-800 font-semibold">114,200 nodes</span>
+</div>
+</div>
+<div class="pt-2 border-t border-rose-200 text-[11px] font-mono-data-sm text-slate-600 flex items-center justify-between">
+<span class="">Branching: <span class="text-slate-800 font-medium">Pseudocost Random Tie</span></span>
+<span class="text-rose-700 font-semibold">Ablation Worst</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Instance Performance Matrix (Compact Dense Sortable Table) -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-slate-500 tracking-wider uppercase font-bold">INSTANCE DETAIL MATRIX (TOP 8 REPRESENTATIVE BENCHMARKS)</span>
+<span class="font-mono-data-sm text-mono-data-sm text-slate-600">Sorted by: <span class="text-sky-700 font-semibold">OptimaCore Speedup (Desc)</span></span>
+</div>
+<div class="overflow-x-auto rounded border border-slate-200 bg-white shadow-sm">
+<table class="w-full text-left font-mono-data-sm text-mono-data-sm">
+<thead class="bg-slate-50 text-slate-600 text-[11px] font-label-caps border-b border-slate-200">
+<tr>
+<th class="py-2.5 px-space-md font-bold">INSTANCE NAME</th>
+<th class="py-2.5 px-space-sm font-bold">CLASS</th>
+<th class="py-2.5 px-space-sm font-bold">CONSTRAINTS / VARS</th>
+<th class="py-2.5 px-space-sm font-bold">HiGHS 1.7</th>
+<th class="py-2.5 px-space-sm font-bold">OPTIMACORE</th>
+<th class="py-2.5 px-space-sm font-bold">SPEEDUP</th>
+<th class="py-2.5 px-space-sm font-bold">B&amp;B NODES</th>
+<th class="py-2.5 px-space-md text-right font-bold">CONVERGENCE</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-slate-800">
+<!-- Row 1: Petrochem Alpha -->
+<tr class="hover:bg-sky-50/50 transition-colors">
+<td class="py-2.5 px-space-md font-semibold text-sky-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">verified</span>
+                refinery_hydrocracker_milp
+              </td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px] border border-slate-200">MILP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">142,890 × 118,400</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">28.60s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">13.62s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-200 font-bold">2.10x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-600">3,120</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+<!-- Row 2: MIPLIB air05 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-2.5 px-space-md font-medium text-slate-900">miplib_air05_fleet_opt</td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px] border border-slate-200">MILP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">263,400 × 310,120</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">84.20s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">46.26s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-200 font-bold">1.82x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-600">18,400</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+<!-- Row 3: Crude Blending LP -->
+<tr class="hover:bg-sky-50/50 transition-colors">
+<td class="py-2.5 px-space-md font-semibold text-sky-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">verified</span>
+                crude_distillation_blend_lp
+              </td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold text-[10px] border border-emerald-200">LP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">580,210 × 612,900</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">52.10s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">31.38s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">1.66x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-400 font-medium">N/A (Barrier)</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+<!-- Row 4: MIPLIB roll3000 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-2.5 px-space-md font-medium text-slate-900">miplib_roll3000_scheduling</td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px] border border-slate-200">MILP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">182,500 × 245,000</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">114.30s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">74.22s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-200 font-bold">1.54x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-600">42,900</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+<!-- Row 5: Flare Gas Quadratic QP -->
+<tr class="hover:bg-sky-50/50 transition-colors">
+<td class="py-2.5 px-space-md font-semibold text-sky-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">verified</span>
+                flare_minimization_convex_qp
+              </td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 font-semibold text-[10px] border border-amber-200">QP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">92,400 × 94,100</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">18.40s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">12.68s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-200 font-bold">1.45x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-400 font-medium">N/A (Interior)</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+<!-- Row 6: MIPLIB glass4 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-2.5 px-space-md font-medium text-slate-900">miplib_glass4_cutting</td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px] border border-slate-200">MILP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">39,400 × 42,100</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">16.80s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">12.17s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 font-bold border border-slate-200">1.38x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-600">9,850</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+<!-- Row 7: MIPLIB seymour -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-2.5 px-space-md font-medium text-slate-900">miplib_seymour_set_cover</td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px] border border-slate-200">MILP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">4,944 × 1,372</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">24.10s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">17.98s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 font-bold border border-slate-200">1.34x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-600">6,430</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+<!-- Row 8: Multi-Depot Supply Chain MILP -->
+<tr class="hover:bg-sky-50/50 transition-colors">
+<td class="py-2.5 px-space-md font-semibold text-sky-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">verified</span>
+                gulf_coast_pipeline_network
+              </td>
+<td class="py-2.5 px-space-sm"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px] border border-slate-200">MILP</span></td>
+<td class="py-2.5 px-space-sm text-slate-600">312,000 × 280,000</td>
+<td class="py-2.5 px-space-sm text-slate-600 font-medium">148.90s</td>
+<td class="py-2.5 px-space-sm text-sky-800 font-bold">116.32s</td>
+<td class="py-2.5 px-space-sm">
+<span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 font-bold border border-slate-200">1.28x</span>
+</td>
+<td class="py-2.5 px-space-sm text-slate-600">36,700</td>
+<td class="py-2.5 px-space-md text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">OPTIMAL (0.00%)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination Metadata -->
+<div class="flex items-center justify-between pt-space-xs font-mono-data-sm text-[11px] text-slate-500">
+<span class="">Showing 8 of 62 total benchmark instances</span>
+<div class="flex items-center gap-2">
+<span class="text-slate-400">Geomean ratio calculated with shifted log factor c = 10.0s</span>
+<button class="px-2.5 py-1 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold transition-colors shadow-sm" type="button">
+            LOAD ALL 62 INSTANCES
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive UI Microscript -->
+<script>
+  (function() {
+    const filterSelect = document.getElementById('instance-filter');
+    const runBtn = document.getElementById('re-benchmark-btn');
+
+    if (filterSelect) {
+      filterSelect.addEventListener('change', function(e) {
+        const val = e.target.value;
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+          const isPetro = row.textContent.includes('refinery_') || row.textContent.includes('crude_') || row.textContent.includes('flare_') || row.textContent.includes('pipeline');
+          if (val === 'all') {
+            row.style.display = '';
+          } else if (val === 'petro') {
+            row.style.display = isPetro ? '' : 'none';
+          } else if (val === 'milp') {
+            row.style.display = !isPetro ? '' : 'none';
+          }
+        });
+      });
+    }
+
+    if (runBtn) {
+      runBtn.addEventListener('click', function() {
+        const originalText = runBtn.innerHTML;
+        runBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-sky-600 animate-spin">sync</span><span>SIMULATING SOLVER PASS...</span>';
+        runBtn.classList.add('opacity-75');
+        setTimeout(() => {
+          runBtn.innerHTML = originalText;
+          runBtn.classList.remove('opacity-75');
+        }, 1200);
+      });
+    }
+  })();
+</script></main></div>
+
+</body></html>
