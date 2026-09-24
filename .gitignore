@@ -23,3 +23,9 @@ data/miplib/*
 !data/miplib/.gitkeep
 data/maros_meszaros/*
 !data/maros_meszaros/.gitkeep
+data/synthetic/*
+!data/synthetic/.gitkeep
+
+# CUDA build artifacts and bench baseline binaries
+build_cuda/
+bench/cusparse_baseline

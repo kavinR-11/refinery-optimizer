@@ -16,6 +16,7 @@ if(ENABLE_CUDA)
     enable_language(CUDA)
     set(CMAKE_CUDA_STANDARD 17)
     set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    find_package(CUDAToolkit REQUIRED)
     add_compile_definitions(SIH_CUDA_ENABLED)
 endif()
 
@@ -68,10 +69,18 @@ set(SIH_CORE_SOURCES
     core/src/bnb/gomory_cuts.cpp
     core/src/bnb/heuristics.cpp
     core/src/bnb/branch_and_bound.cpp
+    core/src/gpu/gpu_solver.cpp
 )
+
+if(ENABLE_CUDA)
+    list(APPEND SIH_CORE_SOURCES core/src/gpu/cuda_pdhg.cu)
+endif()
 
 add_library(sih_core STATIC ${SIH_CORE_SOURCES})
 target_link_libraries(sih_core PUBLIC OpenMP::OpenMP_CXX pthread)
+if(ENABLE_CUDA)
+    target_link_libraries(sih_core PUBLIC CUDA::cudart)
+endif()
 target_include_directories(sih_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/core/include)
 
 # Python Extension Module (_core)

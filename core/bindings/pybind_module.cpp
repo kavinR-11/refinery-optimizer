@@ -13,6 +13,7 @@
 #include "sih/ipm/ipm_solver.hpp"
 #include "sih/ipm/crossover.hpp"
 #include "sih/bnb/branch_and_bound.hpp"
+#include "sih/gpu/gpu_solver.hpp"
 
 namespace py = pybind11;
 using namespace sih;
@@ -265,6 +266,34 @@ PYBIND11_MODULE(_core, m) {
         .def(py::init<>())
         .def_static("solve", &bnb::BranchAndBound::solve,
                     py::arg("problem"), py::arg("options") = model::Options{});
+
+    // --- GPU PDHG Solver & Crossover ---
+    py::class_<gpu::GpuPdhgConfig>(m, "GpuPdhgConfig")
+        .def(py::init<>())
+        .def_readwrite("max_iterations", &gpu::GpuPdhgConfig::max_iterations)
+        .def_readwrite("tol_primal", &gpu::GpuPdhgConfig::tol_primal)
+        .def_readwrite("tol_dual", &gpu::GpuPdhgConfig::tol_dual)
+        .def_readwrite("tol_gap", &gpu::GpuPdhgConfig::tol_gap)
+        .def_readwrite("check_frequency", &gpu::GpuPdhgConfig::check_frequency)
+        .def_readwrite("step_tau", &gpu::GpuPdhgConfig::step_tau)
+        .def_readwrite("step_sigma", &gpu::GpuPdhgConfig::step_sigma)
+        .def_readwrite("enable_restart", &gpu::GpuPdhgConfig::enable_restart)
+        .def_readwrite("enable_hybrid_polish", &gpu::GpuPdhgConfig::enable_hybrid_polish);
+
+    py::class_<gpu::GpuMemoryInfo>(m, "GpuMemoryInfo")
+        .def(py::init<>())
+        .def_readonly("total_bytes", &gpu::GpuMemoryInfo::total_bytes)
+        .def_readonly("free_bytes", &gpu::GpuMemoryInfo::free_bytes)
+        .def_readonly("used_bytes", &gpu::GpuMemoryInfo::used_bytes);
+
+    py::class_<gpu::GpuSolver>(m, "GpuSolver")
+        .def(py::init<>())
+        .def_static("is_cuda_available", &gpu::GpuSolver::is_cuda_available)
+        .def_static("get_vram_info", &gpu::GpuSolver::get_vram_info)
+        .def_static("solve_pdhg", &gpu::GpuSolver::solve_pdhg,
+                    py::arg("problem"), py::arg("config") = gpu::GpuPdhgConfig{})
+        .def_static("solve_hybrid", &gpu::GpuSolver::solve_hybrid,
+                    py::arg("problem"), py::arg("config") = gpu::GpuPdhgConfig{});
 
     // --- MPS IO ---
     m.def("read_mps", &io::read_mps, py::arg("filepath"), "Read an MPS or QPS problem file");

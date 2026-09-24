@@ -27,6 +27,9 @@ try:
         IpmSolver,
         Crossover,
         BranchAndBoundSolver,
+        GpuSolver,
+        GpuPdhgConfig,
+        GpuMemoryInfo,
         read_mps,
         write_mps,
         check_solution,
@@ -75,6 +78,18 @@ def solve_from_basis(problem: "Problem",
         options = Options()
     return SimplexSolver.solve_from_basis(problem, col_basis, row_basis, options)
 
+def solve_gpu_pdhg(problem: "Problem", config: Optional["GpuPdhgConfig"] = None) -> "Solution":
+    """Solve an LP using the GPU-accelerated first-order PDHG engine."""
+    if config is None:
+        config = GpuPdhgConfig()
+    return GpuSolver.solve_pdhg(problem, config)
+
+def solve_gpu_hybrid(problem: "Problem", config: Optional["GpuPdhgConfig"] = None) -> "Solution":
+    """Solve an LP using hybrid GPU PDHG + CPU Simplex crossover polish."""
+    if config is None:
+        config = GpuPdhgConfig()
+    return GpuSolver.solve_hybrid(problem, config)
+
 __version__ = "0.1.0"
 __all__ = [
     "SparseMatrix",
@@ -111,4 +126,9 @@ __all__ = [
     "log_solve_telemetry",
     "serialize_solve_telemetry",
     "get_resident_memory_mb",
+    "GpuSolver",
+    "GpuPdhgConfig",
+    "GpuMemoryInfo",
+    "solve_gpu_pdhg",
+    "solve_gpu_hybrid",
 ]
