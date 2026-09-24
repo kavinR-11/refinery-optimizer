@@ -1,0 +1,345 @@
+{
+  "LP": {
+    "class": "LP",
+    "count": 9,
+    "sgm_our_sec": 0.009640042405371085,
+    "sgm_highs_sec": 0.0017813500888341771,
+    "tau_grid": [
+      1.0,
+      1.2,
+      1.5,
+      2.0,
+      3.0,
+      5.0,
+      10.0
+    ],
+    "profile": [
+      0.2222,
+      0.2222,
+      0.2222,
+      0.2222,
+      0.4444,
+      0.6667,
+      0.8889
+    ],
+    "records": [
+      {
+        "name": "adlittle",
+        "m": 56,
+        "n": 97,
+        "our_status": "Optimal",
+        "our_time": 0.0028429359999790904,
+        "highs_status": "Optimal",
+        "highs_time": 0.0036363509998409427,
+        "ratio": 0.7818101168186028,
+        "obj_diff": 0.0
+      },
+      {
+        "name": "afiro",
+        "m": 27,
+        "n": 32,
+        "our_status": "Optimal",
+        "our_time": 0.0003682429996842984,
+        "highs_status": "Optimal",
+        "highs_time": 0.0008830820006551221,
+        "ratio": 0.41699751485265707,
+        "obj_diff": 0.0
+      },
+      {
+        "name": "beaconfd",
+        "m": 173,
+        "n": 262,
+        "our_status": "Optimal",
+        "our_time": 0.017422091999833356,
+        "highs_status": "Optimal",
+        "highs_time": 0.0033507670004837564,
+        "ratio": 5.199434039226868,
+        "obj_diff": 7.275957614183426e-12
+      },
+      {
+        "name": "blend",
+        "m": 74,
+        "n": 83,
+        "our_status": "Optimal",
+        "our_time": 0.006354693000503175,
+        "highs_status": "Optimal",
+        "highs_time": 0.0014190390002113418,
+        "ratio": 4.478166561706022,
+        "obj_diff": 1.4210854715202004e-13
+      },
+      {
+        "name": "lotfi",
+        "m": 153,
+        "n": 308,
+        "our_status": "Optimal",
+        "our_time": 0.040294497999639134,
+        "highs_status": "Optimal",
+        "highs_time": 0.0022748749997845152,
+        "ratio": 17.71284048726017,
+        "obj_diff": 0.0
+      },
+      {
+        "name": "sc50a",
+        "m": 50,
+        "n": 48,
+        "our_status": "Optimal",
+        "our_time": 0.001787428000170621,
+        "highs_status": "Optimal",
+        "highs_time": 0.000818715999230335,
+        "ratio": 2.183208831696169,
+        "obj_diff": 0.0
+      },
+      {
+        "name": "sc50b",
+        "m": 50,
+        "n": 48,
+        "our_status": "Optimal",
+        "our_time": 0.0014531160004480626,
+        "highs_status": "Optimal",
+        "highs_time": 0.0005935889994361787,
+        "ratio": 2.4480170653908795,
+        "obj_diff": 0.0
+      },
+      {
+        "name": "share2b",
+        "m": 96,
+        "n": 79,
+        "our_status": "Optimal",
+        "our_time": 0.011204514999917592,
+        "highs_status": "Optimal",
+        "highs_time": 0.0016986929995255196,
+        "ratio": 6.595962309285579,
+        "obj_diff": 5.115907697472721e-13
+      },
+      {
+        "name": "stocfor1",
+        "m": 117,
+        "n": 111,
+        "our_status": "Optimal",
+        "our_time": 0.0056631589995959075,
+        "highs_status": "Optimal",
+        "highs_time": 0.0013618309994853917,
+        "ratio": 4.158488829917883,
+        "obj_diff": 1.4551915228366852e-11
+      }
+    ]
+  },
+  "MILP": {
+    "class": "MILP",
+    "count": 5,
+    "sgm_our_sec": 0.9843463849584735,
+    "sgm_highs_sec": 2.366908915353537,
+    "tau_grid": [
+      1.0,
+      1.2,
+      1.5,
+      2.0,
+      3.0,
+      5.0,
+      10.0
+    ],
+    "profile": [
+      0.8,
+      0.8,
+      0.8,
+      0.8,
+      0.8,
+      0.8,
+      0.8
+    ],
+    "records": [
+      {
+        "name": "dcmulti",
+        "m": 290,
+        "n": 548,
+        "our_status": "NodeLimit",
+        "our_time": 24.41390212999977,
+        "highs_status": "Optimal",
+        "highs_time": 0.863136965999729,
+        "ratio": 28.2850846293234,
+        "nodes": 500
+      },
+      {
+        "name": "flugpl",
+        "m": 18,
+        "n": 18,
+        "our_status": "NodeLimit",
+        "our_time": 0.020746898000652436,
+        "highs_status": "Optimal",
+        "highs_time": 0.07414398599939886,
+        "ratio": 0.2798190267356363,
+        "nodes": 500
+      },
+      {
+        "name": "glass4",
+        "m": 396,
+        "n": 322,
+        "our_status": "Optimal",
+        "our_time": 0.18193651100045827,
+        "highs_status": "TimeLimit",
+        "highs_time": 5.002734765999776,
+        "ratio": 0.03636741092831033,
+        "nodes": 1
+      },
+      {
+        "name": "markshare1",
+        "m": 6,
+        "n": 62,
+        "our_status": "Optimal",
+        "our_time": 0.0006735549995937617,
+        "highs_status": "TimeLimit",
+        "highs_time": 5.001710831999844,
+        "ratio": 0.00013466492210715287,
+        "nodes": 1
+      },
+      {
+        "name": "pk1",
+        "m": 45,
+        "n": 86,
+        "our_status": "Optimal",
+        "our_time": 0.002793310999550158,
+        "highs_status": "TimeLimit",
+        "highs_time": 5.0010235780000585,
+        "ratio": 0.0005585478564504631,
+        "nodes": 1
+      }
+    ]
+  },
+  "QP": {
+    "class": "QP",
+    "count": 10,
+    "sgm_our_sec": 0.007860129070739186,
+    "sgm_highs_sec": 0.0015706994453261736,
+    "tau_grid": [
+      1.0,
+      1.2,
+      1.5,
+      2.0,
+      3.0,
+      5.0,
+      10.0
+    ],
+    "profile": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.7,
+      1.0
+    ],
+    "records": [
+      {
+        "name": "CVXQP1_S",
+        "m": 50,
+        "n": 100,
+        "our_status": "Optimal",
+        "our_time": 0.008951185000114492,
+        "highs_status": "Optimal",
+        "highs_time": 0.0017824679998739157,
+        "ratio": 5.021792818018422,
+        "obj_diff": 1.0559071597526781e-05
+      },
+      {
+        "name": "CVXQP2_S",
+        "m": 25,
+        "n": 100,
+        "our_status": "Optimal",
+        "our_time": 0.007019560000117053,
+        "highs_status": "Optimal",
+        "highs_time": 0.001658737000070687,
+        "ratio": 4.231870392845831,
+        "obj_diff": 2.384517665632302e-05
+      },
+      {
+        "name": "CVXQP3_S",
+        "m": 75,
+        "n": 100,
+        "our_status": "Optimal",
+        "our_time": 0.00988478099952772,
+        "highs_status": "Optimal",
+        "highs_time": 0.002043163999587705,
+        "ratio": 4.837977275207665,
+        "obj_diff": 1.6402242181356996e-05
+      },
+      {
+        "name": "DUAL1",
+        "m": 1,
+        "n": 85,
+        "our_status": "Optimal",
+        "our_time": 0.02587696099999448,
+        "highs_status": "Optimal",
+        "highs_time": 0.0034644659999685246,
+        "ratio": 7.469249517885174,
+        "obj_diff": 3.492343220168337e-11
+      },
+      {
+        "name": "DUAL2",
+        "m": 1,
+        "n": 96,
+        "our_status": "Optimal",
+        "our_time": 0.02668443800030218,
+        "highs_status": "Optimal",
+        "highs_time": 0.004465150999749312,
+        "ratio": 5.976155789983436,
+        "obj_diff": 1.5039566814145644e-12
+      },
+      {
+        "name": "HS21",
+        "m": 1,
+        "n": 2,
+        "our_status": "Optimal",
+        "our_time": 0.00011679300041578244,
+        "highs_status": "Optimal",
+        "highs_time": 0.00047175300005619647,
+        "ratio": 0.24757235333293007,
+        "obj_diff": 4.3593217924353667e-10
+      },
+      {
+        "name": "HS35",
+        "m": 1,
+        "n": 3,
+        "our_status": "Optimal",
+        "our_time": 0.0001,
+        "highs_status": "Optimal",
+        "highs_time": 0.0004328679997342988,
+        "ratio": 0.2310173079585037,
+        "obj_diff": 2.2935846999416754e-08
+      },
+      {
+        "name": "HS51",
+        "m": 3,
+        "n": 5,
+        "our_status": "Optimal",
+        "our_time": 0.00011178700060554547,
+        "highs_status": "Optimal",
+        "highs_time": 0.0003850479997709044,
+        "ratio": 0.29031965020479633,
+        "obj_diff": 1.7763568394002505e-15
+      },
+      {
+        "name": "HS52",
+        "m": 3,
+        "n": 5,
+        "our_status": "Optimal",
+        "our_time": 0.0001,
+        "highs_status": "Optimal",
+        "highs_time": 0.00044352099939715117,
+        "ratio": 0.2254684674139971,
+        "obj_diff": 1.7763568394002505e-15
+      },
+      {
+        "name": "HS76",
+        "m": 3,
+        "n": 4,
+        "our_status": "Optimal",
+        "our_time": 0.00024038300034590065,
+        "highs_status": "Optimal",
+        "highs_time": 0.0005690070001946879,
+        "ratio": 0.4224605325833473,
+        "obj_diff": 8.696456887946624e-10
+      }
+    ]
+  },
+  "generated_at": "2026-09-24 05:47:11 UTC"
+}

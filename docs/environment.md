@@ -63,7 +63,7 @@ Vulnerability Vmscape:                   Not affected
 ## System Memory
 ```text
 total        used        free      shared  buff/cache   available
-Mem:           7.6Gi       671Mi       6.7Gi       3.5Mi       458Mi       6.9Gi
+Mem:           7.6Gi       686Mi       6.7Gi       3.5Mi       371Mi       6.9Gi
 Swap:          2.0Gi          0B       2.0Gi
 ```
 
@@ -71,7 +71,7 @@ Swap:          2.0Gi          0B       2.0Gi
 - **GPU Details**: NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 610.60
 
 ```text
-Wed Sep 23 08:28:50 2026       
+Thu Sep 24 05:50:50 2026       
 +-----------------------------------------------------------------------------------------+
 | NVIDIA-SMI 610.47.03              KMD Version: 610.60        CUDA UMD Version: 13.3     |
 +-----------------------------------------+------------------------+----------------------+
@@ -80,7 +80,7 @@ Wed Sep 23 08:28:50 2026
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
 |   0  NVIDIA GeForce RTX 4060 ...    On  |   00000000:01:00.0  On |                  N/A |
-| N/A   59C    P5              7W /  115W |    1991MiB /   8188MiB |      8%      Default |
+| N/A   48C    P8              4W /  140W |    1750MiB /   8188MiB |     30%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
 
