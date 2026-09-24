@@ -66,12 +66,13 @@ int64_t select_most_fractional(const std::vector<double>& x,
 model::Solution BranchAndBound::solve(const model::Problem& problem,
                                      const model::Options& options) {
     auto start_time = std::chrono::high_resolution_clock::now();
+    model::Options opts = options;
 
     model::Solution final_sol;
     final_sol.status = model::SolutionStatus::Unknown;
 
     // 1. MILP Presolve
-    auto presolve_res = MilpPresolver::presolve(problem, options.zero_tol);
+    auto presolve_res = MilpPresolver::presolve(problem, opts.zero_tol);
     if (presolve_res.is_infeasible) {
         final_sol.status = model::SolutionStatus::Infeasible;
         return final_sol;
@@ -91,7 +92,7 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
     int64_t total_iterations = root_sol.simplex_iterations;
 
     // Check if naturally integer feasible
-    if (check_integrality(root_sol.x, vt, options.integrality_tol)) {
+    if (check_integrality(root_sol.x, vt, opts.integrality_tol)) {
         root_sol.nodes_explored = 1;
         root_sol.dual_bound = root_sol.primal_objective;
         root_sol.mip_gap = 0.0;
@@ -99,11 +100,11 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
     }
 
     // 3. Apply Root Gomory Cuts
-    if (options.strategy.cut_rounds > 0) {
+    if (opts.strategy.cut_rounds > 0) {
         root_sol = GomoryCutGenerator::apply_root_cuts(curr_prob, root_sol, options);
         total_iterations += root_sol.simplex_iterations;
 
-        if (check_integrality(root_sol.x, vt, options.integrality_tol)) {
+        if (check_integrality(root_sol.x, vt, opts.integrality_tol)) {
             root_sol.nodes_explored = 1;
             root_sol.dual_bound = root_sol.primal_objective;
             root_sol.mip_gap = 0.0;
@@ -116,7 +117,7 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
     double best_obj = model::SIH_INFINITY;
     std::vector<double> best_x(n, 0.0);
 
-    auto h_round = PrimalHeuristics::simple_rounding(curr_prob, root_sol, options.integrality_tol);
+    auto h_round = PrimalHeuristics::simple_rounding(curr_prob, root_sol, opts.integrality_tol);
     if (h_round.found_incumbent && h_round.objective < best_obj) {
         has_incumbent = true;
         best_obj = h_round.objective;
@@ -144,7 +145,7 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
     root_node.col_basis = root_sol.col_basis;
     root_node.row_basis = root_sol.row_basis;
 
-    if (options.strategy.node_selection == model::NodeSelection::BestBound) {
+    if (opts.strategy.node_selection == model::NodeSelection::BestBound) {
         best_first_queue.push(std::move(root_node));
     } else {
         depth_first_stack.push_back(std::move(root_node));
@@ -200,7 +201,7 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
         }
 
         // Check integrality
-        if (check_integrality(child_sol.x, vt, options.integrality_tol)) {
+        if (check_integrality(child_sol.x, vt, opts.integrality_tol)) {
             // Found integer feasible solution!
             std::lock_guard<std::mutex> lock(tree_mutex);
             if (child_obj < best_obj) {
@@ -213,14 +214,14 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
 
         // Select branching variable
         int64_t branch_var = -1;
-        if (options.strategy.branching_rule == model::BranchingRule::PseudoCost) {
+        if (opts.strategy.branching_rule == model::BranchingRule::PseudoCost) {
             double best_score = -1.0;
             for (int64_t j = 0; j < n; ++j) {
                 if (vt[j] == model::VariableType::Integer || vt[j] == model::VariableType::Binary) {
                     double v = child_sol.x[j];
                     double f_down = v - std::floor(v);
                     double f_up = 1.0 - f_down;
-                    if (f_down > options.integrality_tol && f_up > options.integrality_tol) {
+                    if (f_down > opts.integrality_tol && f_up > opts.integrality_tol) {
                         double d_down = pc_down[j] * f_down;
                         double d_up = pc_up[j] * f_up;
                         double score = (5.0 / 6.0) * std::min(d_down, d_up) + (1.0 / 6.0) * std::max(d_down, d_up);
@@ -234,7 +235,7 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
         }
 
         if (branch_var == -1) {
-            branch_var = select_most_fractional(child_sol.x, vt, options.integrality_tol);
+            branch_var = select_most_fractional(child_sol.x, vt, opts.integrality_tol);
         }
 
         if (branch_var == -1) {
@@ -270,7 +271,7 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
         // Push children to queue
         {
             std::lock_guard<std::mutex> lock(tree_mutex);
-            if (options.strategy.node_selection == model::NodeSelection::BestBound) {
+            if (opts.strategy.node_selection == model::NodeSelection::BestBound) {
                 best_first_queue.push(std::move(left_child));
                 best_first_queue.push(std::move(right_child));
             } else {
@@ -281,11 +282,74 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
     };
 
     // 6. Tree Search Loop
-    int64_t max_nodes = options.node_limit > 0 ? options.node_limit : 1000000;
-    double time_limit = options.time_limit_sec;
+    int64_t max_nodes = opts.node_limit > 0 ? opts.node_limit : 1000000;
+    double time_limit = opts.time_limit_sec;
+
+    // Adaptive in-solve monitor tracking
+    int64_t last_check_node = 0;
+    double last_check_gap = 1.0;
+    auto last_check_time = start_time;
+    int strategy_mutations = 0;
+    std::string in_solve_log = "";
+    double pre_switch_rate = 0.0;
+    double post_switch_rate = 0.0;
+
+    auto check_stall_and_adapt = [&]() {
+        if (!opts.strategy.enable_in_solve_monitor) return;
+        int window = opts.strategy.stall_node_window;
+        if (window <= 0) window = 40;
+        if (nodes_explored - last_check_node >= window) {
+            double cur_gap = 1.0;
+            if (has_incumbent && std::abs(best_obj) < 1e20 && std::abs(global_dual_bound) < 1e20) {
+                cur_gap = std::abs(best_obj - global_dual_bound) / (1e-10 + std::abs(best_obj));
+            }
+            auto now = std::chrono::high_resolution_clock::now();
+            double dt = std::chrono::duration<double>(now - last_check_time).count();
+            double cur_rate = (nodes_explored - last_check_node) / (dt > 1e-6 ? dt : 1e-6);
+
+            if (std::abs(last_check_gap - cur_gap) < opts.strategy.stall_gap_tolerance) {
+                // Stall detected!
+                pre_switch_rate = cur_rate;
+                strategy_mutations++;
+
+                // Toggle node selection: BestBound <-> DepthFirst
+                if (opts.strategy.node_selection == model::NodeSelection::BestBound) {
+                    opts.strategy.node_selection = model::NodeSelection::DepthFirst;
+                    while (!best_first_queue.empty()) {
+                        depth_first_stack.push_back(std::move(const_cast<BnBNode&>(best_first_queue.top())));
+                        best_first_queue.pop();
+                    }
+                } else {
+                    opts.strategy.node_selection = model::NodeSelection::BestBound;
+                    for (auto& n : depth_first_stack) {
+                        best_first_queue.push(std::move(n));
+                    }
+                    depth_first_stack.clear();
+                }
+
+                // Toggle branching rule: MostFractional <-> PseudoCost
+                if (opts.strategy.branching_rule == model::BranchingRule::MostFractional) {
+                    opts.strategy.branching_rule = model::BranchingRule::PseudoCost;
+                } else {
+                    opts.strategy.branching_rule = model::BranchingRule::MostFractional;
+                }
+
+                std::string sel_str = (opts.strategy.node_selection == model::NodeSelection::DepthFirst) ? "DepthFirst" : "BestBound";
+                std::string br_str = (opts.strategy.branching_rule == model::BranchingRule::PseudoCost) ? "PseudoCost" : "MostFractional";
+
+                in_solve_log += "[InSolveMonitor] Stall detected at node " + std::to_string(nodes_explored.load()) +
+                                " (gap=" + std::to_string(cur_gap * 100.0) + "%). " +
+                                "Switched strategy to " + sel_str + " + " + br_str +
+                                ". Pre-switch node processing rate: " + std::to_string(cur_rate) + " nodes/sec.\n";
+            }
+            last_check_gap = cur_gap;
+            last_check_node = nodes_explored.load();
+            last_check_time = now;
+        }
+    };
 
     // Check single-threaded vs multithreaded
-    if (options.threads <= 1) {
+    if (opts.threads <= 1) {
         // Deterministic single-threaded execution
         while (!stop_flag) {
             auto now = std::chrono::high_resolution_clock::now();
@@ -303,7 +367,7 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
             BnBNode curr_node;
             bool has_node = false;
 
-            if (options.strategy.node_selection == model::NodeSelection::BestBound) {
+            if (opts.strategy.node_selection == model::NodeSelection::BestBound) {
                 if (!best_first_queue.empty()) {
                     curr_node = std::move(const_cast<BnBNode&>(best_first_queue.top()));
                     best_first_queue.pop();
@@ -323,10 +387,11 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
             }
 
             explore_node(std::move(curr_node));
+            check_stall_and_adapt();
         }
     } else {
         // Multithreaded execution using custom ThreadPool
-        ThreadPool pool(options.threads);
+        ThreadPool pool(opts.threads);
 
         while (!stop_flag) {
             auto now = std::chrono::high_resolution_clock::now();
@@ -346,7 +411,8 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
 
             {
                 std::lock_guard<std::mutex> lock(tree_mutex);
-                if (options.strategy.node_selection == model::NodeSelection::BestBound) {
+                check_stall_and_adapt();
+                if (opts.strategy.node_selection == model::NodeSelection::BestBound) {
                     if (!best_first_queue.empty()) {
                         curr_node = std::move(const_cast<BnBNode&>(best_first_queue.top()));
                         best_first_queue.pop();
@@ -402,6 +468,16 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
     final_sol.nodes_explored = nodes_explored;
     final_sol.simplex_iterations = total_iterations;
     final_sol.time_wall_sec = total_time;
+
+    if (strategy_mutations > 0) {
+        double dt_post = std::chrono::duration<double>(end_time - last_check_time).count();
+        int64_t post_nodes = nodes_explored.load() - last_check_node;
+        post_switch_rate = (dt_post > 1e-6) ? (post_nodes / dt_post) : pre_switch_rate;
+        in_solve_log += "[InSolveMonitor] Post-switch node processing rate: " + std::to_string(post_switch_rate) + " nodes/sec.\n";
+    }
+
+    final_sol.strategy_switches = strategy_mutations;
+    final_sol.in_solve_log = in_solve_log;
 
     return final_sol;
 }

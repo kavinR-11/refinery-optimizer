@@ -74,6 +74,10 @@ struct Solution {
     double time_presolve_sec{0.0};
     double time_solver_sec{0.0};
 
+    // Phase 5: Adaptive in-solve monitoring metrics
+    int strategy_switches{0};
+    std::string in_solve_log{""};
+
     // Check if solution claims optimality
     bool is_optimal() const noexcept { return status == SolutionStatus::Optimal; }
     bool is_feasible() const noexcept { return status == SolutionStatus::Optimal || status == SolutionStatus::TimeLimit || status == SolutionStatus::IterationLimit || status == SolutionStatus::NodeLimit; }

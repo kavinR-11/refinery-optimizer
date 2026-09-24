@@ -8,6 +8,7 @@ from refinery.parameterized_generator import ParameterizedRefineryGenerator
 from refinery.explainability import RefineryExplainer, InfeasibilityDiagnoser
 from refinery.comparator import RefineryPlanComparator
 from refinery.slp_blender import SLPRefineryBlender, SLPBlendingResult
+from refinery.reoptimization import RefineryReoptimizer
 
 __all__ = [
     "RefineryModelBuilder",
@@ -17,4 +18,5 @@ __all__ = [
     "RefineryPlanComparator",
     "SLPRefineryBlender",
     "SLPBlendingResult",
+    "RefineryReoptimizer",
 ]

@@ -72,6 +72,11 @@ struct StrategyConfig {
     double ipm_centering_exponent{3.0};
     bool ipm_enable_crossover{true};
     double ipm_regularization{1e-12};
+
+    // Phase 5: Adaptive in-solve monitoring
+    bool enable_in_solve_monitor{true};
+    int stall_node_window{40};
+    double stall_gap_tolerance{1e-4};
 };
 
 struct Options {

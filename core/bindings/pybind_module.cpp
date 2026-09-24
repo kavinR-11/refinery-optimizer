@@ -145,6 +145,8 @@ PYBIND11_MODULE(_core, m) {
         .def_readwrite("rhs_up", &model::Solution::rhs_up)
         .def_readwrite("obj_down", &model::Solution::obj_down)
         .def_readwrite("obj_up", &model::Solution::obj_up)
+        .def_readwrite("strategy_switches", &model::Solution::strategy_switches)
+        .def_readwrite("in_solve_log", &model::Solution::in_solve_log)
         .def("is_optimal", &model::Solution::is_optimal)
         .def("is_feasible", &model::Solution::is_feasible);
 
@@ -212,7 +214,10 @@ PYBIND11_MODULE(_core, m) {
         .def_readwrite("ipm_step_safety", &model::StrategyConfig::ipm_step_safety)
         .def_readwrite("ipm_centering_exponent", &model::StrategyConfig::ipm_centering_exponent)
         .def_readwrite("ipm_enable_crossover", &model::StrategyConfig::ipm_enable_crossover)
-        .def_readwrite("ipm_regularization", &model::StrategyConfig::ipm_regularization);
+        .def_readwrite("ipm_regularization", &model::StrategyConfig::ipm_regularization)
+        .def_readwrite("enable_in_solve_monitor", &model::StrategyConfig::enable_in_solve_monitor)
+        .def_readwrite("stall_node_window", &model::StrategyConfig::stall_node_window)
+        .def_readwrite("stall_gap_tolerance", &model::StrategyConfig::stall_gap_tolerance);
 
     py::class_<model::Options>(m, "Options")
         .def(py::init<>())
