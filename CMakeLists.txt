@@ -62,6 +62,8 @@ set(SIH_CORE_SOURCES
     core/src/simplex/dual_simplex.cpp
     core/src/simplex/primal_simplex.cpp
     core/src/simplex/simplex_solver.cpp
+    core/src/ipm/crossover.cpp
+    core/src/ipm/ipm_solver.cpp
 )
 
 add_library(sih_core STATIC ${SIH_CORE_SOURCES})

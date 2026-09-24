@@ -167,12 +167,10 @@ bool SparseCholesky::factorize_normal_equations(const model::SparseMatrix& A,
 
     std::vector<model::Triplet> triplets;
 
-    // Diagonal elements from reg_diag
+    // Diagonal elements from reg_diag + reg
     for (int64_t i = 0; i < m; ++i) {
         double d_i = (i < static_cast<int64_t>(reg_diag.size())) ? reg_diag[i] : 0.0;
-        if (d_i != 0.0) {
-            triplets.emplace_back(i, i, d_i);
-        }
+        triplets.emplace_back(i, i, d_i + reg);
     }
 
     // Outer products of columns of A scaled by D[j]

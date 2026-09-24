@@ -10,6 +10,8 @@
 #include "sih/telemetry/telemetry.hpp"
 #include "sih/utils/affinity.hpp"
 #include "sih/simplex/simplex_solver.hpp"
+#include "sih/ipm/ipm_solver.hpp"
+#include "sih/ipm/crossover.hpp"
 
 namespace py = pybind11;
 using namespace sih;
@@ -201,7 +203,15 @@ PYBIND11_MODULE(_core, m) {
         .def_readwrite("enable_perturbation", &model::StrategyConfig::enable_perturbation)
         .def_readwrite("perturbation_magnitude", &model::StrategyConfig::perturbation_magnitude)
         .def_readwrite("cut_rounds", &model::StrategyConfig::cut_rounds)
-        .def_readwrite("enable_gpu", &model::StrategyConfig::enable_gpu);
+        .def_readwrite("enable_gpu", &model::StrategyConfig::enable_gpu)
+        .def_readwrite("ipm_max_iterations", &model::StrategyConfig::ipm_max_iterations)
+        .def_readwrite("ipm_primal_tol", &model::StrategyConfig::ipm_primal_tol)
+        .def_readwrite("ipm_dual_tol", &model::StrategyConfig::ipm_dual_tol)
+        .def_readwrite("ipm_gap_tol", &model::StrategyConfig::ipm_gap_tol)
+        .def_readwrite("ipm_step_safety", &model::StrategyConfig::ipm_step_safety)
+        .def_readwrite("ipm_centering_exponent", &model::StrategyConfig::ipm_centering_exponent)
+        .def_readwrite("ipm_enable_crossover", &model::StrategyConfig::ipm_enable_crossover)
+        .def_readwrite("ipm_regularization", &model::StrategyConfig::ipm_regularization);
 
     py::class_<model::Options>(m, "Options")
         .def(py::init<>())
@@ -232,6 +242,17 @@ PYBIND11_MODULE(_core, m) {
         .def_static("solve_from_basis", &simplex::SimplexSolver::solve_from_basis,
                     py::arg("problem"), py::arg("col_basis"), py::arg("row_basis"),
                     py::arg("options") = model::Options{});
+
+    // --- IPM Solver & Crossover ---
+    py::class_<ipm::IpmSolver>(m, "IpmSolver")
+        .def(py::init<>())
+        .def_static("solve", &ipm::IpmSolver::solve,
+                    py::arg("problem"), py::arg("options") = model::Options{});
+
+    py::class_<ipm::Crossover>(m, "Crossover")
+        .def(py::init<>())
+        .def_static("crossover", &ipm::Crossover::crossover,
+                    py::arg("problem"), py::arg("ipm_sol"), py::arg("options") = model::Options{});
 
     // --- MPS IO ---
     m.def("read_mps", &io::read_mps, py::arg("filepath"), "Read an MPS or QPS problem file");

@@ -24,6 +24,8 @@ try:
         RatioTest,
         SimplexSolver,
         SensitivityReport,
+        IpmSolver,
+        Crossover,
         read_mps,
         write_mps,
         check_solution,
@@ -40,10 +42,18 @@ except ImportError:
     # Extension module not yet built in current path
     pass
 
-def solve(problem: "Problem", options: Optional["Options"] = None) -> "Solution":
-    """Solve an optimization problem using the indigenous simplex engine."""
+def solve_ipm(problem: "Problem", options: Optional["Options"] = None) -> "Solution":
+    """Solve an LP or convex QP using the indigenous primal-dual interior point method."""
     if options is None:
         options = Options()
+    return IpmSolver.solve(problem, options)
+
+def solve(problem: "Problem", options: Optional["Options"] = None) -> "Solution":
+    """Solve an optimization problem using the appropriate indigenous engine."""
+    if options is None:
+        options = Options()
+    if options.strategy.algorithm == AlgorithmChoice.Barrier or problem.is_qp():
+        return IpmSolver.solve(problem, options)
     return SimplexSolver.solve(problem, options)
 
 def solve_from_basis(problem: "Problem",
@@ -75,7 +85,10 @@ __all__ = [
     "RatioTest",
     "SimplexSolver",
     "SensitivityReport",
+    "IpmSolver",
+    "Crossover",
     "solve",
+    "solve_ipm",
     "solve_from_basis",
     "read_mps",
     "write_mps",

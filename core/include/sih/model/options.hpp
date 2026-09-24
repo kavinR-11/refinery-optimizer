@@ -62,6 +62,16 @@ struct StrategyConfig {
     double perturbation_magnitude{1e-11};
     int cut_rounds{5};
     bool enable_gpu{false};
+
+    // Phase 2: Interior Point Method (IPM) parameters
+    int64_t ipm_max_iterations{100};
+    double ipm_primal_tol{1e-8};
+    double ipm_dual_tol{1e-8};
+    double ipm_gap_tol{1e-8};
+    double ipm_step_safety{0.995};
+    double ipm_centering_exponent{3.0};
+    bool ipm_enable_crossover{true};
+    double ipm_regularization{1e-12};
 };
 
 struct Options {
