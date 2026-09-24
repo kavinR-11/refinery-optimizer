@@ -106,6 +106,12 @@ model::Solution SimplexSolver::solve(const model::Problem& problem,
         if (!model::is_bounded_below(rl[i])) rl[i] = -model::SIH_INFINITY;
         if (!model::is_bounded_above(ru[i])) ru[i] =  model::SIH_INFINITY;
     }
+    double sense_mult = (current_prob.sense() == model::ObjectiveSense::Maximize) ? -1.0 : 1.0;
+    if (sense_mult != 1.0) {
+        for (double& cj : current_prob.c()) {
+            cj *= sense_mult;
+        }
+    }
 
     scaling::ScalingFactors scaling_factors;
     bool enable_scaling = options.strategy.enable_scaling;
@@ -246,6 +252,11 @@ model::Solution SimplexSolver::solve(const model::Problem& problem,
         scaling::Scaler::unscale_solution(sol, scaling_factors);
     }
 
+    if (sense_mult != 1.0) {
+        sol.primal_objective *= sense_mult;
+        sol.dual_bound *= sense_mult;
+    }
+
     auto end_time = std::chrono::high_resolution_clock::now();
     sol.time_wall_sec = std::chrono::duration<double>(end_time - start_time).count();
 
@@ -270,6 +281,13 @@ model::Solution SimplexSolver::solve_from_basis(const model::Problem& problem,
     for (int64_t i = 0; i < current_prob.num_rows(); ++i) {
         if (!model::is_bounded_below(rl[i])) rl[i] = -model::SIH_INFINITY;
         if (!model::is_bounded_above(ru[i])) ru[i] =  model::SIH_INFINITY;
+    }
+
+    double sense_mult = (current_prob.sense() == model::ObjectiveSense::Maximize) ? -1.0 : 1.0;
+    if (sense_mult != 1.0) {
+        for (double& cj : current_prob.c()) {
+            cj *= sense_mult;
+        }
     }
 
     PrimalSimplexEngine primal_engine(current_prob, options);
@@ -297,6 +315,11 @@ model::Solution SimplexSolver::solve_from_basis(const model::Problem& problem,
             sol.obj_down = std::move(sens.obj_down);
             sol.obj_up   = std::move(sens.obj_up);
         }
+    }
+
+    if (sense_mult != 1.0) {
+        sol.primal_objective *= sense_mult;
+        sol.dual_bound *= sense_mult;
     }
 
     auto end_time = std::chrono::high_resolution_clock::now();
