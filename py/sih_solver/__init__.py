@@ -26,6 +26,7 @@ try:
         SensitivityReport,
         IpmSolver,
         Crossover,
+        BranchAndBoundSolver,
         read_mps,
         write_mps,
         check_solution,
@@ -38,9 +39,16 @@ try:
         serialize_solve_telemetry,
         get_resident_memory_mb,
     )
-except ImportError:
-    # Extension module not yet built in current path
-    pass
+    BranchAndBound = BranchAndBoundSolver
+except ImportError as e:
+    # Re-raise so any import failure is visible
+    raise e
+
+def solve_milp(problem: "Problem", options: Optional["Options"] = None) -> "Solution":
+    """Solve an MILP problem using the indigenous branch-and-bound engine."""
+    if options is None:
+        options = Options()
+    return BranchAndBoundSolver.solve(problem, options)
 
 def solve_ipm(problem: "Problem", options: Optional["Options"] = None) -> "Solution":
     """Solve an LP or convex QP using the indigenous primal-dual interior point method."""
@@ -52,6 +60,8 @@ def solve(problem: "Problem", options: Optional["Options"] = None) -> "Solution"
     """Solve an optimization problem using the appropriate indigenous engine."""
     if options is None:
         options = Options()
+    if problem.is_mip():
+        return BranchAndBound.solve(problem, options)
     if options.strategy.algorithm == AlgorithmChoice.Barrier or problem.is_qp():
         return IpmSolver.solve(problem, options)
     return SimplexSolver.solve(problem, options)

@@ -12,6 +12,7 @@
 #include "sih/simplex/simplex_solver.hpp"
 #include "sih/ipm/ipm_solver.hpp"
 #include "sih/ipm/crossover.hpp"
+#include "sih/bnb/branch_and_bound.hpp"
 
 namespace py = pybind11;
 using namespace sih;
@@ -253,6 +254,12 @@ PYBIND11_MODULE(_core, m) {
         .def(py::init<>())
         .def_static("crossover", &ipm::Crossover::crossover,
                     py::arg("problem"), py::arg("ipm_sol"), py::arg("options") = model::Options{});
+
+    // --- Branch and Bound MILP Solver ---
+    py::class_<bnb::BranchAndBound>(m, "BranchAndBoundSolver")
+        .def(py::init<>())
+        .def_static("solve", &bnb::BranchAndBound::solve,
+                    py::arg("problem"), py::arg("options") = model::Options{});
 
     // --- MPS IO ---
     m.def("read_mps", &io::read_mps, py::arg("filepath"), "Read an MPS or QPS problem file");

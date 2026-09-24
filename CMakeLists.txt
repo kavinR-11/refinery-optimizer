@@ -64,6 +64,10 @@ set(SIH_CORE_SOURCES
     core/src/simplex/simplex_solver.cpp
     core/src/ipm/crossover.cpp
     core/src/ipm/ipm_solver.cpp
+    core/src/bnb/milp_presolve.cpp
+    core/src/bnb/gomory_cuts.cpp
+    core/src/bnb/heuristics.cpp
+    core/src/bnb/branch_and_bound.cpp
 )
 
 add_library(sih_core STATIC ${SIH_CORE_SOURCES})
