@@ -379,7 +379,7 @@ FactorizationStatus SparseLU::factorize(int64_t m,
 }
 
 void SparseLU::ftran(const double* b, double* x) const {
-    if (m_dim == 0) return;
+    if (m_dim == 0 || !is_valid()) return;
     int64_t m = m_dim;
 
     // 1. Permute RHS: z = P * b
@@ -430,7 +430,7 @@ std::vector<double> SparseLU::ftran(const std::vector<double>& b) const {
 }
 
 void SparseLU::btran(const double* c, double* y) const {
-    if (m_dim == 0) return;
+    if (m_dim == 0 || !is_valid()) return;
     int64_t m = m_dim;
 
     // Working vector initialized to c

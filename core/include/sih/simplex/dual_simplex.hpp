@@ -65,8 +65,8 @@ private:
     std::vector<double> get_column(int64_t j) const;
 
     // Phase 8: Incremental update methods
-    void update_primal_incremental(int64_t q, int64_t p, int leave_dir);
-    void update_dual_incremental(int64_t q, int64_t p, int leave_dir, double pivot_val);
+    void update_primal_incremental(int64_t q, int64_t p, double theta, double x_q_new);
+    void update_dual_incremental(int64_t q, int64_t p, int64_t leaving_var, int leave_dir, double pivot_val);
     void update_dse_weights_exact(int64_t p, double pivot_val);
 };
 

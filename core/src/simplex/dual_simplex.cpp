@@ -399,61 +399,19 @@ int64_t DualSimplexEngine::select_entering_col_harris_bfrt(int64_t p, int leave_
 // Phase 8: Incremental Update Methods
 // ============================================================================
 
-void DualSimplexEngine::update_primal_incremental(int64_t q, int64_t p, int leave_dir) {
-    // After the basis change, the primal basic values are updated as:
-    //   x_B(new) = x_B(old) - theta * ftran_aq  (except row p which gets the entering var)
-    //
-    // theta = (x_p - bound_p) / ftran_aq[p]
-    //   where bound_p = lb[leaving] if leave_dir > 0, ub[leaving] if leave_dir < 0
-    // But since we already set x[leaving_var] to its bound, we compute theta from
-    // the primal infeasibility that triggered the pivot.
-
-    int64_t leaving_var = m_basic_vars[p]; // Note: q is already placed here
-    // Actually at this point m_basic_vars[p] = q (already updated).
-    // We need the ftran column ftran_aq and the old primal value.
-    // The primal step is: for each basic row i != p:
-    //   x_{B_i} -= (ftran_aq[i] / ftran_aq[p]) * delta_x_p
-    // where delta_x_p is the change in the entering variable.
-
-    // The entering variable q moves from its bound to its new basic value.
-    // Compute theta: dual step size determines the primal update.
-    double pivot = m_ftran_aq[p];
-    if (std::abs(pivot) < 1e-14) {
-        // Numerical trouble, fall back to full recomputation
-        compute_primal_basic();
-        return;
+void DualSimplexEngine::update_primal_incremental(int64_t q, int64_t p, double theta, double x_q_new) {
+    // True incremental primal update (O(m) operations):
+    // After the basis change, x_{B_i}(new) = x_{B_i}(old) - ftran_aq[i] * theta for i != p.
+    // For row p, the entering variable q is set to x_q_new = x_q_old + theta.
+    for (int64_t i = 0; i < m_m; ++i) {
+        if (i == p) continue;
+        int64_t v = m_basic_vars[i];
+        m_x[v] -= m_ftran_aq[i] * theta;
     }
-
-    // The entering variable was at its non-basic value. Its new value is
-    // determined by the constraint that row p's basic variable goes to its bound.
-    // For dual simplex: x_B(old)[p] was infeasible. The leaving var goes to its bound.
-    // theta = -(x_B(old)[p] - target_bound) / ftran_aq[p]
-    // But we need the OLD basic value at row p before the basis swap.
-    // We stored the leaving var's value in m_x[leaving_var] = bound already,
-    // but we need the original infeasible value.
-
-    // Actually, the simplest correct approach for dual simplex incremental update:
-    // After FTRAN, we have ftran_aq = B_old^{-1} * a_q.
-    // The new basic solution x_B(new) satisfies B_new * x_B(new) = b - N_new * x_N(new).
-    // The change from old to new: x_B_i(new) = x_B_i(old) - ftran_aq[i] * delta
-    // where delta = (x_B_p(old) - target) / ftran_aq[p]  for p being the leaving row.
-
-    // Since we haven't updated x[basic vars] yet (except the leaving var which went to bound),
-    // we need to track the old leaving value.
-    // But by this point the basis is already swapped. Let's just do full recompute
-    // for the entering variable's new value from FTRAN column.
-
-    // Full incremental:
-    // Note: at this point m_basic_vars[p] = q, and m_x[old_leaving] = bound already.
-    // x[old_leaving] is now non-basic at its bound. x[q] needs to be set.
-    // All other basic variables need to be adjusted.
-    // The FTRAN column ftran_aq was computed BEFORE the basis change.
-
-    // Skip incremental on the first iteration after refactorization to establish baseline.
-    compute_primal_basic();
+    m_x[q] = x_q_new;
 }
 
-void DualSimplexEngine::update_dual_incremental(int64_t q, int64_t p, int leave_dir, double pivot_val) {
+void DualSimplexEngine::update_dual_incremental(int64_t q, int64_t p, int64_t leaving_var, int leave_dir, double pivot_val) {
     // The dual step for the dual simplex:
     // Delta_s = -(s_q / alpha_pq) * alpha_p_row_extended
     // where alpha_p_row_extended[j] = alpha_p[j] for non-basic j
@@ -463,8 +421,7 @@ void DualSimplexEngine::update_dual_incremental(int64_t q, int64_t p, int leave_
     //
     // s_q was the reduced cost of the entering variable before it entered the basis.
     // After the pivot, the entering variable q is now basic (s_q = 0).
-    // The leaving variable gets the reduced cost:
-    //   s_leaving(new) = -s_q / alpha_pq  (with appropriate sign for direction)
+    // The leaving variable gets the reduced cost: s_leaving(new) = -dual_step.
 
     double sq = m_s[q];
 
@@ -476,7 +433,7 @@ void DualSimplexEngine::update_dual_incremental(int64_t q, int64_t p, int leave_
 
     double dual_step = sq / pivot_val;
 
-    // Update reduced costs for all non-basic variables (excluding q which is now basic)
+    // Update reduced costs for all non-basic variables
     for (int64_t j = 0; j < m_num_total; ++j) {
         if (m_var_in_basis[j] != -1) continue; // skip basic vars
         m_s[j] -= dual_step * m_alpha_p[j];
@@ -485,10 +442,13 @@ void DualSimplexEngine::update_dual_incremental(int64_t q, int64_t p, int leave_
     // The entering variable q is now basic: s_q = 0
     m_s[q] = 0.0;
 
+    // The leaving variable leaves the basis: s_leaving = -dual_step
+    m_s[leaving_var] = -dual_step;
+
     // Update dual multipliers y:
-    // y(new) = y(old) - dual_step * alpha_p_row
+    // y(new) = y(old) + dual_step * alpha_p_row
     for (int64_t i = 0; i < m_m; ++i) {
-        m_y[i] -= dual_step * m_alpha_p_row[i];
+        m_y[i] += dual_step * m_alpha_p_row[i];
     }
 }
 
@@ -594,15 +554,24 @@ model::Solution DualSimplexEngine::solve() {
         m_col_q = get_column(q);
         m_lu.ftran(m_col_q.data(), m_ftran_aq.data());
 
+        // Save primal quantities BEFORE basis swap for incremental primal update
+        int64_t leaving_var = m_basic_vars[p];
+        double x_leaving_old = m_x[leaving_var];
+        double target_bound = (leave_dir > 0) ? m_lb[leaving_var] : m_ub[leaving_var];
+        double x_q_old = m_x[q];
+        double pivot_aq = m_ftran_aq[p];
+        bool primal_step_ok = std::abs(pivot_aq) > 1e-14;
+        double theta = primal_step_ok ? ((x_leaving_old - target_bound) / pivot_aq) : 0.0;
+        double x_q_new = x_q_old + theta;
+
         // 4. Update dual variables incrementally BEFORE basis swap
         //    (uses m_alpha_p, m_alpha_p_row, m_s[q], pivot_val)
-        update_dual_incremental(q, p, leave_dir, pivot_val);
+        update_dual_incremental(q, p, leaving_var, leave_dir, pivot_val);
 
         // 5. Update basis
-        int64_t leaving_var = m_basic_vars[p];
         m_var_in_basis[leaving_var] = -1;
         m_status[leaving_var] = (leave_dir > 0) ? model::BasisStatus::AtLower : model::BasisStatus::AtUpper;
-        m_x[leaving_var] = (leave_dir > 0) ? m_lb[leaving_var] : m_ub[leaving_var];
+        m_x[leaving_var] = target_bound;
 
         m_basic_vars[p] = q;
         m_var_in_basis[q] = p;
@@ -615,6 +584,10 @@ model::Solution DualSimplexEngine::solve() {
         bool need_refac = !pfi_ok || m_lu.needs_refactorization(m_options.strategy.refactor_frequency);
         if (need_refac) {
             refactorize_basis();
+            if (!m_lu.is_valid()) {
+                sol.status = model::SolutionStatus::NumericalFailure;
+                break;
+            }
             init_dse_weights();
             // Full recompute after refactorization for numerical accuracy
             compute_primal_basic();
@@ -625,14 +598,13 @@ model::Solution DualSimplexEngine::solve() {
 
             // 8. Update primal basic variables
             // Periodic full recompute vs incremental
-            if (m_updates_since_refactor % full_recompute_freq == 0) {
+            if (m_updates_since_refactor % full_recompute_freq == 0 || !primal_step_ok) {
                 // Periodic full recompute for numerical stability
                 compute_primal_basic();
                 compute_dual_and_reduced_costs();
             } else {
-                // Incremental primal update
-                compute_primal_basic();
-                // Dual was already updated incrementally in step 4
+                // Incremental primal update (O(m) operations instead of O(nnz + FTRAN))
+                update_primal_incremental(q, p, theta, x_q_new);
             }
         }
     }

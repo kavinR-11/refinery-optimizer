@@ -3,6 +3,7 @@
 #include "sih/factorization/sparse_cholesky.hpp"
 #include "sih/factorization/sparse_ldl.hpp"
 #include "sih/factorization/amd.hpp"
+#include "sih/scaling/scaler.hpp"
 
 #include <chrono>
 #include <cmath>
@@ -19,30 +20,40 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
     model::Solution sol;
     sol.status = model::SolutionStatus::Unknown;
 
-    int64_t m = problem.num_rows();
-    int64_t n = problem.num_cols();
+    model::Problem current_prob = problem;
+    scaling::ScalingFactors scaling_factors;
+    bool enable_scaling = options.strategy.enable_scaling;
+    if (enable_scaling) {
+        scaling_factors = scaling::Scaler::compute_scaling(current_prob,
+                                                          options.strategy.power_of_two_scaling,
+                                                          2);
+        current_prob = scaling::Scaler::scale_problem(current_prob, scaling_factors);
+    }
+
+    int64_t m = current_prob.num_rows();
+    int64_t n = current_prob.num_cols();
     int64_t N = n + m; // Total variables: [x; s]
 
     if (n == 0) {
         sol.status = model::SolutionStatus::Optimal;
-        sol.primal_objective = problem.obj_offset();
+        sol.primal_objective = current_prob.obj_offset();
         return sol;
     }
 
-    double sense_mult = (problem.sense() == model::ObjectiveSense::Maximize) ? -1.0 : 1.0;
+    double sense_mult = (current_prob.sense() == model::ObjectiveSense::Maximize) ? -1.0 : 1.0;
 
     // Linear objective c_bar = [c * sense_mult; 0]
     std::vector<double> c_bar(N, 0.0);
-    const auto& orig_c = problem.c();
+    const auto& orig_c = current_prob.c();
     for (int64_t j = 0; j < n; ++j) {
         c_bar[j] = orig_c[j] * sense_mult;
     }
 
     // Combined bounds: lb_bar = [col_lower; row_lower], ub_bar = [col_upper; row_upper]
-    const auto& orig_cl = problem.col_lower();
-    const auto& orig_cu = problem.col_upper();
-    const auto& orig_rl = problem.row_lower();
-    const auto& orig_ru = problem.row_upper();
+    const auto& orig_cl = current_prob.col_lower();
+    const auto& orig_cu = current_prob.col_upper();
+    const auto& orig_rl = current_prob.row_lower();
+    const auto& orig_ru = current_prob.row_upper();
 
     std::vector<double> lb_bar(N), ub_bar(N);
     std::vector<bool> has_lb(N), has_ub(N);
@@ -101,7 +112,7 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
 
     // Compute Ax0 to project slacks close to feasibility
     std::vector<double> x0(x_bar.begin(), x_bar.begin() + n);
-    auto Ax0 = problem.A().mat_vec(x0);
+    auto Ax0 = current_prob.A().mat_vec(x0);
 
     // 2. Initial point for row slacks (n..N-1)
     for (int64_t i = 0; i < m; ++i) {
@@ -139,7 +150,7 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
     }
 
     // Symbolic AMD ordering on normal equations
-    auto perm = factorization::AmdOrder::order_aat(problem.A());
+    auto perm = factorization::AmdOrder::order_aat(current_prob.A());
 
     const auto& cfg = options.strategy;
     int64_t max_iters = cfg.ipm_max_iterations;
@@ -157,8 +168,8 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
     double norm_c = 1.0;
     for (int64_t j = 0; j < n; ++j) norm_c = std::max(norm_c, std::abs(c_bar[j]));
 
-    bool is_qp = problem.is_qp();
-    const auto& Q = problem.Q();
+    bool is_qp = current_prob.is_qp();
+    const auto& Q = current_prob.Q();
     bool q_is_diagonal = true;
     if (is_qp) {
         const auto& col_ptr = Q.csc_col_ptr();
@@ -183,7 +194,7 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
         std::vector<double> s(x_bar.begin() + n, x_bar.end());
 
         // A * x
-        std::vector<double> Ax = problem.A().mat_vec(x);
+        std::vector<double> Ax = current_prob.A().mat_vec(x);
 
         // Primal residual: r_p = A * x - s
         std::vector<double> rp(m);
@@ -201,7 +212,7 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
         }
 
         // A^T * y
-        std::vector<double> Aty = problem.A().mat_trans_vec(y);
+        std::vector<double> Aty = current_prob.A().mat_trans_vec(y);
 
         // Dual residual r_d for all N variables:
         // For j < n: r_d[j] = c[j] + Qx[j] - A^T y - zl[j] + zu[j]
@@ -340,9 +351,9 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
                     kkt_triplets.emplace_back(j, j, Theta[j]);
                 }
             }
-            const auto& a_col_ptr = problem.A().csc_col_ptr();
-            const auto& a_row_ind = problem.A().csc_row_ind();
-            const auto& a_vals    = problem.A().csc_values();
+            const auto& a_col_ptr = current_prob.A().csc_col_ptr();
+            const auto& a_row_ind = current_prob.A().csc_row_ind();
+            const auto& a_vals    = current_prob.A().csc_values();
             for (int64_t j = 0; j < n; ++j) {
                 for (int64_t p = a_col_ptr[j]; p < a_col_ptr[j + 1]; ++p) {
                     int64_t i = a_row_ind[p];
@@ -364,7 +375,7 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
             bool ldl_ok = ldl.factorize(n + m, K, kkt_perm, reg);
             if (!ldl_ok) break;
         } else {
-            bool chol_ok = chol.factorize_normal_equations(problem.A(), D_col, D_slack, perm, reg);
+            bool chol_ok = chol.factorize_normal_equations(current_prob.A(), D_col, D_slack, perm, reg);
             if (!chol_ok) break;
         }
 
@@ -391,14 +402,27 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
         } else {
             std::vector<double> D_rx_aff_col(n);
             for (int64_t j = 0; j < n; ++j) D_rx_aff_col[j] = D_col[j] * rx_aff[j];
-            std::vector<double> A_D_rx_aff = problem.A().mat_vec(D_rx_aff_col);
+            std::vector<double> A_D_rx_aff = current_prob.A().mat_vec(D_rx_aff_col);
 
             std::vector<double> ry_aff(m);
             for (int64_t i = 0; i < m; ++i) {
                 ry_aff[i] = -rp[i] - A_D_rx_aff[i] + D_slack[i] * rx_aff[n + i];
             }
             dy_aff = chol.solve(ry_aff);
-            std::vector<double> Atdy_aff = problem.A().mat_trans_vec(dy_aff);
+            // 1 step of iterative refinement: r = ry_aff - (A D_col A^T + D_slack + reg) * dy_aff
+            std::vector<double> at_dy_aff = current_prob.A().mat_trans_vec(dy_aff);
+            for (int64_t j = 0; j < n; ++j) at_dy_aff[j] *= D_col[j];
+            std::vector<double> a_dat_dy_aff = current_prob.A().mat_vec(at_dy_aff);
+            std::vector<double> r_res_aff(m);
+            for (int64_t i = 0; i < m; ++i) {
+                r_res_aff[i] = ry_aff[i] - (a_dat_dy_aff[i] + (D_slack[i] + reg) * dy_aff[i]);
+            }
+            auto corr_aff = chol.solve(r_res_aff);
+            for (int64_t i = 0; i < m; ++i) {
+                dy_aff[i] += corr_aff[i];
+            }
+
+            std::vector<double> Atdy_aff = current_prob.A().mat_trans_vec(dy_aff);
             for (int64_t j = 0; j < n; ++j) {
                 dx_bar_aff[j] = D_col[j] * (rx_aff[j] + Atdy_aff[j]);
             }
@@ -461,14 +485,27 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
         } else {
             std::vector<double> D_rx_cor_col(n);
             for (int64_t j = 0; j < n; ++j) D_rx_cor_col[j] = D_col[j] * rx_cor[j];
-            std::vector<double> A_D_rx_cor = problem.A().mat_vec(D_rx_cor_col);
+            std::vector<double> A_D_rx_cor = current_prob.A().mat_vec(D_rx_cor_col);
 
             std::vector<double> ry_cor(m);
             for (int64_t i = 0; i < m; ++i) {
                 ry_cor[i] = -rp[i] - A_D_rx_cor[i] + D_slack[i] * rx_cor[n + i];
             }
             dy = chol.solve(ry_cor);
-            std::vector<double> Atdy = problem.A().mat_trans_vec(dy);
+            // 1 step of iterative refinement: r = ry_cor - (A D_col A^T + D_slack + reg) * dy
+            std::vector<double> at_dy = current_prob.A().mat_trans_vec(dy);
+            for (int64_t j = 0; j < n; ++j) at_dy[j] *= D_col[j];
+            std::vector<double> a_dat_dy = current_prob.A().mat_vec(at_dy);
+            std::vector<double> r_res_cor(m);
+            for (int64_t i = 0; i < m; ++i) {
+                r_res_cor[i] = ry_cor[i] - (a_dat_dy[i] + (D_slack[i] + reg) * dy[i]);
+            }
+            auto corr_cor = chol.solve(r_res_cor);
+            for (int64_t i = 0; i < m; ++i) {
+                dy[i] += corr_cor[i];
+            }
+
+            std::vector<double> Atdy = current_prob.A().mat_trans_vec(dy);
             for (int64_t j = 0; j < n; ++j) {
                 dx_bar[j] = D_col[j] * (rx_cor[j] + Atdy[j]);
             }
@@ -534,7 +571,7 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
 
     // Reduced costs
     std::vector<double> rc(n);
-    std::vector<double> Aty_final = problem.A().mat_trans_vec(y);
+    std::vector<double> Aty_final = current_prob.A().mat_trans_vec(y);
     std::vector<double> Qx_final(n, 0.0);
     if (is_qp) {
         auto raw_Qx = Q.mat_vec(sol.x);
@@ -556,7 +593,7 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
             final_obj += 0.5 * sol.x[j] * raw_Qx[j];
         }
     }
-    final_obj += problem.obj_offset();
+    final_obj += current_prob.obj_offset();
     sol.primal_objective = final_obj;
 
     // Basis statuses
@@ -583,8 +620,12 @@ model::Solution IpmSolver::solve(const model::Problem& problem,
     sol.time_wall_sec = std::chrono::duration<double>(end_time - start_time).count();
 
     // 3. Optional Vertex Crossover for LPs
-    if (cfg.ipm_enable_crossover && !is_qp && sol.is_optimal()) {
-        sol = Crossover::crossover(problem, sol, options);
+    if (cfg.ipm_enable_crossover && !is_qp && (sol.is_optimal() || sol.status == model::SolutionStatus::Unknown)) {
+        sol = Crossover::crossover(current_prob, sol, options);
+    }
+
+    if (enable_scaling) {
+        scaling::Scaler::unscale_solution(sol, scaling_factors);
     }
 
     return sol;

@@ -7,14 +7,20 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "py")))
 
+import pytest
 import sih_solver
 
+# Skip the entire module when the binary was compiled without CUDA support.
+# This is the expected outcome for ENABLE_CUDA=OFF builds.
+_CUDA_AVAILABLE = sih_solver.GpuSolver.is_cuda_available()
 
+
+@pytest.mark.skipif(not _CUDA_AVAILABLE, reason="Binary built without ENABLE_CUDA=ON or no CUDA device visible")
 def test_gpu_smoke():
     print("\n=== GPU PDHG Smoke Test ===")
     cuda_avail = sih_solver.GpuSolver.is_cuda_available()
     print(f"CUDA Device Available: {cuda_avail}")
-    assert cuda_avail, "CUDA device should be available on WSL RTX 4060"
+    assert cuda_avail, "CUDA device not available (should have been caught by skipif)"
 
     vram = sih_solver.GpuSolver.get_vram_info()
     total_mb = vram.total_bytes / (1024 * 1024)

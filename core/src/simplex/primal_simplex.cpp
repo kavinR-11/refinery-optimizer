@@ -388,6 +388,10 @@ model::Solution PrimalSimplexEngine::solve() {
         bool pfi_ok = m_lu.update_pfi(best_p, alpha_q);
         if (!pfi_ok || m_lu.needs_refactorization(m_options.strategy.refactor_frequency)) {
             refactorize_basis();
+            if (!m_lu.is_valid()) {
+                sol.status = model::SolutionStatus::NumericalFailure;
+                break;
+            }
         }
 
         compute_primal_basic();

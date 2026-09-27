@@ -2,6 +2,22 @@
 
 All notable changes to the SIH 26119 Indigenous Optimization Solver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [0.8.0] - Phase 8: Simplex & IPM Performance Hardening, Reliability Branching
+
+### Added & Improved
+- **Dual Simplex Performance**:
+  - Exact $O(m)$ incremental primal vector update avoiding $O(\text{nnz})$ matrix-vector products per iteration.
+  - Mathematically exact incremental dual multiplier and reduced cost updates via cached BTRAN row vectors.
+  - Goldfarb-Forrest DSE weight update formula with exact pivot row weight and second-order corrections for remaining rows.
+  - Pre-allocated workspace vectors (`m_ep`, `m_alpha_p_row`, `m_alpha_p`, `m_ftran_aq`, `m_col_q`) eliminating heap allocations.
+  - Safe refactorization checks guarding against singular basis breakdowns.
+- **Interior Point Method (IPM) & Vertex Crossover**:
+  - Full Ruiz equilibration scaling on quadratic objective matrices ($Q \leftarrow C Q C$).
+  - One-step iterative refinement on normal equation Cholesky solves ($r_{\text{res}} = r - (A D A^T + D_s + \text{reg})\Delta y$).
+  - Robust vertex crossover with purification and graceful fallback to clean simplex passes for ill-conditioned instances (100% pass on Netlib LP and Maros-Meszaros QP benchmarks).
+- **Branch-and-Bound MILP**:
+  - Reliability branching with strong branching initialization for integer variables with $< 8$ observations.
+  - Pseudocost backpropagation across tree depths.
 
 ## [0.1.0] - Phase 0 Foundation Complete
 

@@ -169,6 +169,25 @@ model::Problem Scaler::scale_problem(const model::Problem& problem,
         if (cu[j] < model::SIH_INFINITY / 2.0) cu[j] *= inv_c_j;
     }
 
+    // Scale quadratic matrix Q: Q_scaled = C * Q * C
+    if (problem.has_quadratic() && problem.Q().num_nonzeros() > 0) {
+        const auto& Q = problem.Q();
+        const auto& q_col_ptr = Q.csc_col_ptr();
+        const auto& q_row_ind = Q.csc_row_ind();
+        const auto& q_vals    = Q.csc_values();
+        std::vector<model::Triplet> q_triplets;
+        q_triplets.reserve(Q.num_nonzeros());
+        for (int64_t j = 0; j < n; ++j) {
+            double c_j = factors.col_scale[j];
+            for (int64_t k = q_col_ptr[j]; k < q_col_ptr[j + 1]; ++k) {
+                int64_t i = q_row_ind[k];
+                double c_i = factors.col_scale[i];
+                q_triplets.emplace_back(i, j, q_vals[k] * c_i * c_j);
+            }
+        }
+        scaled.set_quadratic_objective(model::SparseMatrix::from_triplets(n, n, q_triplets));
+    }
+
     return scaled;
 }
 
