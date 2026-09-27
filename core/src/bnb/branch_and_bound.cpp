@@ -192,6 +192,34 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
 
         double child_obj = child_sol.primal_objective;
 
+        // Phase 8: Backpropagate pseudocost from branching decision
+        if (node.branch_var >= 0 && node.parent_obj < 1e30) {
+            double delta_obj = child_obj - node.parent_obj;
+            if (delta_obj > 0.0) {
+                std::lock_guard<std::mutex> lock(tree_mutex);
+                if (node.branch_dir < 0) {
+                    // Down branch
+                    double frac = node.branch_frac_down;
+                    if (frac > 1e-8) {
+                        double unit_gain = delta_obj / frac;
+                        pc_down[node.branch_var] = (pc_down[node.branch_var] * pc_down_cnt[node.branch_var] + unit_gain) /
+                                                   (pc_down_cnt[node.branch_var] + 1);
+                        pc_down_cnt[node.branch_var]++;
+                    }
+                } else {
+                    // Up branch
+                    double frac = node.branch_frac_up;
+                    if (frac > 1e-8) {
+                        double unit_gain = delta_obj / frac;
+                        pc_up[node.branch_var] = (pc_up[node.branch_var] * pc_up_cnt[node.branch_var] + unit_gain) /
+                                                 (pc_up_cnt[node.branch_var] + 1);
+                        pc_up_cnt[node.branch_var]++;
+                    }
+                }
+            }
+        }
+
+
         // Check if bound exceeds incumbent
         {
             std::lock_guard<std::mutex> lock(tree_mutex);
@@ -212,10 +240,28 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
             return; // Pruned by integrality
         }
 
-        // Select branching variable
+        // Select branching variable using Reliability Branching
+        // (Phase 8 improvement: strong branching to initialize pseudocosts)
         int64_t branch_var = -1;
-        if (opts.strategy.branching_rule == model::BranchingRule::PseudoCost) {
+        const int64_t rel_count = 8;       // reliability threshold
+        const int64_t max_sb_cands = 10;   // max strong branching candidates per node
+        const int64_t max_sb_iters = 100;  // iteration limit for strong branching LP
+
+        if (opts.strategy.branching_rule == model::BranchingRule::PseudoCost ||
+            opts.strategy.branching_rule == model::BranchingRule::Reliability) {
             double best_score = -1.0;
+
+            // Collect fractional integer candidates
+            struct BranchCandidate {
+                int64_t var;
+                double frac_down;
+                double frac_up;
+                double pc_score;
+                bool needs_sb;
+            };
+            std::vector<BranchCandidate> candidates;
+            candidates.reserve(n);
+
             for (int64_t j = 0; j < n; ++j) {
                 if (vt[j] == model::VariableType::Integer || vt[j] == model::VariableType::Binary) {
                     double v = child_sol.x[j];
@@ -225,11 +271,81 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
                         double d_down = pc_down[j] * f_down;
                         double d_up = pc_up[j] * f_up;
                         double score = (5.0 / 6.0) * std::min(d_down, d_up) + (1.0 / 6.0) * std::max(d_down, d_up);
-                        if (score > best_score) {
-                            best_score = score;
-                            branch_var = j;
+                        bool needs = (pc_down_cnt[j] < rel_count || pc_up_cnt[j] < rel_count);
+                        candidates.push_back({j, f_down, f_up, score, needs});
+                    }
+                }
+            }
+
+            // Sort candidates: unreliable first (need strong branching), then by score
+            std::sort(candidates.begin(), candidates.end(), [](const BranchCandidate& a, const BranchCandidate& b) {
+                if (a.needs_sb != b.needs_sb) return a.needs_sb > b.needs_sb;
+                return a.pc_score > b.pc_score;
+            });
+
+            // Strong branching for unreliable candidates (limited to max_sb_cands)
+            int64_t sb_done = 0;
+            for (auto& cand : candidates) {
+                double score = cand.pc_score;
+
+                if (cand.needs_sb && sb_done < max_sb_cands && node.depth < 20) {
+                    // Perform strong branching: solve both child LPs with limited iterations
+                    model::Options sb_opts = options;
+                    sb_opts.iteration_limit = max_sb_iters;
+                    sb_opts.log_to_console = false;
+
+                    double floor_v = std::floor(child_sol.x[cand.var]);
+                    double ceil_v = std::ceil(child_sol.x[cand.var]);
+
+                    // Down branch: x_j <= floor
+                    model::Problem sb_down_prob = sub_prob;
+                    sb_down_prob.col_upper()[cand.var] = floor_v;
+                    auto sb_down_sol = simplex::SimplexSolver::solve_from_basis(
+                        sb_down_prob, child_sol.col_basis, child_sol.row_basis, sb_opts);
+                    total_iterations += sb_down_sol.simplex_iterations;
+
+                    // Up branch: x_j >= ceil
+                    model::Problem sb_up_prob = sub_prob;
+                    sb_up_prob.col_lower()[cand.var] = ceil_v;
+                    auto sb_up_sol = simplex::SimplexSolver::solve_from_basis(
+                        sb_up_prob, child_sol.col_basis, child_sol.row_basis, sb_opts);
+                    total_iterations += sb_up_sol.simplex_iterations;
+
+                    // Update pseudocosts from strong branching results
+                    if (sb_down_sol.is_optimal() && cand.frac_down > 1e-8) {
+                        double delta_down = (sb_down_sol.primal_objective - child_obj) / cand.frac_down;
+                        if (delta_down > 0.0) {
+                            std::lock_guard<std::mutex> lock(tree_mutex);
+                            pc_down[cand.var] = (pc_down[cand.var] * pc_down_cnt[cand.var] + delta_down) /
+                                                (pc_down_cnt[cand.var] + 1);
+                            pc_down_cnt[cand.var]++;
                         }
                     }
+                    if (sb_up_sol.is_optimal() && cand.frac_up > 1e-8) {
+                        double delta_up = (sb_up_sol.primal_objective - child_obj) / cand.frac_up;
+                        if (delta_up > 0.0) {
+                            std::lock_guard<std::mutex> lock(tree_mutex);
+                            pc_up[cand.var] = (pc_up[cand.var] * pc_up_cnt[cand.var] + delta_up) /
+                                              (pc_up_cnt[cand.var] + 1);
+                            pc_up_cnt[cand.var]++;
+                        }
+                    }
+
+                    // Recompute score with updated pseudocosts
+                    double d_down = pc_down[cand.var] * cand.frac_down;
+                    double d_up = pc_up[cand.var] * cand.frac_up;
+                    score = (5.0 / 6.0) * std::min(d_down, d_up) + (1.0 / 6.0) * std::max(d_down, d_up);
+
+                    // Bonus: if one side is infeasible, this is a very strong branch
+                    if (!sb_down_sol.is_optimal()) score = 1e20;
+                    if (!sb_up_sol.is_optimal()) score = 1e20;
+
+                    sb_done++;
+                }
+
+                if (score > best_score) {
+                    best_score = score;
+                    branch_var = cand.var;
                 }
             }
         }
@@ -247,6 +363,9 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
         double ceil_val = std::ceil(var_val);
 
         // Child Left: x_j <= floor(x_j)
+        double frac_down = var_val - floor_val;
+        double frac_up = ceil_val - var_val;
+
         BnBNode left_child;
         left_child.id = node_counter++;
         left_child.depth = node.depth + 1;
@@ -256,6 +375,11 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
         left_child.col_upper[branch_var] = floor_val;
         left_child.col_basis = child_sol.col_basis;
         left_child.row_basis = child_sol.row_basis;
+        left_child.branch_var = branch_var;
+        left_child.branch_dir = -1;
+        left_child.branch_frac_down = frac_down;
+        left_child.branch_frac_up = frac_up;
+        left_child.parent_obj = child_obj;
 
         // Child Right: x_j >= ceil(x_j)
         BnBNode right_child;
@@ -267,6 +391,11 @@ model::Solution BranchAndBound::solve(const model::Problem& problem,
         right_child.col_lower[branch_var] = ceil_val;
         right_child.col_basis = child_sol.col_basis;
         right_child.row_basis = child_sol.row_basis;
+        right_child.branch_var = branch_var;
+        right_child.branch_dir = +1;
+        right_child.branch_frac_down = frac_down;
+        right_child.branch_frac_up = frac_up;
+        right_child.parent_obj = child_obj;
 
         // Push children to queue
         {
